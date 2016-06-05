@@ -23,9 +23,9 @@ window.WritingEntry = React.createClass
         className: 'writing-title'
         @props.writing.title
 
-      D.span
-        className: 'writing-author'
-        @props.writing.author.name
+      # D.span
+      #   className: 'writing-author'
+      #   @props.writing.author.name
 
       D.span
         className: 'writing-created-at'

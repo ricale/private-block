@@ -35,6 +35,7 @@ window.InputWithLabel = React.createClass
           placeholder: @props.placeholder
           id:          @props.id
           type:        @getTypeAttribute()
+          name:        @props.name
           value:       @props.value
           onChange:    @props.onChange
 
