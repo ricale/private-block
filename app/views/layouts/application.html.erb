@@ -8,6 +8,10 @@
 </head>
 <body>
 
+  <% if !current_user.nil? %>
+  <%= react_component('NavBar', authenticityToken: form_authenticity_token) %>
+  <% end %>
+
 <%= yield %>
 
 </body>

@@ -5,22 +5,22 @@ window.WritingForm = React.createClass
 
   getInitialState: ->
     {
-      writing: {
+      writing: (@props.writing || {
         title:   ''
         content: ''
-      }
+      })
     }
 
   getDefaultProps: ->
     method: 'post'
-
+    # writing: undefined # writing is only used for init state.writing
 
   titleChanged: (event) ->
     @state.writing.title = event.target.value
     @forceUpdate()
 
   contentChanged: (event) ->
-    @state.writing.content = event.target.value1
+    @state.writing.content = event.target.value
     @forceUpdate()
 
   onSubmit: (event) ->
@@ -29,47 +29,51 @@ window.WritingForm = React.createClass
 
 
   render: ->
-    D.form
-      className: "form-horizontal"
+    railsForm
+      className: "writing-form form-horizontal"
       action: @props.action
       method: @props.method
-      'data-remote': true
+      authenticityToken: @props.authenticityToken
 
-      onSubmit: @onSubmit
+      children: [
+        inputWithLabel
+          id:          'writing_title'
+          key:         'writing_title'
+          name:        'writing[title]'
+          className:   'writing-form__input-with-label'
+          placeholder: 'Title'
+          labelText:   'Title'
+          value:       @state.writing.title
+          onChange:    @titleChanged
 
-      D.input
-        type: 'hidden'
-        name: 'authenticity_token'
-        value: @props.authenticityToken
+        inputWithLabel
+          id:          'content'
+          key:         'content'
+          name:        'writing[content]'
+          className:   'writing-form__input-with-label'
+          labelText:   'Content'
+          value:       @state.writing.content
+          elementType: 'textarea'
+          onChange:    @contentChanged
 
-      inputWithLabel
-        id:          "writing_title"
-        name:        "writing[title]"
-        placeholder: "Title"
-        labelText:   "Title"
-        value:       @state.writing.title
-        onChange:    @titleChanged
-
-      inputWithLabel
-        id:          "content"
-        name:        "writing[content]"
-        labelText:   "Content"
-        value:       @state.writing.content
-        elementType: "textarea"
-        onChange:    @contentChanged
-
-      ElementsWithLabel
-        children: [
-          D.input
-            id: 'submit'
-            key: 'submit'
-            type: 'submit'
-            value: 'submit'
-          D.input
-            id: 'cancel'
-            key: 'cancel'
-            type: 'button'
-            value: 'cancel'
-        ]
+        ElementsWithLabel
+          className: 'writing-form__elements-with-label'
+          key: "buttons"
+          children: [
+            D.input
+              id: 'submit'
+              key: 'submit'
+              type: 'submit'
+              value: 'submit'
+              className: 'btn btn-primary'
+            ' '
+            D.input
+              id: 'cancel'
+              key: 'cancel'
+              type: 'button'
+              value: 'cancel'
+              className: 'btn btn-default'
+          ]
+      ]
 
 window.writingForm = React.createFactory(WritingForm)

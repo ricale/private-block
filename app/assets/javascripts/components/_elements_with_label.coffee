@@ -7,6 +7,7 @@ window.ElementsWithLabel = React.createClass
 
   getDefaultProps: ->
     id:            undefined
+    className:     ''
     labelText:     ''
     placeholder:   ''
     value:         undefined
@@ -15,14 +16,14 @@ window.ElementsWithLabel = React.createClass
 
   render: ->
     D.div
-      className: "form-group"
+      className: "elements-with-label form-group " + @props.className
       D.label
         htmlFor: @props.id
-        className: "col-lg-2 control-label"
+        className: "elements-with-label__label col-lg-2 control-label"
         @props.labelText
 
       D.div
-        className: "col-lg-10"
+        className: "elements-with-label__elements-container col-lg-10"
         @props.children
 
 window.ElementsWithLabel = React.createFactory(ElementsWithLabel)

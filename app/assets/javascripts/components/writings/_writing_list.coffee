@@ -9,6 +9,7 @@ window.WritingList = React.createClass
 
   getDefaultProps: ->
     writings: []
+    authenticityToken: undefined
 
 
   render: ->
@@ -18,10 +19,11 @@ window.WritingList = React.createClass
       for writing, n in @props.writings
         ((i) =>
           writingEntry
-            id:        "writing-#{i}"
-            key:       "writing-#{i}"
-            className: 'writing'
+            id:        "writing-entry-#{i}"
+            key:       "writing-entry-#{i}"
+            className: 'writing-list__writing-entry'
             writing:   writing
+            authenticityToken: @props.authenticityToken
         )(n)
 
 window.writingList = React.createFactory(WritingList)
