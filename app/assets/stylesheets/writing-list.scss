@@ -1,0 +1,24 @@
+// Place all the styles related to the Writings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.writing-list {
+  width: 900px;
+  margin: 0px auto;
+
+  .writing-entry {
+    margin-bottom: 30px;
+
+    .writing-entry__title {
+    }
+
+    .writing-entry__created-at {
+    }
+
+    .writing-entry__updated-at {
+    }
+
+    .writing-entry__content {
+    }
+  }
+}

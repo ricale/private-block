@@ -27,6 +27,12 @@ window.WritingForm = React.createClass
     # event.preventDefault();
     console.log('!')
 
+  getCancelUrl: ->
+    if @state.writing.id isnt undefined
+      '/writings/'+@state.writing.id
+    else
+      '/writings'
+
 
   render: ->
     railsForm
@@ -67,12 +73,11 @@ window.WritingForm = React.createClass
               value: 'submit'
               className: 'btn btn-primary'
             ' '
-            D.input
+            D.a
               id: 'cancel'
               key: 'cancel'
-              type: 'button'
-              value: 'cancel'
-              className: 'btn btn-default'
+              href: @getCancelUrl()
+              'cancel'
           ]
       ]
 
