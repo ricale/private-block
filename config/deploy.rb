@@ -1,11 +1,11 @@
 # config valid only for current version of Capistrano
-lock '3.5.0'
+lock '3.6.0'
 
 set :application, 'private_block'
 set :repo_url, 'https://github.com/ricale/private-block.git'
 
 # set :rvm_type, :system
-set :rvm_ruby_version, '2.3.0@rails4.2.5'
+# set :rvm_ruby_version, '2.3.0@rails4.2.5'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
