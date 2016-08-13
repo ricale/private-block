@@ -4,7 +4,7 @@ lock '3.6.0'
 set :application, 'private_block'
 set :repo_url, 'https://github.com/ricale/private-block.git'
 
-# set :rvm_type, :system
+set :rvm_type, :system
 # set :rvm_ruby_version, '2.3.0@rails4.2.5'
 
 # Default branch is :master
@@ -27,7 +27,7 @@ set :repo_url, 'https://github.com/ricale/private-block.git'
 # set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system')
