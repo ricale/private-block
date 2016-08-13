@@ -19,8 +19,7 @@ window.WritingList = React.createClass
       for writing, n in @props.writings
         ((i) =>
           writingEntry
-            id:        "writing-entry-#{i}"
-            key:       "writing-entry-#{i}"
+            key:       "writing-entry-#{n}"
             className: 'writing-list__writing-entry'
             writing:   writing
             authenticityToken: @props.authenticityToken

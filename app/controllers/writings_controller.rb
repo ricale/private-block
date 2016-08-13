@@ -2,7 +2,7 @@ class WritingsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   def index
-    @writings = Writing.all
+    @writings = Writing.all.order('id DESC')
   end
 
   def show

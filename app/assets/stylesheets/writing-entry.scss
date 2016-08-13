@@ -29,7 +29,11 @@
     }
   }
 
-  .writing-entry__content {
+  .writing-entry__original-content {
+    display: none;
+  }
+
+  .writing-entry__decoded-content {
     padding: 10px;
   }
 }

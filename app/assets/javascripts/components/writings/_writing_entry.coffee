@@ -3,6 +3,11 @@ D = React.DOM
 window.WritingEntry = React.createClass
   displayName: 'WritingEntry'
 
+  componentDidMount: ->
+    sourceElement = document.querySelector('#writing-entry-'+@props.writing.id+' .writing-entry__original-content');
+    targetElement = document.querySelector('#writing-entry-'+@props.writing.id+' .writing-entry__decoded-content');
+    hmd.run(sourceElement, targetElement);
+
   getInitialState: ->
     {}
 
@@ -13,7 +18,7 @@ window.WritingEntry = React.createClass
   render: ->
     D.div
       className: 'writing-entry ' + @props.className
-      id: @props.id
+      id: @props.id || 'writing-entry-'+@props.writing.id
 
       D.div
         className: 'writing-entry__title'
@@ -49,7 +54,10 @@ window.WritingEntry = React.createClass
             label: 'Delete'
 
       D.div
-        className: 'writing-entry__content'
+        className: 'writing-entry__decoded-content'
+
+      D.textarea
+        className: 'writing-entry__original-content'
         @props.writing.content
 
 window.writingEntry = React.createFactory(WritingEntry)
