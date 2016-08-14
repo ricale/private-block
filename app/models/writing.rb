@@ -19,4 +19,11 @@
 class Writing < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :content
+
+  before_validation :default_values
+
+  def default_values
+    self.category_id = 0 if self.category_id.nil?
+    self.user_id     = 0 if self.user_id.nil?
+  end
 end
