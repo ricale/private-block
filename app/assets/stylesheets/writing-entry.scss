@@ -1,8 +1,4 @@
 .writing-entry {
-  width: 900px;
-  margin: 0px auto;
-  padding: 10px;
-
   .writing-entry__title {
     font-size: 2.0em;
   }
@@ -36,4 +32,32 @@
   .writing-entry__decoded-content {
     padding: 10px;
   }
+}
+
+.writing-entry_single-line {
+  margin: 10px;
+
+  .writing-entry__title {
+    // font-size: 2.0em;
+    display: inline-block;
+    width: 66%;
+  }
+
+  .writing-entry__created-at {
+    display: inline-block;
+    width: 17%;
+
+    text-align: right;
+  }
+
+  .writing-entry__updated-at {
+    display: inline-block;
+    width: 17%;
+
+    text-align: right;
+  }
+
+  .writing-entry__buttons-container { display: none; }
+  .writing-entry__original-content { display: none; }
+  .writing-entry__decoded-content { display: none; }
 }

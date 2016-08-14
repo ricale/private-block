@@ -2,7 +2,7 @@ class WritingsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   def index
-    @writings = Writing.order('id DESC').page(params[:page]).per(1)
+    @writings = Writing.order('id DESC').page(params[:page]).per(20)
   end
 
   def show

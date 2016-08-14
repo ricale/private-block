@@ -1,5 +1,11 @@
-<%= react_component('WritingList', {writings: @writings}) %>
+<div class='container'>
+  <div class='col-md-offset-2 col-md-8'>
+    <%= react_component('WritingList', {writings: @writings}) %>
+  </div>
+</div>
 
-<div class='pagination-container'>
-  <%= paginate @writings %>
+<div class='container'>
+  <div class='col-md-offset-2 col-md-8'>
+    <%= paginate @writings %>
+  </div>
 </div>

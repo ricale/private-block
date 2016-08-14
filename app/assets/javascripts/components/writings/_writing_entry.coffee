@@ -4,9 +4,10 @@ window.WritingEntry = React.createClass
   displayName: 'WritingEntry'
 
   componentDidMount: ->
-    sourceElement = document.querySelector('#writing-entry-'+@props.writing.id+' .writing-entry__original-content');
-    targetElement = document.querySelector('#writing-entry-'+@props.writing.id+' .writing-entry__decoded-content');
-    hmd.run(sourceElement, targetElement);
+    if !@props.singleLine
+      sourceElement = document.querySelector('#writing-entry-'+@props.writing.id+' .writing-entry__original-content');
+      targetElement = document.querySelector('#writing-entry-'+@props.writing.id+' .writing-entry__decoded-content');
+      hmd.run(sourceElement, targetElement);
 
   getInitialState: ->
     {}
@@ -15,9 +16,34 @@ window.WritingEntry = React.createClass
     authenticityToken: undefined
     className: ''
 
+    singleLine: false
+
+  getCssModifier: ->
+    if @props.singleLine
+      '_single-line'
+    else
+      ''
+
+  getFormattedDate: (dateString) ->
+    d = new Date(dateString)
+
+    year    = d.getFullYear()
+    month   = (d.getMonth() + 1)
+    date    = d.getDate()
+    hours   = d.getHours()
+    minutes = d.getMinutes()
+
+    month   = '0' + month   if month < 10
+    date    = '0' + date    if date < 10
+    hours   = '0' + hours   if hours < 10
+    minutes = '0' + minutes if minutes < 10
+
+    year+'.'+month+'.'+date+' '+hours+':'+minutes
+
   render: ->
+    console.log("!")
     D.div
-      className: 'writing-entry ' + @props.className
+      className: 'writing-entry'+@getCssModifier()+' ' + @props.className
       id: @props.id || 'writing-entry-'+@props.writing.id
 
       D.div
@@ -30,11 +56,11 @@ window.WritingEntry = React.createClass
 
       D.div
         className: 'writing-entry__created-at'
-        @props.writing.created_at
+        @getFormattedDate(@props.writing.created_at)
 
       D.div
         className: 'writing-entry__updated-at'
-        @props.writing.created_at
+        @getFormattedDate(@props.writing.updated_at)
 
       if @props.authenticityToken isnt undefined
         D.div
@@ -53,11 +79,15 @@ window.WritingEntry = React.createClass
             method: 'delete'
             label: 'Delete'
 
-      D.div
-        className: 'writing-entry__decoded-content'
+      if !@props.singleLine
+        D.div
+          className: 'writing-entry__content'
 
-      D.textarea
-        className: 'writing-entry__original-content'
-        @props.writing.content
+          D.div
+            className: 'writing-entry__decoded-content'
+
+          D.textarea
+            className: 'writing-entry__original-content'
+            defaultValue: @props.writing.content
 
 window.writingEntry = React.createFactory(WritingEntry)

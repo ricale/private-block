@@ -23,6 +23,7 @@ window.WritingList = React.createClass
             className: 'writing-list__writing-entry'
             writing:   writing
             authenticityToken: @props.authenticityToken
+            singleLine: true
         )(n)
 
 window.writingList = React.createFactory(WritingList)
