@@ -41,7 +41,6 @@ window.WritingEntry = React.createClass
     year+'.'+month+'.'+date+' '+hours+':'+minutes
 
   render: ->
-    console.log("!")
     D.div
       className: 'writing-entry'+@getCssModifier()+' ' + @props.className
       id: @props.id || 'writing-entry-'+@props.writing.id

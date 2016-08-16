@@ -1,0 +1,19 @@
+.category-item_depth_1 {
+  margin-left: 10px;
+}
+
+.category-item_depth_2 {
+  margin-left: 20px;
+}
+
+.category-item,
+.category-item_depth_1,
+.category-item_depth_2 {
+  .category-item__name {
+    display: inline-block;
+  }
+
+  .category-item__buttons-container {
+    display: inline-block;
+  }
+}
