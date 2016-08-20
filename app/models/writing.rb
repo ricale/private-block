@@ -26,9 +26,10 @@ class Writing < ActiveRecord::Base
     joins('JOIN categories AS children ON children.id = writings.category_id').
     joins('JOIN categories AS parents  ON parents.id = children.parent_id').
     select('writings.*, '\
-           'children.name AS category_name, '\
+           'children.name  AS category_name, '\
            'children.depth AS category_depth, '\
-           'parents.name AS parent_category_name')
+           'parents.id     AS parent_category_id, '\
+           'parents.name   AS parent_category_name')
   }
 
   def default_values

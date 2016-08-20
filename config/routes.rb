@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :writings
-  resources :categories, except: [:show]
+  resources :categories, except: [:show] do
+    resources :writings, only: [:index, :show]
+  end
 
 
   # The priority is based upon order of creation: first created -> highest priority.

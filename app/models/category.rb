@@ -72,6 +72,10 @@ class Category < ActiveRecord::Base
     self.id == ROOT_ID
   end
 
+  def self.is_root_id?(id)
+    id == ROOT_ID
+  end
+
 
 
   def descendants_writings

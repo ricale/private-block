@@ -2,7 +2,21 @@ class WritingsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   def index
-    @writings = Writing.with_category.order('id DESC').page(params[:page]).per(20)
+    writings = Writing.with_category.order('id DESC').page(params[:page]).per(20)
+
+    if !params[:category_id].blank? &&
+       !Category.is_root_id?(params[:category_id].to_i)
+      category = Category.find(params[:category_id])
+
+      writings = 
+        if category.depth == 2
+          writings.where(category_id: category.id)
+        else
+          writings.where(category_id: [category.id].concat(category.children.map(&:id)))
+        end
+    end
+
+    @writings = writings
   end
 
   def show

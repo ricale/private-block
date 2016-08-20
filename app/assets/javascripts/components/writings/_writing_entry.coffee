@@ -40,20 +40,30 @@ window.WritingEntry = React.createClass
 
     year+'.'+month+'.'+date+' '+hours+':'+minutes
 
-  getCategoryName: ->
-    if @props.writing.category_depth is 2
-      @props.writing.parent_category_name + '/' + @props.writing.category_name
-    else
-      @props.writing.category_name
+  getCategoryLink: (id) ->
+    '/categories/'+id+'/writings'
+
+  categoryNameAndLink: ->
+    D.div
+      className: 'writing-entry__category'
+      if @props.writing.parent_category_id
+        D.a
+          href: @getCategoryLink(@props.writing.parent_category_id)
+          @props.writing.parent_category_name
+
+      if @props.writing.parent_category_id
+        '/'
+
+      D.a
+        href: @getCategoryLink(@props.writing.category_id)
+        @props.writing.category_name
 
   render: ->
     D.div
       className: 'writing-entry'+@getCssModifier()+' ' + @props.className
       id: @props.id || 'writing-entry-'+@props.writing.id
 
-      D.div
-        className: 'writing-entry__category'
-        @getCategoryName()
+      @categoryNameAndLink()
 
       D.div
         className: 'writing-entry__title'
