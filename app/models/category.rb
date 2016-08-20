@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: categories
+#
+#  id              :integer          not null, primary key
+#  name            :string(255)      not null
+#  parent_id       :integer
+#  depth           :integer          default(0), not null
+#  order_in_parent :integer          default(0), not null
+#  created_at      :datetime
+#  updated_at      :datetime
+#  family          :integer
+#
+
 class Category < ActiveRecord::Base
   belongs_to :parent, class_name: 'Category'
   has_many :children, class_name: 'Category', foreign_key: 'parent_id'
@@ -11,15 +25,15 @@ class Category < ActiveRecord::Base
   before_validation :create_root_if_needed, on: :create
   before_validation :set_parent_to_root_if_parent_is_invalid
 
+  before_validation :initialize_depth
+
   before_validation :validates_change_of_parent, on: :update, if: :parent_id_changed?
 
   before_validation :initialize_order_in_parent, on: :create
-  before_validation :initialize_order_in_parent, on: :update, if: :parent_id_changed?
+  before_validation :update_order_in_parent, on: :update, if: :parent_id_changed?
 
   before_validation :initialize_family, on: :create
   before_validation :update_family, on: :update
-
-  before_validation :initialize_depth
 
   before_destroy :validates_destruction
 
@@ -70,7 +84,7 @@ class Category < ActiveRecord::Base
     if self == top_ancestor || is_root?
       except_top ? [] : [self]
 
-    elsif parent.is_root?
+    elsif depth == 1
       [self]
 
     else
@@ -144,17 +158,19 @@ class Category < ActiveRecord::Base
 
   def initialize_family
     self.family =
-      if parent.nil?
+      if self.parent_id.nil?
         0
-      elsif parent == Category.root
-        order_in_parent + 1
+      elsif self.depth == 1
+        self.order_in_parent + 1
       else
         parent.family
       end
+
+    true
   end
 
   def initialize_depth
-    if parent.nil?
+    if parent_id.nil?
       self.depth = 0
     else
       if parent.depth >= MAX_DEPTH
@@ -163,31 +179,41 @@ class Category < ActiveRecord::Base
         self.depth = parent.depth + 1
       end
     end
+
+    true
   end
 
   def initialize_order_in_parent
     self.order_in_parent =
-      if parent
+      if !self.parent_id.nil?
         last_order = Category.child_categories(parent_id).maximum(:order_in_parent)
         last_order ? last_order + 1 : 0
 
       else
         0
       end
+
+    true
   end
 
   #
   # before_validation, on: :update
 
+  def update_order_in_parent
+    initialize_order_in_parent
+  end
+
   def update_family
     initialize_family
 
     # move to after_save
-    unless children.empty?
+    if !self.is_root? && !children.empty?
       children.each do |child|
         child.update_columns(family: self.family)
       end
     end
+
+    true
   end
 
   #

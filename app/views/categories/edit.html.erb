@@ -1,0 +1,17 @@
+<div class='container'>
+  <div class='col-md-offset-2 col-md-8'>
+    <%= react_component('CategoryMenu') %>
+  </div>
+</div>
+
+<%= react_component(
+  'CategoryForm',
+  {
+    category:          @category,
+    parents:           @parents.map {|p| [p.id, p.name]},
+    action:            category_path(@category),
+    method:            :put,
+    authenticityToken: form_authenticity_token
+  },
+  {class: 'container'}
+) %>

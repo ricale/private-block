@@ -25,7 +25,6 @@ window.WritingForm = React.createClass
 
   onSubmit: (event) ->
     # event.preventDefault();
-    console.log('!')
 
   getCancelUrl: ->
     if @state.writing.id isnt undefined

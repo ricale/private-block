@@ -3,12 +3,12 @@
 # Table name: writings
 #
 #  id          :integer          not null, primary key
-#  title       :string(255)
-#  content     :text(65535)
-#  user_id     :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  category_id :integer
+#  title       :string(255)      not null
+#  content     :text(65535)      not null
+#  created_at  :datetime
+#  updated_at  :datetime
+#  category_id :integer          not null
+#  user_id     :integer          not null
 #
 # Indexes
 #

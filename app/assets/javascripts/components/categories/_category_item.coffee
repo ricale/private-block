@@ -15,6 +15,9 @@ window.CategoryItem = React.createClass
     else
       ''
 
+  getRootCategoryId: ->
+    1
+
 
   render: ->
     D.div
@@ -32,13 +35,14 @@ window.CategoryItem = React.createClass
           href: '/categories/'+@props.category.id+'/edit'
           'Edit'
 
-        oneButtonForm
-          formClassName:   'buttons-container__delete-form'
-          buttonClassName: 'delete-form__button'
-          authenticityToken: @props.authenticityToken
-          action: '/categories/'+@props.category.id
-          method: 'delete'
-          label: 'Delete'
+        if @props.category.id isnt @getRootCategoryId()
+          oneButtonForm
+            formClassName:   'buttons-container__delete-form'
+            buttonClassName: 'delete-form__button'
+            authenticityToken: @props.authenticityToken
+            action: '/categories/'+@props.category.id
+            method: 'delete'
+            label: 'Delete'
 
 
 window.categoryItem = React.createFactory(CategoryItem)

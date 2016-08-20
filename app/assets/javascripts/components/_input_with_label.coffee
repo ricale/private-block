@@ -14,11 +14,13 @@ window.InputWithLabel = React.createClass
     onChange:      undefined
     elementType:   "input"
     typeAttribute: "text"
+    options:       undefined
 
   getTypeAttribute: ->
     {
       "input":    @props.typeAttribute,
-      "textarea": null
+      "textarea": null,
+      "select":   null
     }[@props.elementType]
 
   render: ->
@@ -40,5 +42,12 @@ window.InputWithLabel = React.createClass
           name:        @props.name
           value:       @props.value
           onChange:    @props.onChange
+
+          if @props.options
+            for option, i in @props.options
+              D.option
+                value: option[0]
+                key: "option-#{i}"
+                option[1]
 
 window.inputWithLabel = React.createFactory(InputWithLabel)

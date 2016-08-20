@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20160815121609) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",            limit: 255, null: false
-    t.string   "parent_id",       limit: 255
+    t.integer  "parent_id",       limit: 4
     t.integer  "depth",           limit: 4,   null: false
     t.integer  "order_in_parent", limit: 4,   null: false
     t.integer  "family",          limit: 4
@@ -42,12 +42,15 @@ ActiveRecord::Schema.define(version: 20160815121609) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "writings", force: :cascade do |t|
-    t.string   "title",       limit: 255,   null: false
-    t.text     "content",     limit: 65535, null: false
+    t.string   "title",       limit: 255
+    t.text     "content",     limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "category_id", limit: 4,     null: false
     t.integer  "user_id",     limit: 4,     null: false
   end
+
+  add_index "writings", ["user_id", "category_id"], name: "index_writings_on_user_id_and_category_id", using: :btree
+  add_index "writings", ["user_id"], name: "index_writings_on_user_id", using: :btree
 
 end
