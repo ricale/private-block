@@ -19,6 +19,10 @@ window.WritingForm = React.createClass
     @state.writing.title = event.target.value
     @forceUpdate()
 
+  categoryChanged: (event) ->
+    @state.writing.category_id = event.target.value
+    @forceUpdate()
+
   contentChanged: (event) ->
     @state.writing.content = event.target.value
     @forceUpdate()
@@ -27,7 +31,7 @@ window.WritingForm = React.createClass
     # event.preventDefault();
 
   getCancelUrl: ->
-    if @state.writing.id isnt undefined
+    if @state.writing.id
       '/writings/'+@state.writing.id
     else
       '/writings'
@@ -50,6 +54,18 @@ window.WritingForm = React.createClass
           labelText:   'Title'
           value:       @state.writing.title
           onChange:    @titleChanged
+
+        inputWithLabel
+          id:          'writing_category_id'
+          key:         'writing_category_id'
+          name:        'writing[category_id]'
+          className:   'writing-form__category-select'
+          placeholder: 'Category'
+          labelText:   'Category'
+          elementType: 'select'
+          value:       @state.writing.category_id
+          onChange:    @categoryChanged
+          options:     @props.categories
 
         inputWithLabel
           id:          'content'

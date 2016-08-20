@@ -22,6 +22,15 @@ class Writing < ActiveRecord::Base
 
   before_validation :default_values
 
+  scope :with_category, -> {
+    joins('JOIN categories AS children ON children.id = writings.category_id').
+    joins('JOIN categories AS parents  ON parents.id = children.parent_id').
+    select('writings.*, '\
+           'children.name AS category_name, '\
+           'children.depth AS category_depth, '\
+           'parents.name AS parent_category_name')
+  }
+
   def default_values
     self.category_id = 0 if self.category_id.nil?
     self.user_id     = 0 if self.user_id.nil?

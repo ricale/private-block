@@ -2,19 +2,21 @@ class WritingsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
   def index
-    @writings = Writing.order('id DESC').page(params[:page]).per(20)
+    @writings = Writing.with_category.order('id DESC').page(params[:page]).per(20)
   end
 
   def show
-    @writing = Writing.find(params[:id])
+    @writing = Writing.where(id: params[:id]).with_category.first
   end
 
   def new
     @writing = Writing.new
+    @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
   end
 
   def edit
     @writing = Writing.find(params[:id])
+    @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
   end
 
   def create

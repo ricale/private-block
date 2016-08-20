@@ -40,10 +40,20 @@ window.WritingEntry = React.createClass
 
     year+'.'+month+'.'+date+' '+hours+':'+minutes
 
+  getCategoryName: ->
+    if @props.writing.category_depth is 2
+      @props.writing.parent_category_name + '/' + @props.writing.category_name
+    else
+      @props.writing.category_name
+
   render: ->
     D.div
       className: 'writing-entry'+@getCssModifier()+' ' + @props.className
       id: @props.id || 'writing-entry-'+@props.writing.id
+
+      D.div
+        className: 'writing-entry__category'
+        @getCategoryName()
 
       D.div
         className: 'writing-entry__title'
@@ -57,9 +67,10 @@ window.WritingEntry = React.createClass
         className: 'writing-entry__created-at'
         @getFormattedDate(@props.writing.created_at)
 
-      D.div
-        className: 'writing-entry__updated-at'
-        @getFormattedDate(@props.writing.updated_at)
+      if !@props.singleLine
+        D.div
+          className: 'writing-entry__updated-at'
+          @getFormattedDate(@props.writing.updated_at)
 
       if @props.authenticityToken isnt undefined
         D.div

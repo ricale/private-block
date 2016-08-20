@@ -1,1 +1,10 @@
-<%= react_component('WritingForm', {writing: @writing, action: writings_path, authenticityToken: form_authenticity_token}, {class: 'container'}) %>
+<%= react_component(
+  'WritingForm',
+  {
+    writing: @writing,
+    categories: @categories,
+    action: writings_path,
+    authenticityToken: form_authenticity_token
+  },
+  {class: 'container'}
+) %>

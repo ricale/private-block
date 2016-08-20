@@ -44,7 +44,7 @@ window.CategoryForm = React.createClass
       children: [
         inputWithLabel
           id:          'category_name'
-          key:         'category-form__name-input'
+          key:         'category_name'
           name:        'category[name]'
           className:   'category-form__name-input'
           placeholder: 'Name'
@@ -55,7 +55,7 @@ window.CategoryForm = React.createClass
         if @state.category.id isnt @getRootCategoryId()
           inputWithLabel
             id:          'category_parent_id'
-            key:         'category-form__parent-select'
+            key:         'category_parent_id'
             name:        'category[parent_id]'
             className:   'category-form__parent-select'
             placeholder: 'Parent'
