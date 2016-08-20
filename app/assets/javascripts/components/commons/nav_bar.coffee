@@ -15,10 +15,6 @@ window.NavBar = React.createClass
   render: ->
     D.div
       className: 'top-nav-bar'
-      D.a
-        className: 'top-nav-bar__new-link'
-        href: '/writings/new'
-        'New'
 
       oneButtonForm
         authenticityToken: @props.authenticityToken
