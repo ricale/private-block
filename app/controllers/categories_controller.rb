@@ -18,18 +18,24 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.create!(category_params)
     redirect_to categories_path
+  rescue Exception => e
+    redirect_to new_category_path, alert: e.to_s
   end
 
   def update
     @category = Category.find(params[:id])
     @category.update_attributes!(category_params)
-    redirect_to categories_path
+    redirect_to category_path(params[:id])
+  rescue Exception => e
+    redirect_to edit_category_path(params[:id]), alert: e.to_s
   end
 
   def destroy
     @category = Category.find(params[:id])
     @category.destroy
     redirect_to categories_path
+  rescue Exception => e
+    redirect_to categories_path, alert: e.to_s
   end
 
   private

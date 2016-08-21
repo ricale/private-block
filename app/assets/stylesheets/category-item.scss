@@ -1,19 +1,24 @@
-.category-item_depth_1 {
-  margin-left: 10px;
-}
+.category-item         { margin-left:  0px; }
+.category-item_depth_1 { margin-left: 10px; }
+.category-item_depth_2 { margin-left: 20px; }
 
-.category-item_depth_2 {
-  margin-left: 20px;
-}
+.category-item         .category-item__name { width: 200px; }
+.category-item_depth_1 .category-item__name { width: 190px; }
+.category-item_depth_2 .category-item__name { width: 180px; }
 
 .category-item,
 .category-item_depth_1,
 .category-item_depth_2 {
+  padding: 5px 0;
   .category-item__name {
     display: inline-block;
   }
 
   .category-item__buttons-container {
     display: inline-block;
+
+    .buttons-container__edit-button {
+      margin-right: 5px;
+    }
   }
 }

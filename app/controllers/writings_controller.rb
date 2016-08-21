@@ -6,8 +6,8 @@ class WritingsController < ApplicationController
 
     if !params[:category_id].blank? &&
        !Category.is_root_id?(params[:category_id].to_i)
-      category = Category.find(params[:category_id])
 
+      category = Category.find(params[:category_id])
       writings = 
         if category.depth == 2
           writings.where(category_id: category.id)
@@ -41,6 +41,8 @@ class WritingsController < ApplicationController
     else
       redirect_to writing_path(@writing.id)
     end
+  rescue Exception => e
+    redirect_to new_writing_path, alert: e.to_s
   end
 
   def update
@@ -52,6 +54,8 @@ class WritingsController < ApplicationController
     else
       redirect_to writing_path(params[:id])
     end
+  rescue Exception => e
+    redirect_to edit_writing_path(params[:id]), alert: e.to_s
   end
 
   def destroy
@@ -63,6 +67,8 @@ class WritingsController < ApplicationController
     else
       redirect_to writings_path
     end
+  rescue Exception => e
+    redirect_to writing_path(params[:id]), alert: e.to_s
   end
 
   private
