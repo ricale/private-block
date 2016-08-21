@@ -25,7 +25,7 @@ class CategoriesController < ApplicationController
   def update
     @category = Category.find(params[:id])
     @category.update_attributes!(category_params)
-    redirect_to category_path(params[:id])
+    redirect_to categories_path
   rescue Exception => e
     redirect_to edit_category_path(params[:id]), alert: e.to_s
   end
