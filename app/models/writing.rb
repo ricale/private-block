@@ -24,7 +24,7 @@ class Writing < ActiveRecord::Base
 
   scope :with_category, -> {
     joins('JOIN categories AS children ON children.id = writings.category_id').
-    joins('JOIN categories AS parents  ON parents.id = children.parent_id').
+    joins('LEFT OUTER JOIN categories AS parents  ON parents.id = children.parent_id').
     select('writings.*, '\
            'children.name  AS category_name, '\
            'children.depth AS category_depth, '\

@@ -74,6 +74,6 @@ class WritingsController < ApplicationController
   private
 
   def writing_params
-    params.require(:writing).permit(:title, :content, :user_id)
+    params.require(:writing).permit(:title, :content, :user_id, :category_id)
   end
 end
