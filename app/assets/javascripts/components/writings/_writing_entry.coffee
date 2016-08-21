@@ -69,7 +69,7 @@ window.WritingEntry = React.createClass
         className: 'writing-entry__title'
 
         D.a
-          href: '/writings/'+@props.writing.id
+          href: '/'+@props.writing.id
 
           @props.writing.title
 

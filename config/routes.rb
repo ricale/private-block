@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   root 'home#index'
+  get '/:id' => 'writings#show', as: :short_writing, id: /[0-9]+/
 
   resources :writings
   resources :categories, except: [:show] do

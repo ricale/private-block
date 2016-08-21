@@ -39,7 +39,7 @@ class WritingsController < ApplicationController
     if request.xhr?
       render json: @writing
     else
-      redirect_to writing_path(@writing.id)
+      redirect_to short_writing_path(@writing.id)
     end
   rescue Exception => e
     redirect_to new_writing_path, alert: e.to_s
@@ -52,7 +52,7 @@ class WritingsController < ApplicationController
     if request.xhr?
       render json: @writing
     else
-      redirect_to writing_path(params[:id])
+      redirect_to short_writing_path(params[:id])
     end
   rescue Exception => e
     redirect_to edit_writing_path(params[:id]), alert: e.to_s
@@ -68,7 +68,7 @@ class WritingsController < ApplicationController
       redirect_to writings_path
     end
   rescue Exception => e
-    redirect_to writing_path(params[:id]), alert: e.to_s
+    redirect_to short_writing_path(params[:id]), alert: e.to_s
   end
 
   private
