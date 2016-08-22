@@ -44,14 +44,16 @@ window.WritingEntry = React.createClass
     '/categories/'+id+'/writings'
 
   categoryNameAndLink: ->
+    rootCategoryId = 1
+
     D.div
       className: 'writing-entry__category'
-      if @props.writing.parent_category_id
+      if @props.writing.parent_category_id and @props.writing.parent_category_id isnt rootCategoryId
         D.a
           href: @getCategoryLink(@props.writing.parent_category_id)
           @props.writing.parent_category_name
 
-      if @props.writing.parent_category_id
+      if @props.writing.parent_category_id and @props.writing.parent_category_id isnt rootCategoryId
         '/'
 
       D.a
