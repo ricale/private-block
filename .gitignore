@@ -38,3 +38,5 @@ config/secrets.yml
 .byebug_history
 
 /config/database.yml
+
+/node_modules

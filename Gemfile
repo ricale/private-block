@@ -21,13 +21,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'react-rails', '~> 1.5.0'
+gem 'browserify-rails'
 gem 'devise'
 
 gem 'kaminari'
 
 group :development do
-  gem 'web-console', '~> 2.0'
-
   gem 'capistrano', '~> 3.1'
   gem 'capistrano-rvm'
   gem 'capistrano-rails', '~> 1.1'
