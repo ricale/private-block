@@ -17,6 +17,12 @@ class WritingsController < ApplicationController
     end
 
     @writings = writings
+
+    if request.env['CONTENT_TYPE'] = 'application/json'
+      render json: @writings
+    else
+
+    end
   end
 
   def show

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 
 export default class WritingForm extends Component {
   getInitialState () {
@@ -58,7 +59,7 @@ export default class WritingForm extends Component {
                         placeholder='Title'
                         labelText='Title'
                         value={writing.title}
-                        onChange={this.onTitleChanged.bind(this)} />
+                        onChange={this.onTitleChanged} />
 
         <InputWithLabel id='writing_category_id'
                         name='writing[category_id]'
@@ -68,7 +69,7 @@ export default class WritingForm extends Component {
                         elementType='select'
                         value={writing.category_id}
                         options={categories}
-                        onChange={this.onCategoryChanged.bind(this)} />
+                        onChange={this.onCategoryChanged} />
 
         <InputWithLabel id='writing_content'
                         name='writing[content]'
@@ -76,7 +77,7 @@ export default class WritingForm extends Component {
                         labelText='Content'
                         elementType='textarea'
                         value={writing.content}
-                        onChange={this.onContentChanged.bind(this)} />
+                        onChange={this.onContentChanged} />
 
         <ElementsWithLabel className='writing-form__elements-with-label'>
           <Input id='submit' type='submit' value='submit' />

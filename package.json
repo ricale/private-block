@@ -11,6 +11,8 @@
   },
 
   "dependencies" : {
+    "isomorphic-fetch": "^2.1.1",
+
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-redux": "^4.0.0",
@@ -18,6 +20,7 @@
     "react-router-redux": "^4.0.0-rc.1",
 
     "redux": "^3.0.4",
+    "redux-logger": "^2.4.0",
     "redux-thunk": "^1.0.0"
   },
 

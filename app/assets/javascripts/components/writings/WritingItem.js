@@ -1,34 +1,30 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
+
 
 export default class WritingItem extends Component {
   componentDidMount () {
     const { singleLine, writing } = this.props;
 
-    if (singleLine) {
-      sourceElement = document.querySelector(`#writing-item-${writing.id} .writing-item__original-content`);
-      targetElement = document.querySelector(`#writing-item-${writing.id} .writing-item__decoded-content`);
+    if (!singleLine) {
+      var sourceElement = document.querySelector(`#writing-item-${writing.id} .writing-item__original-content`);
+      var targetElement = document.querySelector(`#writing-item-${writing.id} .writing-item__decoded-content`);
       hmd.run(sourceElement, targetElement);
     }
   }
 
-  getDefaultProps () {
-    return {
-      singleLine: false,
-    }
-  }
-
   getCssModifier () {
-    singleLine ? '_single-line' : ''
+    return this.props.singleLine ? '_single-line' : ''
   }
 
   getFormattedDate (dateString) {
-    d = new Date(dateString)
+    var d = new Date(dateString)
 
-    year    = d.getFullYear()
-    month   = (d.getMonth() + 1)
-    date    = d.getDate()
-    hours   = d.getHours()
-    minutes = d.getMinutes()
+    var year    = d.getFullYear()
+    var month   = (d.getMonth() + 1)
+    var date    = d.getDate()
+    var hours   = d.getHours()
+    var minutes = d.getMinutes()
 
     if (month   < 10) month   = '0' + month
     if (date    < 10) date    = '0' + date
@@ -41,57 +37,59 @@ export default class WritingItem extends Component {
   render () {
     const { writing, singleLine, authenticityToken, className } = this.props;
 
-    <div className={`writing-item${this.getCssModifier()} ${className}`}
-         id={`writing-item-${writing.id}`}>
+    return (
+      <div className={`writing-item${this.getCssModifier()} ${className}`}
+           id={`writing-item-${writing.id}`}>
 
-      {this.renderCategoryName()}
+        {this.renderCategoryName()}
 
-      <div className='writing-item__title'>
-        <Link to={`/${writing.id}`}>{writing.title}</Link>
+        <div className='writing-item__title'>
+          <Link to={`/${writing.id}`}>{writing.title}</Link>
+        </div>
+
+        {/* 시간을 표시하는 엘리먼트를 getFormattedDate 메서드와 묶어서 하나의 컴포넌트로 만들자 */}
+        <div className='writing-item__created-at'>
+          {this.getFormattedDate(writing.created_at)}
+        </div>
+
+        {(() => {
+          if(!singleLine) {
+            <div className='writing-item__updated-at'>
+              {this.getFormattedDate(writing.updated_at)}
+            </div>
+          }
+        })()}
+
+        {/* 아래 if 문의 조건을 위한 별도의 값 필요. authenticityToken를 사용하는 것은 잘못되었다 */}
+        {(() => {
+          if(authenticityToken) {
+            <div className='writing-item__button-container'>
+              <Link className='button-container__edit-button' to={`/writings/${writing.id}/edit`}>
+                Edit
+              </Link>
+
+              <OneButtonForm formClassName='button-container__delete-form'
+                             buttonClassName='delete-form__button'
+                             authenticityToken={authenticityToken}
+                             action={`/writings/${writing.id}`}
+                             method='delete'
+                             label='Delete' />
+            </div>
+          }
+        })()}
+
+        {(() => {
+          if(!singleLine) {
+            <div className='writing-item__content'>
+              <div className='writing-item__decoded-content'></div>
+              <textarea className='writing-item__original-content'>
+                {writing.content}
+              </textarea>
+            </div>
+          }
+        })()}
       </div>
-
-      {/* 시간을 표시하는 엘리먼트를 getFormattedDate 메서드와 묶어서 하나의 컴포넌트로 만들자 */}
-      <div className='writing-item__created-at'>
-        {this.getFormattedDate(writing.created_at)}
-      </div>
-
-      {(() => {
-        if(!singleLine) {
-          <div className='writing-item__updated-at'>
-            {this.getFormattedDate(writing.updated_at)}
-          </div>
-        }
-      })()}
-
-      {/* 아래 if 문의 조건을 위한 별도의 값 필요. authenticityToken를 사용하는 것은 잘못되었다 */}
-      {(() => {
-        if(authenticityToken) {
-          <div className='writing-item__button-container'>
-            <Link className='button-container__edit-button' to={`/writings/${writing.id}/edit`}>
-              Edit
-            </Link>
-
-            <OneButtonForm formClassName='button-container__delete-form'
-                           buttonClassName='delete-form__button'
-                           authenticityToken={authenticityToken}
-                           action={`/writings/${writing.id}`}
-                           method='delete'
-                           label='Delete' />
-          </div>
-        }
-      })()}
-
-      {(() => {
-        if(!singleLine) {
-          <div className='writing-item__content'>
-            <div className='writing-item__decoded-content'></div>
-            <textarea className='writing-item__original-content'>
-              {writing.content}
-            </textarea>
-          </div>
-        }
-      })()}
-    </div>
+    )
   }
 
   getCategoryLink (id) {
@@ -124,4 +122,8 @@ export default class WritingItem extends Component {
       </div>
     )
   }
+}
+
+WritingItem.defaultProps = {
+  singleLine: false,
 }

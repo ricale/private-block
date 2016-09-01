@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { fetchWritings } from '../../actions'
 import WritingItem from './WritingItem'
 
-export default class WritingList extends Component {
+class WritingList extends Component {
+  componentDidMount () {
+    const { dispatch } = this.props
+    dispatch(fetchWritings())
+  }
+
+  componentWillReceiveProps (nextProps) {
+
+  }
+
   render () {
     const { writings, authenticityToken } = this.props;
 
@@ -22,3 +33,13 @@ export default class WritingList extends Component {
 WritingList.defaultProps = {
   writings: []
 }
+
+function mapStateToProps (state, ownProps) {
+  const { writings } = state
+
+  return {
+    writings
+  }
+}
+
+export default connect(mapStateToProps)(WritingList)
