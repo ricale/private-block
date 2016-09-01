@@ -24,21 +24,21 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <% if !current_user.nil? %>
+  <!-- <%# if !current_user.nil? %>
   <div class='container'>
     <div class='col-md-offset-1 col-md-10'>
       <%#= react_component('NavBar', authenticityToken: form_authenticity_token) %>
     </div>
   </div>
-  <% end %>
+  <%# end %> -->
 
-  <% if !flash[:alert].blank? %>
+  <!-- <%# if !flash[:alert].blank? %>
   <div class='container'>
     <div class='col-md-offset-1 col-md-10'>
       <%#= react_component('FlashMessages', errors: [flash[:alert].to_s]) %>
     </div>
   </div>
-  <% end %>
+  <%# end %> -->
 
 <%= yield %>
 

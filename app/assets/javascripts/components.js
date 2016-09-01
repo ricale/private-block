@@ -1,3 +1,3 @@
 window.React = require('react');
 window.ReactDOM = require('react-dom');
-window.Main = require('./components/container/main.js').default;
+window.Root = require('./components/container/Root.js').default;
