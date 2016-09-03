@@ -19,7 +19,7 @@ class WritingsController < ApplicationController
     @writings = writings
 
     if request.env['CONTENT_TYPE'] = 'application/json'
-      render json: @writings
+      render json: {writings: @writings}
     else
 
     end
@@ -32,6 +32,12 @@ class WritingsController < ApplicationController
   def new
     @writing = Writing.new
     @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
+
+    if request.env['CONTENT_TYPE'] = 'application/json'
+      render json: {newWriting: @writings, categories: @categories}
+    else
+
+    end
   end
 
   def edit

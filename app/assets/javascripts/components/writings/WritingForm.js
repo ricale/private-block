@@ -1,22 +1,28 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+import { connect } from 'react-redux'
 
-export default class WritingForm extends Component {
-  getInitialState () {
-    const emptyWriting = {
+import RailsForm from '../commons/RailsForm'
+import InputWithLabel from '../commons/InputWithLabel'
+import ElementsWithLabel from '../commons/ElementsWithLabel'
+
+import { fetchNewWriting } from '../../actions'
+
+class WritingForm extends Component {
+  static defaultProps = {
+    method: 'post'
+  }
+
+  state = {
+    writing: this.props.writing || {
       title: '',
       content: ''
     }
-
-    return {
-      writing: (this.props.writing || emptyWriting)
-    }
   }
 
-  getDefaultProps () {
-    return {
-      method: 'post'
-    }
+  componentDidMount () {
+    const { dispatch } = this.props
+    dispatch(fetchNewWriting())
   }
 
   onTitleChanged (event) {
@@ -55,7 +61,6 @@ export default class WritingForm extends Component {
 
         <InputWithLabel id='writing_title'
                         name='writing[title]'
-                        className='writing-form__input-with-label'
                         placeholder='Title'
                         labelText='Title'
                         value={writing.title}
@@ -63,7 +68,6 @@ export default class WritingForm extends Component {
 
         <InputWithLabel id='writing_category_id'
                         name='writing[category_id]'
-                        className='writing-form__category-select'
                         placeholder='Category'
                         labelText='Category'
                         elementType='select'
@@ -73,18 +77,28 @@ export default class WritingForm extends Component {
 
         <InputWithLabel id='writing_content'
                         name='writing[content]'
-                        className='writing-form__input-with-label'
                         labelText='Content'
                         elementType='textarea'
                         value={writing.content}
                         onChange={this.onContentChanged} />
 
-        <ElementsWithLabel className='writing-form__elements-with-label'>
-          <Input id='submit' type='submit' value='submit' />
-          <Link id='cancel' href={this.getCancelUrl()}>cancel</Link>
+        <ElementsWithLabel>
+          <input id='submit' type='submit' value='submit' />
+          <Link to={this.getCancelUrl()} id='cancel'>cancel</Link>
         </ElementsWithLabel>
       </RailsForm>
     )
 
   }
 }
+
+function mapStateToProps (state, ownProps) {
+  const { writings, categories } = state
+
+  return {
+    writing: writings.new,
+    categories: categories.list
+  }
+}
+
+export default connect(mapStateToProps)(WritingForm)

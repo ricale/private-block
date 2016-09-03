@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router'
-import App from './components/commons/App'
+import App from './components/container/App'
 import WritingList from './components/writings/WritingList'
 import WritingForm from './components/writings/WritingForm'
 import WritingItem from './components/writings/WritingItem'

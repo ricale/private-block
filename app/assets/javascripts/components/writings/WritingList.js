@@ -4,6 +4,10 @@ import { fetchWritings } from '../../actions'
 import WritingItem from './WritingItem'
 
 class WritingList extends Component {
+  static defaultProps = {
+    writings: []
+  }
+
   componentDidMount () {
     const { dispatch } = this.props
     dispatch(fetchWritings())
@@ -30,15 +34,11 @@ class WritingList extends Component {
   }
 }
 
-WritingList.defaultProps = {
-  writings: []
-}
-
 function mapStateToProps (state, ownProps) {
   const { writings } = state
 
   return {
-    writings
+    writings: writings.list
   }
 }
 
