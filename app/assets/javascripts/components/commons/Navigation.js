@@ -14,6 +14,10 @@ export default class Navigation extends Component {
                          label='Log Out' />
         </li>*/}
         <li>
+          <Link to='/users/sign_in'>Sign In</Link>
+        </li>
+
+        <li>
           <Link to='/'>Home</Link>
         </li>
         <li>

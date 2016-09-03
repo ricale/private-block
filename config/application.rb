@@ -24,5 +24,9 @@ module PrivateBlock
     config.active_record.raise_in_transactional_callbacks = true
 
     config.browserify_rails.commandline_options = '-t babelify'
+
+    config.to_prepare do
+      DeviseController.respond_to :html, :json
+    end
   end
 end

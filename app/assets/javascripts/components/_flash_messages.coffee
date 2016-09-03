@@ -13,7 +13,6 @@ window.FlashMessages = React.createClass
     successes: []
 
   render: ->
-    console.log '@props.errors', @props.errors
     D.div
       className: 'flash-messages'
 

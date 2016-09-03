@@ -2,12 +2,23 @@ import { routerReducer as routing } from 'react-router-redux'
 import { combineReducers } from 'redux';
 import {
   FETCH_WRITING_LIST_SUCCESS,
-  FETCH_NEW_WRITING_SUCCESS
+  FETCH_NEW_WRITING_SUCCESS,
+  FETCH_SESSION_SUCCESS
 } from '../constants/ActionType'
 
 const initWritingState = {
   list: [],
   new: {}
+}
+
+function session (state = {}, action) {
+  switch (action.type) {
+  case FETCH_SESSION_SUCCESS:
+    return Object.assign({}, state, action.session)
+
+  default:
+    return state;
+  }
 }
 
 function writings (state = initWritingState, action) {
@@ -19,7 +30,7 @@ function writings (state = initWritingState, action) {
 
   case FETCH_NEW_WRITING_SUCCESS:
     return Object.assign({}, state, {
-      new: actions.writings.new
+      new: action.writings.new
     })
 
   default:
@@ -45,6 +56,7 @@ function categories (state = initCategoryState, action) {
 }
 
 const rootReducer = combineReducers({
+  session,
   writings,
   categories,
   routing
