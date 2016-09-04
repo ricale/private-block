@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { connect } from 'react-redux'
 
 import RailsForm from '../commons/RailsForm'
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
-import { fetchNewWriting } from '../../actions'
-
-class WritingForm extends Component {
+export default class WritingForm extends Component {
   static defaultProps = {
     method: 'post'
   }
@@ -21,8 +18,8 @@ class WritingForm extends Component {
   }
 
   componentDidMount () {
-    const { dispatch } = this.props
-    dispatch(fetchNewWriting())
+    const { onLoadNewWriting } = this.props
+    onLoadNewWriting()
   }
 
   onTitleChanged (event) {
@@ -91,14 +88,3 @@ class WritingForm extends Component {
 
   }
 }
-
-function mapStateToProps (state, ownProps) {
-  const { writings, categories } = state
-
-  return {
-    writing: writings.new,
-    categories: categories.list
-  }
-}
-
-export default connect(mapStateToProps)(WritingForm)

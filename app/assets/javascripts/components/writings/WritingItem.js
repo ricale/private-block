@@ -3,13 +3,31 @@ import { Link } from 'react-router'
 
 
 export default class WritingItem extends Component {
-  componentDidMount () {
-    const { singleLine, writing } = this.props;
+  static defaultProps = {
+    singleLine: false,
+    className: ''
+  }
 
-    if (!singleLine) {
-      var sourceElement = document.querySelector(`#writing-item-${writing.id} .writing-item__original-content`);
-      var targetElement = document.querySelector(`#writing-item-${writing.id} .writing-item__decoded-content`);
-      hmd.run(sourceElement, targetElement);
+  componentDidMount () {
+    this.fetchOrDecodeWriting()
+  }
+
+  componentDidUpdate () {
+    this.fetchOrDecodeWriting()
+  }
+
+  fetchOrDecodeWriting () {
+    const { singleLine, writing, onLoadWriting, id } = this.props
+
+    if(!writing || !writing.id) {
+      onLoadWriting(id)
+
+    } else {
+      if (!singleLine) {
+        var sourceElement = document.querySelector(`#writing-item-${writing.id} .writing-item__original-content`);
+        var targetElement = document.querySelector(`#writing-item-${writing.id} .writing-item__decoded-content`);
+        hmd.run(sourceElement, targetElement);
+      }
     }
   }
 
@@ -37,6 +55,12 @@ export default class WritingItem extends Component {
   render () {
     const { writing, singleLine, authenticityToken, className } = this.props;
 
+    if(!writing || !writing.id) {
+      return (
+        <div></div>
+      )
+    }
+
     return (
       <div className={`writing-item${this.getCssModifier()} ${className}`}
            id={`writing-item-${writing.id}`}>
@@ -52,42 +76,34 @@ export default class WritingItem extends Component {
           {this.getFormattedDate(writing.created_at)}
         </div>
 
-        {(() => {
-          if(!singleLine) {
-            <div className='writing-item__updated-at'>
-              {this.getFormattedDate(writing.updated_at)}
-            </div>
-          }
-        })()}
+        {!singleLine && (
+          <div className='writing-item__updated-at'>
+            {this.getFormattedDate(writing.updated_at)}
+          </div>
+        )}
 
         {/* 아래 if 문의 조건을 위한 별도의 값 필요. authenticityToken를 사용하는 것은 잘못되었다 */}
-        {(() => {
-          if(authenticityToken) {
-            <div className='writing-item__button-container'>
-              <Link className='button-container__edit-button' to={`/writings/${writing.id}/edit`}>
-                Edit
-              </Link>
+        {authenticityToken && (
+          <div className='writing-item__button-container'>
+            <Link className='button-container__edit-button' to={`/writings/${writing.id}/edit`}>
+              Edit
+            </Link>
 
-              <OneButtonForm formClassName='button-container__delete-form'
-                             buttonClassName='delete-form__button'
-                             authenticityToken={authenticityToken}
-                             action={`/writings/${writing.id}`}
-                             method='delete'
-                             label='Delete' />
-            </div>
-          }
-        })()}
+            <OneButtonForm formClassName='button-container__delete-form'
+                           buttonClassName='delete-form__button'
+                           authenticityToken={authenticityToken}
+                           action={`/writings/${writing.id}`}
+                           method='delete'
+                           label='Delete' />
+          </div>
+        )}
 
-        {(() => {
-          if(!singleLine) {
-            <div className='writing-item__content'>
-              <div className='writing-item__decoded-content'></div>
-              <textarea className='writing-item__original-content'>
-                {writing.content}
-              </textarea>
-            </div>
-          }
-        })()}
+        {!singleLine && (
+          <div className='writing-item__content'>
+            <div className='writing-item__decoded-content'></div>
+            <textarea className='writing-item__original-content' defaultValue={writing.content} />              
+          </div>
+        )}
       </div>
     )
   }
@@ -122,8 +138,4 @@ export default class WritingItem extends Component {
       </div>
     )
   }
-}
-
-WritingItem.defaultProps = {
-  singleLine: false,
 }

@@ -3,12 +3,14 @@ import { combineReducers } from 'redux';
 import {
   FETCH_WRITING_LIST_SUCCESS,
   FETCH_NEW_WRITING_SUCCESS,
+  FETCH_WRITING_SUCCESS,
   FETCH_SESSION_SUCCESS
 } from '../constants/ActionType'
 
 const initWritingState = {
   list: [],
-  new: {}
+  new: undefined,
+  selected: undefined
 }
 
 function session (state = {}, action) {
@@ -31,6 +33,11 @@ function writings (state = initWritingState, action) {
   case FETCH_NEW_WRITING_SUCCESS:
     return Object.assign({}, state, {
       new: action.writings.new
+    })
+
+  case FETCH_WRITING_SUCCESS:
+    return Object.assign({}, state, {
+      selected: action.writings.selected
     })
 
   default:

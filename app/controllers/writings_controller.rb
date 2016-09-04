@@ -27,6 +27,12 @@ class WritingsController < ApplicationController
 
   def show
     @writing = Writing.where(id: params[:id]).with_category.first
+
+    if request.env['CONTENT_TYPE'] = 'application/json'
+      render json: {writing: @writing}
+    else
+
+    end
   end
 
   def new
