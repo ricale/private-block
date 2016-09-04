@@ -67,7 +67,7 @@ class WritingsController < ApplicationController
     end
 
   rescue Exception => e
-    if request.xhr?
+    if request.env['CONTENT_TYPE'] = 'application/json'
       render nothing: true
     else
       redirect_to new_writing_path, alert: e.to_s
@@ -78,13 +78,17 @@ class WritingsController < ApplicationController
     @writing = Writing.find(params[:id])
     @writing.update_attributes!(writing_params)
 
-    if request.xhr?
-      render json: @writing
+    if request.env['CONTENT_TYPE'] = 'application/json'
+      render json: {writing: @writing}
     else
       redirect_to short_writing_path(params[:id])
     end
   rescue Exception => e
-    redirect_to edit_writing_path(params[:id]), alert: e.to_s
+    if request.env['CONTENT_TYPE'] = 'application/json'
+      render json: {writing: @writing}
+    else
+      redirect_to edit_writing_path(params[:id]), alert: e.to_s
+    end
   end
 
   def destroy

@@ -8,26 +8,47 @@ export default class WritingItem extends Component {
     className: ''
   }
 
-  componentDidMount () {
-    this.fetchOrDecodeWriting()
+  state = {
+    decodedContent: ''
   }
 
-  componentDidUpdate () {
-    this.fetchOrDecodeWriting()
-  }
-
-  fetchOrDecodeWriting () {
-    const { singleLine, writing, onLoadWriting, id } = this.props
-
-    if(!writing || !writing.id) {
+  componentWillMount () {
+    const { onLoadWriting, id } = this.props
+    if(id) {
       onLoadWriting(id)
-
     } else {
-      if (!singleLine) {
-        var sourceElement = document.querySelector(`#writing-item-${writing.id} .writing-item__original-content`);
-        var targetElement = document.querySelector(`#writing-item-${writing.id} .writing-item__decoded-content`);
-        hmd.run(sourceElement, targetElement);
-      }
+      this.showDecodedContent(this.props)
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { onLoadWriting, id } = this.props
+
+    if(id && id != nextProps.id) {
+      onLoadWriting(id)
+    } else {
+      this.showDecodedContent(nextProps)
+    }
+  }
+
+  // componentDidMount () {
+  //   this.showDecodedContent()
+  // }
+
+  // componentDidUpdate () {
+  //   this.showDecodedContent()
+  // }
+
+  showDecodedContent (props) {
+    const { singleLine, writing } = props
+
+    if(!singleLine && writing && writing.content) {
+      // const source = document.querySelector(`#writing-item-${writing.id} .writing-item__original-content`)
+      // const target = document.querySelector(`#writing-item-${writing.id} .writing-item__decoded-content`)
+      // hmd.run(source, target)
+      const element = document.createElement("div");
+      element.innerHTML = writing.content
+      this.setState({decodedContent: hmd.decode(element.innerText)})
     }
   }
 
@@ -50,6 +71,37 @@ export default class WritingItem extends Component {
     if (minutes < 10) minutes = '0' + minutes
 
     return year+'.'+month+'.'+date+' '+hours+':'+minutes
+  }
+
+  getCategoryLink (id) {
+    return `/categories/${id}/writings`
+  }
+
+  renderCategoryName () {
+    const { writing } = this.props
+    {/* 상수를 박아놓을 것이 아니라, parentCategoryTypeId 따위가 필요 */}
+    const rootCategoryId = 1
+
+    return (
+      <div className='writing-item__category'>
+        {(() => {
+          if (writing.parent_category_id && writing.parent_category_id != rootCategoryId) {
+            <Link to={this.getCategoryLink(writing.parent_category_id)}>
+              {writing.parent_category_name}
+            </Link>
+          }
+        })()}
+        {(() => {
+          if (writing.parent_category_id && writing.parent_category_id != rootCategoryId) {
+            '/'
+          }
+        })()}
+
+        <Link to={this.getCategoryLink(writing.category_id)}>
+          {writing.category_name}
+        </Link>
+      </div>
+    )
   }
 
   render () {
@@ -103,41 +155,10 @@ export default class WritingItem extends Component {
 
         {!singleLine && (
           <div className='writing-item__content'>
-            <div className='writing-item__decoded-content'></div>
-            <textarea className='writing-item__original-content' defaultValue={writing.content} />              
+            <div className='writing-item__decoded-content' dangerouslySetInnerHTML={{__html: this.state.decodedContent}}></div>
+            {/*<textarea className='writing-item__original-content' defaultValue={writing.content} />*/}
           </div>
         )}
-      </div>
-    )
-  }
-
-  getCategoryLink (id) {
-    return `/categories/${id}/writings`
-  }
-
-  renderCategoryName () {
-    const { writing } = this.props
-    {/* 상수를 박아놓을 것이 아니라, parentCategoryTypeId 따위가 필요 */}
-    const rootCategoryId = 1
-
-    return (
-      <div className='writing-item__category'>
-        {(() => {
-          if (writing.parent_category_id && writing.parent_category_id != rootCategoryId) {
-            <Link to={this.getCategoryLink(writing.parent_category_id)}>
-              {writing.parent_category_name}
-            </Link>
-          }
-        })()}
-        {(() => {
-          if (writing.parent_category_id && writing.parent_category_id != rootCategoryId) {
-            '/'
-          }
-        })()}
-
-        <Link to={this.getCategoryLink(writing.category_id)}>
-          {writing.category_name}
-        </Link>
       </div>
     )
   }

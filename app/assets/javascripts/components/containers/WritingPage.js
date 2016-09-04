@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
-import { fetchWritings, fetchWriting, createWriting } from '../../actions/writings'
+import { fetchWritings, fetchWriting, createWriting, updateWriting } from '../../actions/writings'
 
 import WritingList from '../writings/WritingList'
 import WritingForm from '../writings/WritingForm'
@@ -30,14 +30,15 @@ class WritingPage extends Component {
 
   saveWriting (writing) {
     const { dispatch, authenticityToken } = this.props
+    const data = {
+      writing,
+      authenticity_token: authenticityToken
+    }
 
     if(writing.id) {
-      dispatch(updateWriting(writing))
+      dispatch(updateWriting(data))
     } else {
-      dispatch(createWriting({
-        writing,
-        authenticity_token: authenticityToken
-      }))
+      dispatch(createWriting(data))
     }
   }
 

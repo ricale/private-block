@@ -10,7 +10,10 @@ import {
   FETCH_WRITING_FAILURE,
   CREATE_WRITING_REQUEST,
   CREATE_WRITING_SUCCESS,
-  CREATE_WRITING_FAILURE
+  CREATE_WRITING_FAILURE,
+  UPDATE_WRITING_REQUEST,
+  UPDATE_WRITING_SUCCESS,
+  UPDATE_WRITING_FAILURE
 } from '../constants/ActionType'
 
 function fetchData (url, beforeCallback, successCallback, options = {}) {
@@ -120,7 +123,7 @@ function requestCreatingWriting () {
 function succeedRequestingCreatingWriting (data) {
   const { writing } = data
 
-  // browserHistory.push('/writing/')
+  browserHistory.push(`/writings/${writing.id}`)
 
   return {
     type: CREATE_WRITING_SUCCESS,
@@ -138,6 +141,39 @@ export function createWriting (data) {
     {
       parameters: data,
       method: 'POST'
+    }
+  )
+}
+
+function requestUpdatingWriting () {
+  return {
+    type: UPDATE_WRITING_REQUEST
+  }
+}
+
+function succeedRequestingUpdatingWriting (data) {
+  const { writing } = data
+
+  browserHistory.push(`/writings/${writing.id}`)
+
+  return {
+    type: UPDATE_WRITING_SUCCESS,
+    writings: {
+      selected: writing
+    }
+  }
+}
+
+export function updateWriting (data) {
+  const { writing } = data
+
+  return fetchData(
+    `/writings/${writing.id}`,
+    requestUpdatingWriting,
+    succeedRequestingUpdatingWriting,
+    {
+      parameters: data,
+      method: 'PUT'
     }
   )
 }
