@@ -1,11 +1,1 @@
-<div class='container'>
-  <div class='col-md-offset-2 col-md-8'>
-    <%= react_component('WritingMenu') %>
-  </div>
-</div>
-
-<div class='container'>
-  <div class='col-md-offset-2 col-md-8'>
-    <%= react_component('WritingEntry', {writing: @writing, authenticityToken: form_authenticity_token}) %>
-  </div>
-</div>
+<%= react_component('Root', {authenticityToken: form_authenticity_token}) %>

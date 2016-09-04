@@ -18,7 +18,7 @@ class WritingsController < ApplicationController
 
     @writings = writings
 
-    if request.env['CONTENT_TYPE'] = 'application/json'
+    if is_json_request
       render json: {writings: @writings}
     else
 
@@ -28,7 +28,7 @@ class WritingsController < ApplicationController
   def show
     @writing = Writing.where(id: params[:id]).with_category.first
 
-    if request.env['CONTENT_TYPE'] = 'application/json'
+    if is_json_request
       render json: {writing: @writing}
     else
 
@@ -39,7 +39,7 @@ class WritingsController < ApplicationController
     @writing = Writing.new(category_id: Category::ROOT_ID)
     @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
 
-    if request.env['CONTENT_TYPE'] = 'application/json'
+    if is_json_request
       render json: {writing: @writing, categories: @categories}
     else
 
@@ -50,7 +50,7 @@ class WritingsController < ApplicationController
     @writing = Writing.find(params[:id])
     @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
 
-    if request.env['CONTENT_TYPE'] = 'application/json'
+    if is_json_request
       render json: {writing: @writing, categories: @categories}
     else
 
@@ -60,14 +60,14 @@ class WritingsController < ApplicationController
   def create
     @writing = Writing.create!(writing_params)
 
-    if request.env['CONTENT_TYPE'] = 'application/json'
+    if is_json_request
       render json: {writing: @writing}
     else
       redirect_to short_writing_path(@writing.id)
     end
 
   rescue Exception => e
-    if request.env['CONTENT_TYPE'] = 'application/json'
+    if is_json_request
       render nothing: true
     else
       redirect_to new_writing_path, alert: e.to_s
@@ -78,13 +78,13 @@ class WritingsController < ApplicationController
     @writing = Writing.find(params[:id])
     @writing.update_attributes!(writing_params)
 
-    if request.env['CONTENT_TYPE'] = 'application/json'
+    if is_json_request
       render json: {writing: @writing}
     else
       redirect_to short_writing_path(params[:id])
     end
   rescue Exception => e
-    if request.env['CONTENT_TYPE'] = 'application/json'
+    if is_json_request
       render json: {writing: @writing}
     else
       redirect_to edit_writing_path(params[:id]), alert: e.to_s

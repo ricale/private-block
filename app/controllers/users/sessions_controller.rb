@@ -3,16 +3,17 @@ class Users::SessionsController < Devise::SessionsController
   # skip_before_filter :require_no_authentication, only: :create
 
   # GET /resource/sign_in
-  # def new
-  #   super
-  # end
+  def new
+    self.resource = resource_class.new(sign_in_params)
+    clean_up_passwords(resource)
+
+  end
 
   # POST /resource/sign_in
   def create
     self.resource = warden.authenticate!(auth_options)
     set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, resource)
-    puts ">>>>>>>>>>>>>"
     render json: {user: current_user}
   end
 
@@ -38,7 +39,11 @@ class Users::SessionsController < Devise::SessionsController
     if authenticated && resource = warden.user(resource_name)
       message = I18n.t("devise.failure.already_authenticated")
       # redirect_to after_sign_in_path_for(resource)
-      render json: {user: current_user, message: message}
+
+      if is_json_request
+        render json: {user: current_user, message: message}
+      else
+      end
     end
   end
 
