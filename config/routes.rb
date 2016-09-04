@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
 
   root 'home#index'
   get '/:id' => 'writings#show', as: :short_writing, id: /[0-9]+/
