@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
-import { fetchWritings, fetchWriting } from '../../actions/writings'
+import { fetchWritings, fetchWriting, createWriting } from '../../actions/writings'
 
 import WritingList from '../writings/WritingList'
 import WritingForm from '../writings/WritingForm'
@@ -28,6 +28,24 @@ class WritingPage extends Component {
     dispatch(fetchWriting(id, options))
   }
 
+  saveWriting (writing) {
+    const { dispatch, authenticityToken } = this.props
+
+    if(writing.id) {
+      dispatch(updateWriting(writing))
+    } else {
+      dispatch(createWriting({
+        writing,
+        authenticity_token: authenticityToken
+      }))
+    }
+  }
+
+  requestDeleteWriting (id) {
+    const { dispatch } = this.props
+    dispatch(deleteWriting(id))
+  }
+
   childrenProps (type) {
     const { writings, selectedWriting, id, categories } = this.props
 
@@ -41,6 +59,7 @@ class WritingPage extends Component {
     case WritingForm:
       return {
         onLoadWriting: this.loadWriting.bind(this),
+        onSaveWriting: this.saveWriting.bind(this),
         writing: selectedWriting,
         categories,
         id
@@ -72,7 +91,7 @@ class WritingPage extends Component {
 
 
 function mapStateToProps (state, ownProps) {
-  const { writings, categories } = state
+  const { writings, categories, session } = state
 
   return {
     writings:        writings.list,
@@ -80,7 +99,9 @@ function mapStateToProps (state, ownProps) {
 
     id: ownProps.params.id,
 
-    categories: categories.list
+    categories: categories.list,
+
+    authenticityToken: session.authenticityToken
   }
 }
 

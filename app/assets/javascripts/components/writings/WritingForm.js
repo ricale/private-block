@@ -22,6 +22,13 @@ export default class WritingForm extends Component {
     onLoadWriting(id, {withCategories: true})
   }
 
+  componentWillReceiveProps (nextProps) {
+    const { writing } = nextProps
+    if(writing) {
+      this.setState({writing})
+    }
+  }
+
   onTitleChanged (event) {
     this.state.writing.title = event.target.value
     this.forceUpdate()
@@ -35,6 +42,12 @@ export default class WritingForm extends Component {
   onContentChanged (event) {
     this.state.writing.content = event.target.value
     this.forceUpdate()
+  }
+
+  onSubmit (event) {
+    event.preventDefault()
+    const { onSaveWriting, id } = this.props
+    onSaveWriting(this.state.writing)
   }
 
   getCancelUrl () {
@@ -51,7 +64,8 @@ export default class WritingForm extends Component {
     const { writing } = this.state
 
     return (
-      <form className='writing-form form-horizontal'>
+      <form className='writing-form form-horizontal'
+            onSubmit={this.onSubmit.bind(this)}>
 
         <InputWithLabel id='writing_title'
                         name='writing[title]'

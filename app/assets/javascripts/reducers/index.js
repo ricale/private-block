@@ -3,7 +3,8 @@ import { combineReducers } from 'redux';
 import {
   FETCH_WRITING_LIST_SUCCESS,
   FETCH_WRITING_SUCCESS,
-  FETCH_SESSION_SUCCESS
+  FETCH_SESSION_SUCCESS,
+  CREATE_WRITING_SUCCESS
 } from '../constants/ActionType'
 
 const initWritingState = {
@@ -29,6 +30,7 @@ function writings (state = initWritingState, action) {
     })
 
   case FETCH_WRITING_SUCCESS:
+  case CREATE_WRITING_SUCCESS:
     return Object.assign({}, state, {
       selected: action.writings.selected
     })

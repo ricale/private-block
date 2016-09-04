@@ -36,7 +36,7 @@ class WritingsController < ApplicationController
   end
 
   def new
-    @writing = Writing.new
+    @writing = Writing.new(category_id: Category::ROOT_ID)
     @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
 
     if request.env['CONTENT_TYPE'] = 'application/json'
@@ -60,13 +60,18 @@ class WritingsController < ApplicationController
   def create
     @writing = Writing.create!(writing_params)
 
-    if request.xhr?
-      render json: @writing
+    if request.env['CONTENT_TYPE'] = 'application/json'
+      render json: {writing: @writing}
     else
       redirect_to short_writing_path(@writing.id)
     end
+
   rescue Exception => e
-    redirect_to new_writing_path, alert: e.to_s
+    if request.xhr?
+      render nothing: true
+    else
+      redirect_to new_writing_path, alert: e.to_s
+    end
   end
 
   def update

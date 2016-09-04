@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import { browserHistory } from 'react-router';
 
 import {
   FETCH_WRITING_LIST_REQUEST,
@@ -7,16 +8,35 @@ import {
   FETCH_WRITING_REQUEST,
   FETCH_WRITING_SUCCESS,
   FETCH_WRITING_FAILURE,
+  CREATE_WRITING_REQUEST,
+  CREATE_WRITING_SUCCESS,
+  CREATE_WRITING_FAILURE
 } from '../constants/ActionType'
 
-function fetchData (url, beforeCallback, successCallback) {
+function fetchData (url, beforeCallback, successCallback, options = {}) {
+  const { parameters, method } = options
+
+  var requestOptions = {
+    credentials: 'same-origin',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+
+  if(parameters) {
+    requestOptions.body = JSON.stringify(parameters)
+  }
+
+  if(method) {
+    requestOptions.method = method
+  }
+
   return dispatch => {
     dispatch(beforeCallback())
 
     return (
-      fetch(url, {
-        credentials: 'same-origin',
-      }).
+      fetch(url, requestOptions).
       then(response => response.json()).
       then(json => dispatch(successCallback(json)))
     )
@@ -43,17 +63,11 @@ function succeedRequestingWritings (data) {
 }
 
 export function fetchWritings () {
-  return dispatch => {
-    dispatch(requestWritings())
-
-    return (
-      fetch('/writings.json', {
-        credentials: 'same-origin',
-      }).
-      then(response => response.json()).
-      then(json => dispatch(succeedRequestingWritings(json)))
-    )
-  }
+  return fetchData(
+    '/writings.json',
+    requestWritings,
+    succeedRequestingWritings
+  )
 }
 
 function requestWriting () {
@@ -94,5 +108,36 @@ export function fetchWriting (id, options = {}) {
     url,
     requestWriting,
     succeedRequestingWriting
+  )
+}
+
+function requestCreatingWriting () {
+  return {
+    type: CREATE_WRITING_REQUEST
+  }
+}
+
+function succeedRequestingCreatingWriting (data) {
+  const { writing } = data
+
+  // browserHistory.push('/writing/')
+
+  return {
+    type: CREATE_WRITING_SUCCESS,
+    writings: {
+      selected: writing
+    }
+  }
+}
+
+export function createWriting (data) {
+  return fetchData(
+    '/writings',
+    requestCreatingWriting,
+    succeedRequestingCreatingWriting,
+    {
+      parameters: data,
+      method: 'POST'
+    }
   )
 }
