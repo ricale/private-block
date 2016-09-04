@@ -1,8 +1,10 @@
 class WritingsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
+  PER_PAGE = 20
+
   def index
-    writings = Writing.with_category.order('id DESC').page(params[:page]).per(20)
+    writings = Writing.with_category.order('id DESC')
 
     if !params[:category_id].blank? &&
        !Category.is_root_id?(params[:category_id].to_i)
@@ -16,10 +18,21 @@ class WritingsController < ApplicationController
         end
     end
 
+    total_writing_count = writings.select('COUNT(*) AS count').first.count
+    total_page_count = total_writing_count / PER_PAGE + 1
+
+    current_page = params[:page].to_i
+    current_page = 1 if current_page == 0
+    writings = writings.limit(PER_PAGE).offset((current_page - 1) * PER_PAGE)
+
     @writings = writings
 
     if is_json_request
-      render json: {writings: @writings}
+      render json: {
+        writings:    @writings,
+        page:        current_page,
+        total_page:  total_page_count
+      }
     else
 
     end

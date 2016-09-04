@@ -55,7 +55,7 @@ function succeedRequestingSignIn (data) {
 }
 
 export function signIn (email, password, authenticityToken) {
-  const parameters = {
+  const params = {
     'user': {
       email: email,
       password: password,
@@ -74,7 +74,7 @@ export function signIn (email, password, authenticityToken) {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(parameters)
+        body: JSON.stringify(params)
       }).
       then(response => response.json()).
       then(json => dispatch(succeedRequestingSignIn(json)))

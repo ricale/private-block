@@ -24,8 +24,6 @@ gem 'react-rails', '~> 1.5.0'
 gem 'browserify-rails'
 gem 'devise'
 
-gem 'kaminari'
-
 group :development do
   gem 'capistrano', '~> 3.1'
   gem 'capistrano-rvm'

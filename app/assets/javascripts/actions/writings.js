@@ -19,8 +19,20 @@ import {
   DELETE_WRITING_FAILURE
 } from '../constants/ActionType'
 
+function serialize (object, prefix) {
+  var strings = [];
+
+  for(var key in object) {
+    if(object.hasOwnProperty(key)) {
+      strings.push(`${encodeURIComponent(key)}=${encodeURIComponent(object[key])}`)
+    }
+  }
+
+  return strings.join("&")
+}
+
 function fetchData (url, beforeCallback, successCallback, options = {}) {
-  const { parameters, method } = options
+  const { params, method } = options
 
   var requestOptions = {
     credentials: 'same-origin',
@@ -30,12 +42,16 @@ function fetchData (url, beforeCallback, successCallback, options = {}) {
     }
   }
 
-  if(parameters) {
-    requestOptions.body = JSON.stringify(parameters)
+  if(method) {
+    requestOptions.method = method.toUpperCase()
   }
 
-  if(method) {
-    requestOptions.method = method
+  if(params) {
+    if(requestOptions.method && requestOptions.method != 'GET') {
+      requestOptions.body = JSON.stringify(params)
+    } else {
+      url += `?${serialize(params)}`
+    }
   }
 
   return dispatch => {
@@ -51,6 +67,7 @@ function fetchData (url, beforeCallback, successCallback, options = {}) {
 
 
 
+
 function requestWritings () {
   return {
     type: FETCH_WRITING_LIST_REQUEST
@@ -58,17 +75,21 @@ function requestWritings () {
 }
 
 function succeedRequestingWritings (data) {
-  const { writings } = data
+  const { writings, page, total_page } = data
+
+  console.log('data', data)
 
   return {
     type: FETCH_WRITING_LIST_SUCCESS,
     writings: {
-      list: writings
+      list: writings,
+      page: page,
+      totalPage: total_page
     }
   }
 }
 
-export function fetchWritings (categoryId = undefined, data = undefined) {
+export function fetchWritings (categoryId = undefined, data = {}) {
   var url;
   if(categoryId) {
     url = `/categories/${categoryId}/writings.json`
@@ -79,7 +100,9 @@ export function fetchWritings (categoryId = undefined, data = undefined) {
   return fetchData(
     url,
     requestWritings,
-    succeedRequestingWritings
+    succeedRequestingWritings, {
+      params: data
+    }
   )
 }
 
@@ -149,7 +172,7 @@ export function createWriting (data) {
     requestCreatingWriting,
     succeedRequestingCreatingWriting,
     {
-      parameters: data,
+      params: data,
       method: 'POST'
     }
   )
@@ -164,7 +187,7 @@ function requestUpdatingWriting () {
 function succeedRequestingUpdatingWriting (data) {
   const { writing } = data
 
-  browserHistory.push(`/writings/${writing.id}.json`)
+  browserHistory.push(`/writings/${writing.id}`)
 
   return {
     type: UPDATE_WRITING_SUCCESS,
@@ -182,7 +205,7 @@ export function updateWriting (data) {
     requestUpdatingWriting,
     succeedRequestingUpdatingWriting,
     {
-      parameters: data,
+      params: data,
       method: 'PUT'
     }
   )
@@ -213,7 +236,7 @@ export function deleteWriting (id, authenticityToken) {
     requestDeletingWriting,
     succeedRequestingDeletingWriting,
     {
-      parameters: {
+      params: {
         authenticity_token: authenticityToken
       },
       method: 'DELETE'

@@ -9,16 +9,15 @@ import WritingItem from '../writings/WritingItem'
 
 class WritingPage extends Component {
   static defaultProps = {
-    writings: [],
-    categories: [],
-    newWriting: {}
+    writings: {},
+    categories: []
   }
 
   componentDidMount () {
 
   }
 
-  loadWritings (categoryId = undefined, options = undefined) {
+  loadWritings (categoryId = undefined, options = {}) {
     const { dispatch } = this.props
     dispatch(fetchWritings(categoryId, options))
   }
@@ -48,31 +47,33 @@ class WritingPage extends Component {
   }
 
   childrenProps (type) {
-    const { writings, selectedWriting, categories, id, categoryId } = this.props
+    const { writings, categories, params, query } = this.props
 
     switch (type) {
     case WritingList:
       return {
         onLoadWritings: this.loadWritings.bind(this),
-        writings,
-        categoryId
+        writings:       writings.list,
+        categoryId:     params.categoryId,
+        page:           query.page,
+        totalPage:      writings.totalPage
       }
 
     case WritingForm:
       return {
         onLoadWriting: this.loadWriting.bind(this),
         onSaveWriting: this.saveWriting.bind(this),
-        writing: selectedWriting,
+        writing: writings.selected,
+        id: params.id,
         categories,
-        id
       }
 
     case WritingItem:
       return {
         onLoadWriting: this.loadWriting.bind(this),
         onDeleteWriting: this.requestDeleteWriting.bind(this),
-        writing: selectedWriting,
-        id
+        writing: writings.selected,
+        id: params.id
       }
     }
   }
@@ -95,17 +96,17 @@ class WritingPage extends Component {
 
 function mapStateToProps (state, ownProps) {
   const { writings, categories, session } = state
+  const { params } = ownProps
+  const { query } = ownProps.location
 
   return {
-    writings:        writings.list,
-    selectedWriting: writings.selected,
-
+    writings: writings,
     categories: categories.list,
 
     authenticityToken: session.authenticityToken,
 
-    id: ownProps.params.id,
-    categoryId: ownProps.params.categoryId,
+    params: params,
+    query: query
   }
 }
 
