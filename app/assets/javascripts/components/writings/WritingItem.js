@@ -31,22 +31,11 @@ export default class WritingItem extends Component {
     }
   }
 
-  // componentDidMount () {
-  //   this.showDecodedContent()
-  // }
-
-  // componentDidUpdate () {
-  //   this.showDecodedContent()
-  // }
-
   showDecodedContent (props) {
     const { singleLine, writing } = props
 
     if(!singleLine && writing && writing.content) {
-      // const source = document.querySelector(`#writing-item-${writing.id} .writing-item__original-content`)
-      // const target = document.querySelector(`#writing-item-${writing.id} .writing-item__decoded-content`)
-      // hmd.run(source, target)
-      const element = document.createElement("div");
+      const element = document.createElement("div")
       element.innerHTML = writing.content
       this.setState({decodedContent: hmd.decode(element.innerText)})
     }
@@ -84,18 +73,15 @@ export default class WritingItem extends Component {
 
     return (
       <div className='writing-item__category'>
-        {(() => {
-          if (writing.parent_category_id && writing.parent_category_id != rootCategoryId) {
-            <Link to={this.getCategoryLink(writing.parent_category_id)}>
-              {writing.parent_category_name}
-            </Link>
-          }
-        })()}
-        {(() => {
-          if (writing.parent_category_id && writing.parent_category_id != rootCategoryId) {
-            '/'
-          }
-        })()}
+        {(writing.parent_category_id && writing.parent_category_id != rootCategoryId) && (
+          <Link to={this.getCategoryLink(writing.parent_category_id)}>
+            {writing.parent_category_name}
+          </Link>
+        )}
+
+        {(writing.parent_category_id && writing.parent_category_id != rootCategoryId) && (
+          '/'
+        )}
 
         <Link to={this.getCategoryLink(writing.category_id)}>
           {writing.category_name}
@@ -104,8 +90,14 @@ export default class WritingItem extends Component {
     )
   }
 
+  onClickDeleteButton (event) {
+    event.preventDefault()
+    const { onDeleteWriting, writing } = this.props
+    onDeleteWriting(writing.id)
+  }
+
   render () {
-    const { writing, singleLine, authenticityToken, className } = this.props;
+    const { writing, singleLine, className } = this.props;
 
     if(!writing || !writing.id) {
       return (
@@ -140,16 +132,11 @@ export default class WritingItem extends Component {
               Edit
             </Link>
 
-            <a>
+            <a className='button_container__delete-button'
+               href='#'
+               onClick={this.onClickDeleteButton.bind(this)}>
               Delete
             </a>
-
-            {/*<OneButtonForm formClassName='button-container__delete-form'
-                           buttonClassName='delete-form__button'
-                           authenticityToken={authenticityToken}
-                           action={`/writings/${writing.id}`}
-                           method='delete'
-                           label='Delete' />*/}
           </div>
         )}
 

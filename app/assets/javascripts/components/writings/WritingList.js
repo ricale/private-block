@@ -8,16 +8,20 @@ export default class WritingList extends Component {
   }
 
   componentDidMount () {
-    const { onLoadWritings } = this.props
-    onLoadWritings()
+    const { onLoadWritings, categoryId } = this.props
+    onLoadWritings(categoryId)
   }
 
   componentWillReceiveProps (nextProps) {
+    const { onLoadWritings, categoryId } = this.props
 
+    if(categoryId != nextProps.categoryId) {
+      onLoadWritings(nextProps.categoryId)
+    }
   }
 
   render () {
-    const { writings, authenticityToken } = this.props;
+    const { writings } = this.props;
 
     return (
       <div className='writing-list'>
@@ -25,7 +29,6 @@ export default class WritingList extends Component {
           <WritingItem key={`writing-item-${writing.id}`}
                        className='writing-list__writing-item'
                        writing={writing}
-                       authenticityToken={authenticityToken}
                        singleLine={true}/>
         )}
       </div>

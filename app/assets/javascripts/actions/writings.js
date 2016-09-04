@@ -13,7 +13,10 @@ import {
   CREATE_WRITING_FAILURE,
   UPDATE_WRITING_REQUEST,
   UPDATE_WRITING_SUCCESS,
-  UPDATE_WRITING_FAILURE
+  UPDATE_WRITING_FAILURE,
+  DELETE_WRITING_REQUEST,
+  DELETE_WRITING_SUCCESS,
+  DELETE_WRITING_FAILURE
 } from '../constants/ActionType'
 
 function fetchData (url, beforeCallback, successCallback, options = {}) {
@@ -65,9 +68,16 @@ function succeedRequestingWritings (data) {
   }
 }
 
-export function fetchWritings () {
+export function fetchWritings (categoryId = undefined, data = undefined) {
+  var url;
+  if(categoryId) {
+    url = `/categories/${categoryId}/writings.json`
+  } else {
+    url = '/writings.json'
+  }
+
   return fetchData(
-    '/writings.json',
+    url,
     requestWritings,
     succeedRequestingWritings
   )
@@ -154,7 +164,7 @@ function requestUpdatingWriting () {
 function succeedRequestingUpdatingWriting (data) {
   const { writing } = data
 
-  browserHistory.push(`/writings/${writing.id}`)
+  browserHistory.push(`/writings/${writing.id}.json`)
 
   return {
     type: UPDATE_WRITING_SUCCESS,
@@ -168,7 +178,7 @@ export function updateWriting (data) {
   const { writing } = data
 
   return fetchData(
-    `/writings/${writing.id}`,
+    `/writings/${writing.id}.json`,
     requestUpdatingWriting,
     succeedRequestingUpdatingWriting,
     {
@@ -177,3 +187,37 @@ export function updateWriting (data) {
     }
   )
 }
+
+function requestDeletingWriting () {
+  return {
+    type: DELETE_WRITING_REQUEST
+  }
+}
+
+function succeedRequestingDeletingWriting (data) {
+  const { writing } = data
+
+  browserHistory.push('/writings')
+
+  return {
+    type: DELETE_WRITING_SUCCESS,
+    writings: {
+      selected: undefined
+    }
+  }
+}
+
+export function deleteWriting (id, authenticityToken) {
+  return fetchData(
+    `/writings/${id}.json`,
+    requestDeletingWriting,
+    succeedRequestingDeletingWriting,
+    {
+      parameters: {
+        authenticity_token: authenticityToken
+      },
+      method: 'DELETE'
+    }
+  )
+}
+

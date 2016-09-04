@@ -85,7 +85,7 @@ class WritingsController < ApplicationController
     end
   rescue Exception => e
     if is_json_request
-      render json: {writing: @writing}
+      render nothing: true
     else
       redirect_to edit_writing_path(params[:id]), alert: e.to_s
     end
@@ -95,13 +95,17 @@ class WritingsController < ApplicationController
     @writing = Writing.find(params[:id])
     @writing.destroy
 
-    if request.xhr?
+    if is_json_request
       render json: {success: true}
     else
       redirect_to writings_path
     end
   rescue Exception => e
-    redirect_to short_writing_path(params[:id]), alert: e.to_s
+    if is_json_request
+      render nothing: true
+    else
+      redirect_to short_writing_path(params[:id]), alert: e.to_s
+    end
   end
 
   private

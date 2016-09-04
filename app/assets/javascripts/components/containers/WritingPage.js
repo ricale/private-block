@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
-import { fetchWritings, fetchWriting, createWriting, updateWriting } from '../../actions/writings'
+import { fetchWritings, fetchWriting, createWriting, updateWriting, deleteWriting } from '../../actions/writings'
 
 import WritingList from '../writings/WritingList'
 import WritingForm from '../writings/WritingForm'
@@ -18,9 +18,9 @@ class WritingPage extends Component {
 
   }
 
-  loadWritings () {
+  loadWritings (categoryId = undefined, options = undefined) {
     const { dispatch } = this.props
-    dispatch(fetchWritings())
+    dispatch(fetchWritings(categoryId, options))
   }
 
   loadWriting (id = undefined, options = {}) {
@@ -43,18 +43,19 @@ class WritingPage extends Component {
   }
 
   requestDeleteWriting (id) {
-    const { dispatch } = this.props
-    dispatch(deleteWriting(id))
+    const { dispatch, authenticityToken } = this.props
+    dispatch(deleteWriting(id, authenticityToken))
   }
 
   childrenProps (type) {
-    const { writings, selectedWriting, id, categories } = this.props
+    const { writings, selectedWriting, categories, id, categoryId } = this.props
 
     switch (type) {
     case WritingList:
       return {
         onLoadWritings: this.loadWritings.bind(this),
-        writings
+        writings,
+        categoryId
       }
 
     case WritingForm:
@@ -69,6 +70,7 @@ class WritingPage extends Component {
     case WritingItem:
       return {
         onLoadWriting: this.loadWriting.bind(this),
+        onDeleteWriting: this.requestDeleteWriting.bind(this),
         writing: selectedWriting,
         id
       }
@@ -98,11 +100,12 @@ function mapStateToProps (state, ownProps) {
     writings:        writings.list,
     selectedWriting: writings.selected,
 
-    id: ownProps.params.id,
-
     categories: categories.list,
 
-    authenticityToken: session.authenticityToken
+    authenticityToken: session.authenticityToken,
+
+    id: ownProps.params.id,
+    categoryId: ownProps.params.categoryId,
   }
 }
 

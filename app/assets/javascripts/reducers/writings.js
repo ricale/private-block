@@ -2,7 +2,8 @@ import {
   FETCH_WRITING_LIST_SUCCESS,
   FETCH_WRITING_SUCCESS,
   CREATE_WRITING_SUCCESS,
-  UPDATE_WRITING_SUCCESS
+  UPDATE_WRITING_SUCCESS,
+  DELETE_WRITING_SUCCESS
 } from '../constants/ActionType'
 
 const initWritingState = {
@@ -20,6 +21,7 @@ export function writings (state = initWritingState, action) {
   case FETCH_WRITING_SUCCESS:
   case CREATE_WRITING_SUCCESS:
   case UPDATE_WRITING_SUCCESS:
+  case DELETE_WRITING_SUCCESS:
     return Object.assign({}, state, {
       selected: action.writings.selected
     })

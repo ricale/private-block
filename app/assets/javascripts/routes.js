@@ -18,6 +18,9 @@ export default (
       <Route path="/writings/new"      component={WritingForm} />
       <Route path="/writings/:id"      component={WritingItem} />
       <Route path="/writings/:id/edit" component={WritingForm} />
+
+      <Route path="/categories/:categoryId/writings" component={WritingList} />
+
       <Route path="/:id"               component={WritingItem} />
     </Route>
     {/*<Route path="/categories"         component={CategoryList} />*/}
