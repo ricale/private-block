@@ -4,8 +4,7 @@ import { Link } from 'react-router'
 
 import Navigation from '../commons/Navigation'
 
-import { fetchSession } from '../../actions'
-import { fetchWritings } from '../../actions'
+import { fetchSession } from '../../actions/session'
 
 class App extends Component {
   componentDidMount () {
