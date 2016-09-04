@@ -40,7 +40,7 @@ class WritingsController < ApplicationController
     @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
 
     if request.env['CONTENT_TYPE'] = 'application/json'
-      render json: {newWriting: @writing, categories: @categories}
+      render json: {writing: @writing, categories: @categories}
     else
 
     end
@@ -49,6 +49,12 @@ class WritingsController < ApplicationController
   def edit
     @writing = Writing.find(params[:id])
     @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
+
+    if request.env['CONTENT_TYPE'] = 'application/json'
+      render json: {writing: @writing, categories: @categories}
+    else
+
+    end
   end
 
   def create

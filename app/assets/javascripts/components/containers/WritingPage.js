@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
-import { fetchWritings, fetchNewWriting, fetchWriting } from '../../actions/writings'
+import { fetchWritings, fetchWriting } from '../../actions/writings'
 
 import WritingList from '../writings/WritingList'
 import WritingForm from '../writings/WritingForm'
@@ -23,18 +23,13 @@ class WritingPage extends Component {
     dispatch(fetchWritings())
   }
 
-  loadNewWriting () {
+  loadWriting (id = undefined, options = {}) {
     const { dispatch } = this.props
-    dispatch(fetchNewWriting())
-  }
-
-  loadWriting (id) {
-    const { dispatch } = this.props
-    dispatch(fetchWriting(id))
+    dispatch(fetchWriting(id, options))
   }
 
   childrenProps (type) {
-    const { writings, newWriting, selectedWriting, id, categories } = this.props
+    const { writings, selectedWriting, id, categories } = this.props
 
     switch (type) {
     case WritingList:
@@ -45,16 +40,17 @@ class WritingPage extends Component {
 
     case WritingForm:
       return {
-        onLoadNewWriting: this.loadNewWriting.bind(this),
-        writing: newWriting,
-        categories
+        onLoadWriting: this.loadWriting.bind(this),
+        writing: selectedWriting,
+        categories,
+        id
       }
 
     case WritingItem:
       return {
         onLoadWriting: this.loadWriting.bind(this),
         writing: selectedWriting,
-        id: id
+        id
       }
     }
   }
@@ -80,7 +76,6 @@ function mapStateToProps (state, ownProps) {
 
   return {
     writings:        writings.list,
-    newWriting:      writings.new,
     selectedWriting: writings.selected,
 
     id: ownProps.params.id,

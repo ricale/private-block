@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 
-import RailsForm from '../commons/RailsForm'
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
 export default class WritingForm extends Component {
   static defaultProps = {
-    method: 'post'
+    method: 'post',
+    id: undefined
   }
 
   state = {
@@ -18,8 +18,8 @@ export default class WritingForm extends Component {
   }
 
   componentDidMount () {
-    const { onLoadNewWriting } = this.props
-    onLoadNewWriting()
+    const { onLoadWriting, id } = this.props
+    onLoadWriting(id, {withCategories: true})
   }
 
   onTitleChanged (event) {
@@ -51,17 +51,14 @@ export default class WritingForm extends Component {
     const { writing } = this.state
 
     return (
-      <RailsForm className='writing-form form-horizontal'
-                 action={action}
-                 method={method}
-                 authenticityToken={authenticityToken} >
+      <form className='writing-form form-horizontal'>
 
         <InputWithLabel id='writing_title'
                         name='writing[title]'
                         placeholder='Title'
                         labelText='Title'
                         value={writing.title}
-                        onChange={this.onTitleChanged} />
+                        onChange={this.onTitleChanged.bind(this)} />
 
         <InputWithLabel id='writing_category_id'
                         name='writing[category_id]'
@@ -70,20 +67,20 @@ export default class WritingForm extends Component {
                         elementType='select'
                         value={writing.category_id}
                         options={categories}
-                        onChange={this.onCategoryChanged} />
+                        onChange={this.onCategoryChanged.bind(this)} />
 
         <InputWithLabel id='writing_content'
                         name='writing[content]'
                         labelText='Content'
                         elementType='textarea'
                         value={writing.content}
-                        onChange={this.onContentChanged} />
+                        onChange={this.onContentChanged.bind(this)} />
 
         <ElementsWithLabel>
           <input id='submit' type='submit' value='submit' />
           <Link to={this.getCancelUrl()} id='cancel'>cancel</Link>
         </ElementsWithLabel>
-      </RailsForm>
+      </form>
     )
 
   }

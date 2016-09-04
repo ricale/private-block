@@ -4,9 +4,6 @@ import {
   FETCH_WRITING_LIST_REQUEST,
   FETCH_WRITING_LIST_SUCCESS,
   FETCH_WRITING_LIST_FAILURE,
-  FETCH_NEW_WRITING_REQUEST,
-  FETCH_NEW_WRITING_SUCCESS,
-  FETCH_NEW_WRITING_FAILURE,
   FETCH_WRITING_REQUEST,
   FETCH_WRITING_SUCCESS,
   FETCH_WRITING_FAILURE,
@@ -59,39 +56,6 @@ export function fetchWritings () {
   }
 }
 
-function requestNewWriting() {
-  return {
-    type: FETCH_NEW_WRITING_REQUEST
-  }
-}
-
-function succeedRequestingNewWriting (data) {
-  const { newWriting, categories } = data
-  return {
-    type: FETCH_NEW_WRITING_SUCCESS,
-    writings: {
-      new: newWriting,
-    },
-    categories: {
-      list: categories
-    }
-  }
-}
-
-export function fetchNewWriting () {
-  return dispatch => {
-    dispatch(requestNewWriting())
-
-    return (
-      fetch('/writings/new.json', {
-        credentials: 'same-origin',
-      }).
-      then(response => response.json()).
-      then(json => dispatch(succeedRequestingNewWriting(json)))
-    )
-  }
-}
-
 function requestWriting () {
   return {
     type: FETCH_WRITING_REQUEST
@@ -99,18 +63,35 @@ function requestWriting () {
 }
 
 function succeedRequestingWriting (data) {
-  const { writing } = data
-  return {
+  const { writing, categories } = data
+
+  var result = {
     type: FETCH_WRITING_SUCCESS,
     writings: {
       selected: writing
     }
   }
+
+  if(categories) {
+    result.categories = {
+      list: categories
+    }
+  }
+
+  return result
 }
 
-export function fetchWriting (id) {
+export function fetchWriting (id, options = {}) {
+  var url
+  if(id) {
+    url = options.withCategories ? `/writings/${id}/edit.json` : `/writings/${id}.json`
+
+  } else {
+    url = '/writings/new.json'
+  }
+
   return fetchData(
-    `/writings/${id}.json`,
+    url,
     requestWriting,
     succeedRequestingWriting
   )

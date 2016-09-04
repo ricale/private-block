@@ -82,19 +82,22 @@ export default class WritingItem extends Component {
           </div>
         )}
 
-        {/* 아래 if 문의 조건을 위한 별도의 값 필요. authenticityToken를 사용하는 것은 잘못되었다 */}
-        {authenticityToken && (
-          <div className='writing-item__button-container'>
-            <Link className='button-container__edit-button' to={`/writings/${writing.id}/edit`}>
+        {!singleLine && (
+          <div className='writing-item__buttons-container'>
+            <Link to={`/writings/${writing.id}/edit`} className='button-container__edit-button'>
               Edit
             </Link>
 
-            <OneButtonForm formClassName='button-container__delete-form'
+            <a>
+              Delete
+            </a>
+
+            {/*<OneButtonForm formClassName='button-container__delete-form'
                            buttonClassName='delete-form__button'
                            authenticityToken={authenticityToken}
                            action={`/writings/${writing.id}`}
                            method='delete'
-                           label='Delete' />
+                           label='Delete' />*/}
           </div>
         )}
 
