@@ -28,7 +28,7 @@ export default class WritingList extends Component {
   }
 
   render () {
-    const { writings, page, totalPage } = this.props;
+    const { writings, page, totalPage, query, pathname } = this.props;
 
     return (
       <div className='writing-list-container'>
@@ -42,7 +42,10 @@ export default class WritingList extends Component {
         </div>
 
         {totalPage && totalPage > 1 && (
-          <Pagination />
+          <Pagination current={page}
+                      total={totalPage}
+                      pathname={pathname}
+                      query={query} />
         )}
       </div>
     )
