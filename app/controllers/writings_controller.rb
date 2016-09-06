@@ -1,6 +1,8 @@
 class WritingsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
 
+  around_action :wrap_default_result_and_resque
+
   PER_PAGE = 20
 
   def index
@@ -33,18 +35,15 @@ class WritingsController < ApplicationController
         page:        current_page,
         total_page:  total_page_count
       }
-    else
-
     end
   end
 
   def show
     @writing = Writing.where(id: params[:id]).with_category.first
 
+    
     if is_json_request
       render json: {writing: @writing}
-    else
-
     end
   end
 
@@ -54,8 +53,6 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {writing: @writing, categories: @categories}
-    else
-
     end
   end
 
@@ -65,8 +62,6 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {writing: @writing, categories: @categories}
-    else
-
     end
   end
 
@@ -75,15 +70,6 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {writing: @writing}
-    else
-      redirect_to short_writing_path(@writing.id)
-    end
-
-  rescue Exception => e
-    if is_json_request
-      render nothing: true
-    else
-      redirect_to new_writing_path, alert: e.to_s
     end
   end
 
@@ -93,14 +79,6 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {writing: @writing}
-    else
-      redirect_to short_writing_path(params[:id])
-    end
-  rescue Exception => e
-    if is_json_request
-      render nothing: true
-    else
-      redirect_to edit_writing_path(params[:id]), alert: e.to_s
     end
   end
 
@@ -110,14 +88,17 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {success: true}
-    else
-      redirect_to writings_path
     end
+  end
+
+  protected
+
+  def wrap_default_result_and_resque
+    yield
+
   rescue Exception => e
     if is_json_request
-      render nothing: true
-    else
-      redirect_to short_writing_path(params[:id]), alert: e.to_s
+      render status: 400, json: {message: e.to_s}
     end
   end
 

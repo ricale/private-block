@@ -2,28 +2,18 @@ import fetch from 'isomorphic-fetch'
 import { browserHistory } from 'react-router';
 
 import {
-  FETCH_WRITING_LIST_REQUEST,
-  FETCH_WRITING_LIST_SUCCESS,
-  FETCH_WRITING_LIST_FAILURE,
-  FETCH_WRITING_REQUEST,
-  FETCH_WRITING_SUCCESS,
-  FETCH_WRITING_FAILURE,
-  CREATE_WRITING_REQUEST,
-  CREATE_WRITING_SUCCESS,
-  CREATE_WRITING_FAILURE,
-  UPDATE_WRITING_REQUEST,
-  UPDATE_WRITING_SUCCESS,
-  UPDATE_WRITING_FAILURE,
-  DELETE_WRITING_REQUEST,
-  DELETE_WRITING_SUCCESS,
-  DELETE_WRITING_FAILURE
+  FETCH_WRITING_LIST_REQUEST, FETCH_WRITING_LIST_SUCCESS, FETCH_WRITING_LIST_FAILURE,
+  FETCH_WRITING_REQUEST,      FETCH_WRITING_SUCCESS,      FETCH_WRITING_FAILURE,
+  CREATE_WRITING_REQUEST,     CREATE_WRITING_SUCCESS,     CREATE_WRITING_FAILURE,
+  UPDATE_WRITING_REQUEST,     UPDATE_WRITING_SUCCESS,     UPDATE_WRITING_FAILURE,
+  DELETE_WRITING_REQUEST,     DELETE_WRITING_SUCCESS,     DELETE_WRITING_FAILURE
 } from '../constants/ActionType'
 
 function serialize (object, prefix) {
   var strings = [];
 
   for(var key in object) {
-    if(object.hasOwnProperty(key)) {
+    if(object.hasOwnProperty(key) && object[key]) {
       strings.push(`${encodeURIComponent(key)}=${encodeURIComponent(object[key])}`)
     }
   }
@@ -31,7 +21,22 @@ function serialize (object, prefix) {
   return strings.join("&")
 }
 
-function fetchData (url, beforeCallback, successCallback, options = {}) {
+function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response
+
+  } else {
+    var error = new Error(response.statusText)
+    error.response = response
+    throw error
+  }
+}
+
+function parseJSON (response) {
+  return response.json()
+}
+
+function fetchData (url, beforeCallback, successCallback, failureCallback, options = {}) {
   const { params, method } = options
 
   var requestOptions = {
@@ -50,7 +55,10 @@ function fetchData (url, beforeCallback, successCallback, options = {}) {
     if(requestOptions.method && requestOptions.method != 'GET') {
       requestOptions.body = JSON.stringify(params)
     } else {
-      url += `?${serialize(params)}`
+      var serializedParams = serialize(params)
+      if(serializedParams.length > 0) {
+        url += `?${serializedParams}`
+      }
     }
   }
 
@@ -59,25 +67,41 @@ function fetchData (url, beforeCallback, successCallback, options = {}) {
 
     return (
       fetch(url, requestOptions).
-      then(response => response.json()).
-      then(json => dispatch(successCallback(json)))
+      then(checkStatus).
+      then(parseJSON).
+      then(json => dispatch(successCallback(json))).
+      catch(error => {
+        return error.response.json().
+                              then(json => dispatch(failureCallback(json.message)))
+      })
     )
   }
 }
 
-
-
-
-function requestWritings () {
-  return {
-    type: FETCH_WRITING_LIST_REQUEST
+function generateRequestCallback (type) {
+  return () => {
+    return {
+      type: type
+    }
   }
 }
 
+function generateFailureCallback (type) {
+  return (errorMessage) => {
+    return {
+      type: type,
+      message: {
+        type: 'error',
+        message: errorMessage
+      }
+    }
+  }
+}
+
+
+
 function succeedRequestingWritings (data) {
   const { writings, page, total_page } = data
-
-  console.log('data', data)
 
   return {
     type: FETCH_WRITING_LIST_SUCCESS,
@@ -99,17 +123,13 @@ export function fetchWritings (categoryId = undefined, data = {}) {
 
   return fetchData(
     url,
-    requestWritings,
-    succeedRequestingWritings, {
+    generateRequestCallback(FETCH_WRITING_LIST_REQUEST),
+    succeedRequestingWritings,
+    generateFailureCallback(FETCH_WRITING_LIST_FAILURE),
+    {
       params: data
     }
   )
-}
-
-function requestWriting () {
-  return {
-    type: FETCH_WRITING_REQUEST
-  }
 }
 
 function succeedRequestingWriting (data) {
@@ -142,15 +162,10 @@ export function fetchWriting (id, options = {}) {
 
   return fetchData(
     url,
-    requestWriting,
-    succeedRequestingWriting
+    generateRequestCallback(FETCH_WRITING_REQUEST),
+    succeedRequestingWriting,
+    generateFailureCallback(FETCH_WRITING_FAILURE)
   )
-}
-
-function requestCreatingWriting () {
-  return {
-    type: CREATE_WRITING_REQUEST
-  }
 }
 
 function succeedRequestingCreatingWriting (data) {
@@ -169,19 +184,14 @@ function succeedRequestingCreatingWriting (data) {
 export function createWriting (data) {
   return fetchData(
     '/writings',
-    requestCreatingWriting,
+    generateRequestCallback(CREATE_WRITING_REQUEST),
     succeedRequestingCreatingWriting,
+    generateFailureCallback(CREATE_WRITING_FAILURE),
     {
       params: data,
       method: 'POST'
     }
   )
-}
-
-function requestUpdatingWriting () {
-  return {
-    type: UPDATE_WRITING_REQUEST
-  }
 }
 
 function succeedRequestingUpdatingWriting (data) {
@@ -202,19 +212,14 @@ export function updateWriting (data) {
 
   return fetchData(
     `/writings/${writing.id}.json`,
-    requestUpdatingWriting,
+    generateRequestCallback(UPDATE_WRITING_REQUEST),
     succeedRequestingUpdatingWriting,
+    generateFailureCallback(UPDATE_WRITING_FAILURE),
     {
       params: data,
       method: 'PUT'
     }
   )
-}
-
-function requestDeletingWriting () {
-  return {
-    type: DELETE_WRITING_REQUEST
-  }
 }
 
 function succeedRequestingDeletingWriting (data) {
@@ -233,8 +238,9 @@ function succeedRequestingDeletingWriting (data) {
 export function deleteWriting (id, authenticityToken) {
   return fetchData(
     `/writings/${id}.json`,
-    requestDeletingWriting,
+    generateRequestCallback(DELETE_WRITING_REQUEST),
     succeedRequestingDeletingWriting,
+    generateFailureCallback(DELETE_WRITING_FAILURE),
     {
       params: {
         authenticity_token: authenticityToken
@@ -243,4 +249,3 @@ export function deleteWriting (id, authenticityToken) {
     }
   )
 }
-

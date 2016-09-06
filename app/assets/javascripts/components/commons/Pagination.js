@@ -61,8 +61,6 @@ export default class Pagination extends Component {
     const { current, total, windowCount } = this.props
     const { uriWithQuery } = this.state
 
-    console.log('current', current)
-
     var first = current - windowCount
     if(first < 1) {
       first = 1

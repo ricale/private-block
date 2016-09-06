@@ -22,7 +22,7 @@ export default class InputWithLabel extends Component {
       return <input {...attributes} type={typeAttribute} />
 
     case 'textarea':
-      return <textarea {...attributes} />
+      return <textarea {...attributes}></textarea>
 
     case 'select':
       return (

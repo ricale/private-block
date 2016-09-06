@@ -7,7 +7,11 @@ import ElementsWithLabel from '../commons/ElementsWithLabel'
 export default class WritingForm extends Component {
   static defaultProps = {
     method: 'post',
-    id: undefined
+    id: undefined,
+    writing: {
+      title: '',
+      content: ''
+    }
   }
 
   state = {
@@ -23,9 +27,13 @@ export default class WritingForm extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { writing } = nextProps
-    if(writing) {
-      this.setState({writing})
+    const { onLoadWriting, id, writing } = this.props
+
+    if(id != nextProps.id) {
+      onLoadWriting(nextProps.id, {withCategories: true})
+
+    } else if (writing && writing.id != nextProps.writing.id) {
+      this.setState({writing: nextProps.writing})
     }
   }
 
@@ -87,7 +95,7 @@ export default class WritingForm extends Component {
                         name='writing[content]'
                         labelText='Content'
                         elementType='textarea'
-                        value={writing.content}
+                        value={writing.content || ''}
                         onChange={this.onContentChanged.bind(this)} />
 
         <ElementsWithLabel>

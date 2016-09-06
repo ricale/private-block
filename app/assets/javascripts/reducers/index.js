@@ -4,11 +4,14 @@ import { combineReducers } from 'redux'
 import {session} from './session'
 import {writings} from './writings'
 import {categories} from './categories'
+import {messages} from './messages'
+
 
 const rootReducer = combineReducers({
   session,
   writings,
   categories,
+  messages,
   routing
 });
 

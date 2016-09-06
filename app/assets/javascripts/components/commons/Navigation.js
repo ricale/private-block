@@ -3,8 +3,6 @@ import { Link } from 'react-router'
 
 export default class Navigation extends Component {
   render () {
-    const { authenticityToken } = this.props
-
     return (
       <nav className='navigation'>
         <span className='navigation__item'><Link to='/users/sign_in'>Sign In</Link></span>
