@@ -55,7 +55,7 @@ class WritingPage extends Component {
         onLoadWritings: this.loadWritings.bind(this),
         writings:       writings.list,
         categoryId:     params.categoryId,
-        page:           parseInt(query.page, 10),
+        page:           parseInt(query.page, 10) || undefined,
         totalPage:      writings.totalPage,
         query:          query,
         pathname:       pathname
@@ -88,8 +88,12 @@ class WritingPage extends Component {
     )
 
     return (
-      <div className='writing-page'>
-        {childrenWithProps}
+      <div className='container'>
+        <div className='col-md-offset-1 col-md-10'>
+          <div className='writing-page'>
+            {childrenWithProps}
+          </div>
+        </div>
       </div>
     )
   }

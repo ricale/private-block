@@ -92,6 +92,7 @@ export default class WritingForm extends Component {
 
         <ElementsWithLabel>
           <input id='submit' type='submit' value='submit' />
+          {' '}
           <Link to={this.getCancelUrl()} id='cancel'>cancel</Link>
         </ElementsWithLabel>
       </form>

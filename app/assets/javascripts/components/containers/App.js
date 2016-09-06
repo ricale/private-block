@@ -15,8 +15,12 @@ class App extends Component {
   render () {
     return (
       <div>
-        <Navigation />
-        <h1>Home1</h1>
+        <div className='container'>
+          <div className='col-md-offset-1 col-md-10'>
+            <Navigation />
+            <h1><a href='/'>weblog ricale st.</a></h1>
+          </div>
+        </div>
         {this.props.children}
       </div>
     )

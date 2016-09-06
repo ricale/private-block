@@ -117,7 +117,7 @@ export default class Pagination extends Component {
 
   render () {
     return (
-      <div className='pagination'>
+      <nav className='pagination'>
         {this.renderFirstPage()}
 
         {this.renderFrontGap()}
@@ -127,7 +127,7 @@ export default class Pagination extends Component {
         {this.renderBehindGap()}
 
         {this.renderLastPage()}
-      </div>
+      </nav>
     )
   }
 }

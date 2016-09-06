@@ -132,6 +132,8 @@ export default class WritingItem extends Component {
               Edit
             </Link>
 
+            {' '}
+
             <a className='button_container__delete-button'
                href='#'
                onClick={this.onClickDeleteButton.bind(this)}>
