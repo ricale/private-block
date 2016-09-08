@@ -1,17 +1,41 @@
-import fetch from 'isomorphic-fetch'
+import { browserHistory } from 'react-router';
+
+import { fetchData } from '../fetchData'
 
 import {
   FETCH_SESSION_REQUEST,
   FETCH_SESSION_SUCCESS,
-  FETCH_SIGN_IN_REQUEST,
-  FETCH_SIGN_IN_SUCCESS
+  FETCH_SESSION_FAILURE,
+  CREATE_SESSION_REQUEST,
+  CREATE_SESSION_SUCCESS,
+  CREATE_SESSION_FAILURE,
+  DELETE_SESSION_SUCCESS,
+  DELETE_SESSION_REQUEST,
+  DELETE_SESSION_FAILURE
 } from '../constants/ActionType'
 
-function requestSession() {
-  return {
-    type: FETCH_SESSION_REQUEST
+function generateRequestCallback (type) {
+  return () => {
+    return {
+      type: type
+    }
   }
 }
+
+function generateFailureCallback (type) {
+  return (errorMessage) => {
+    return {
+      type: type,
+      message: {
+        type: 'error',
+        message: errorMessage
+      }
+    }
+  }
+}
+
+
+
 
 function succeedRequestingSession (data) {
   const { signed_in, user } = data
@@ -25,28 +49,19 @@ function succeedRequestingSession (data) {
 }
 
 export function fetchSession () {
-  return dispatch => {
-    dispatch(requestSession())
-
-    return (
-      fetch('/auth/is_signed_in.json', {
-        credentials: 'same-origin',
-      }).
-      then(response => response.json()).
-      then(json => dispatch(succeedRequestingSession(json)))
-    )
-  }
-}
-
-function requestSignIn() {
-  return {
-    type: FETCH_SIGN_IN_REQUEST
-  }
+  return fetchData(
+    '/auth/is_signed_in.json',
+    generateRequestCallback(FETCH_SESSION_REQUEST),
+    succeedRequestingSession,
+    generateFailureCallback(FETCH_SESSION_FAILURE)
+  )
 }
 
 function succeedRequestingSignIn (data) {
+  browserHistory.push(`/`)
+
   return {
-    type: FETCH_SIGN_IN_SUCCESS,
+    type: CREATE_SESSION_SUCCESS,
     session: {
       valid: true,
       user:  data
@@ -63,21 +78,43 @@ export function signIn (email, password, authenticityToken) {
     authenticity_token: authenticityToken
   }
 
-  return dispatch => {
-    dispatch(requestSignIn())
+  return fetchData(
+    '/users/sign_in.json',
+    generateRequestCallback(CREATE_SESSION_REQUEST),
+    succeedRequestingSignIn,
+    generateFailureCallback(CREATE_SESSION_FAILURE),
+    {
+      method: 'POST',
+      params,
+    }
+  )
+}
 
-    return (
-      fetch('/users/sign_in.json', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-      }).
-      then(response => response.json()).
-      then(json => dispatch(succeedRequestingSignIn(json)))
-    )
+function succeedRequestingSignOut (data) {
+  browserHistory.push(`/`)
+
+  return {
+    type: DELETE_SESSION_SUCCESS,
+    session: {
+      valid: false,
+      user:  {}
+    }
   }
+}
+
+export function signOut (authenticityToken) {
+  const params = {
+    authenticity_token: authenticityToken
+  }
+
+  return fetchData(
+    '/users/sign_out.json',
+    generateRequestCallback(DELETE_SESSION_REQUEST),
+    succeedRequestingSignOut,
+    generateFailureCallback(DELETE_SESSION_FAILURE),
+    {
+      method: 'DELETE',
+      params,
+    }
+  )
 }

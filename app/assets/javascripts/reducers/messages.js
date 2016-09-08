@@ -3,7 +3,9 @@ import {
   FETCH_WRITING_FAILURE,
   CREATE_WRITING_FAILURE,
   UPDATE_WRITING_FAILURE,
-  DELETE_WRITING_FAILURE
+  DELETE_WRITING_FAILURE,
+  CREATE_SESSION_FAILURE,
+  DELETE_SESSION_FAILURE
 } from '../constants/ActionType'
 
 export function messages (state = [], action) {
@@ -15,6 +17,8 @@ export function messages (state = [], action) {
   case CREATE_WRITING_FAILURE:
   case UPDATE_WRITING_FAILURE:
   case DELETE_WRITING_FAILURE:
+  case CREATE_SESSION_FAILURE:
+  case DELETE_SESSION_FAILURE:
     var newState = Object.assign([], state)
     newState.push(message)
     return newState

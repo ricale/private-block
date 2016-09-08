@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
-import { signIn } from '../../actions'
-
-class SignInForm extends Component {
+export default class SignInForm extends Component {
   state = {
     user: {
       email: '',
@@ -23,12 +20,11 @@ class SignInForm extends Component {
   }
 
   onSubmit (event) {
-    event.preventDefault()
-
-    const { dispatch, session } = this.props
+    const { onLogin } = this.props
     const { email, password } = this.state
 
-    dispatch(signIn(email, password, session.authenticityToken))
+    event.preventDefault()
+    onLogin(email, password)
   }
 
   render () {
@@ -57,9 +53,3 @@ class SignInForm extends Component {
     )
   }
 }
-
-function mapStateToProps (state, ownProps) {
-  return state
-}
-
-export default connect(mapStateToProps)(SignInForm)

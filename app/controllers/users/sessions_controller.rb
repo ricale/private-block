@@ -1,4 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
+  respond_to :json
   # before_filter :configure_sign_in_params, only: [:create]
   # skip_before_filter :require_no_authentication, only: :create
 
@@ -7,20 +8,37 @@ class Users::SessionsController < Devise::SessionsController
     self.resource = resource_class.new(sign_in_params)
     clean_up_passwords(resource)
 
+    # if flash[:error].blank?
+    #   render json: {success: true}
+    # else
+    if is_json_request
+      if !flash[:alert].blank?
+        render status: 401, json: {message: flash[:alert]}
+      else
+      end
+
+    else
+      render 'commons/root'
+    end
+    
+    # end
   end
 
   # POST /resource/sign_in
   def create
     self.resource = warden.authenticate!(auth_options)
-    set_flash_message!(:notice, :signed_in)
+    return invalid_login_attempt unless resource
+    # set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, resource)
     render json: {user: current_user}
   end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+    # set_flash_message! :notice, :signed_out if signed_out
+    render json: {success: true}
+  end
 
   protected
 
@@ -45,6 +63,11 @@ class Users::SessionsController < Devise::SessionsController
       else
       end
     end
+  end
+
+  def invalid_login_attempt
+    warden.custom_failure!
+    render :json=> {:success=>false, :message=>"Error with your login or password"}, :status=>401
   end
 
   # If you have extra params to permit, append them to the sanitizer.

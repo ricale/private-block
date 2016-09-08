@@ -26,7 +26,7 @@ module PrivateBlock
     config.browserify_rails.commandline_options = '-t babelify'
 
     config.to_prepare do
-      DeviseController.respond_to :html, :json
+      DeviseController.respond_to :json
     end
   end
 end

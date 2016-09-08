@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 import Navigation from '../commons/Navigation'
 import Messages from '../commons/Messages'
 
-import { fetchSession } from '../../actions/session'
+import { fetchSession, signOut } from '../../actions/session'
 
 class App extends Component {
   componentDidMount () {
@@ -13,15 +13,24 @@ class App extends Component {
     dispatch(fetchSession())
   }
 
+  onClickSignOut (event) {
+    event.preventDefault()
+
+    const { dispatch, session } = this.props
+
+    dispatch(signOut(session.authenticityToken))
+  }
+
   render () {
-    const { messages, children } = this.props
+    const { messages, children, session } = this.props
     return (
       <div>
         <div className='container'>
           <div className='col-md-offset-1 col-md-10'>
-            <Navigation />
+            <Navigation loggedInNow={session.valid}
+                        onClickSignOut={this.onClickSignOut.bind(this)}/>
             <Messages messages={messages}/>
-            <h1><a href='/'>weblog ricale st.</a></h1>
+            <h1><Link to='/'>weblog ricale st.</Link></h1>
           </div>
         </div>
         {children}

@@ -8,8 +8,13 @@ import routes from '../../routes'
 
 export default class Root extends Component {
   render() {
-    const { authenticityToken } = this.props
-    const store = configureStore({session: {authenticityToken}})
+    const { authenticityToken, valid } = this.props
+    const store = configureStore({
+      session: {
+        authenticityToken,
+        valid
+      }
+    })
     const history = syncHistoryWithStore(browserHistory, store)
 
     return (

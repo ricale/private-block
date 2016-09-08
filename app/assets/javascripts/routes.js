@@ -2,7 +2,11 @@ import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 
 import App from './components/containers/App'
+import Introduction from './components/Introduction'
+
+import SessionPage from './components/containers/SessionPage'
 import SignInForm from './components/users/SignInForm'
+
 import WritingPage from './components/containers/WritingPage'
 import WritingList from './components/writings/WritingList'
 import WritingForm from './components/writings/WritingForm'
@@ -12,7 +16,12 @@ import WritingItem from './components/writings/WritingItem'
 
 export default (
   <Route path="/" component={App}>
-    <Route path="/users/sign_in" component={SignInForm} />
+    <IndexRoute component={Introduction} />
+
+    <Route path="/users/sign_in" component={SessionPage}>
+      <IndexRoute component={SignInForm} />
+    </Route>
+
     <Route path="/writings"      component={WritingPage}>
       <IndexRoute component={WritingList} />
       <Route path="/writings/new"      component={WritingForm} />

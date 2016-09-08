@@ -1,6 +1,13 @@
 .navigation {
-  .navigation__item {
+  .navigation__item,
+  .navigation__item_hide {
     display: inline-block;
     padding: 2px 4px;
+  }
+
+  .navigation__item_hide {
+    a {
+      color: #FFF;
+    }
   }
 }

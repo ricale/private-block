@@ -35,6 +35,9 @@ class WritingsController < ApplicationController
         page:        current_page,
         total_page:  total_page_count
       }
+
+    else
+      render 'commons/root'
     end
   end
 
@@ -44,6 +47,8 @@ class WritingsController < ApplicationController
     
     if is_json_request
       render json: {writing: @writing}
+    else
+      render 'commons/root'
     end
   end
 
@@ -53,6 +58,8 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {writing: @writing, categories: @categories}
+    else
+      render 'commons/root'
     end
   end
 
@@ -62,6 +69,8 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {writing: @writing, categories: @categories}
+    else
+      render 'commons/root'
     end
   end
 
@@ -70,6 +79,8 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {writing: @writing}
+    else
+      render 'commons/root'
     end
   end
 
@@ -79,6 +90,8 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {writing: @writing}
+    else
+      render 'commons/root'
     end
   end
 
@@ -88,6 +101,8 @@ class WritingsController < ApplicationController
 
     if is_json_request
       render json: {success: true}
+    else
+      render 'commons/root'
     end
   end
 
