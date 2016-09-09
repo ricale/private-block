@@ -97,7 +97,7 @@ export default class WritingItem extends Component {
   }
 
   render () {
-    const { writing, singleLine, className } = this.props;
+    const { writing, singleLine, className, loggedInNow } = this.props;
 
     if(!writing || !writing.id) {
       return (
@@ -109,38 +109,40 @@ export default class WritingItem extends Component {
       <div className={`writing-item${this.getCssModifier()} ${className}`}
            id={`writing-item-${writing.id}`}>
 
-        {this.renderCategoryName()}
+        <div className='writing-item__header'>
+          {this.renderCategoryName()}
 
-        <div className='writing-item__title'>
-          <Link to={`/${writing.id}`}>{writing.title}</Link>
-        </div>
-
-        {/* 시간을 표시하는 엘리먼트를 getFormattedDate 메서드와 묶어서 하나의 컴포넌트로 만들자 */}
-        <div className='writing-item__created-at'>
-          {this.getFormattedDate(writing.created_at)}
-        </div>
-
-        {!singleLine && (
-          <div className='writing-item__updated-at'>
-            {this.getFormattedDate(writing.updated_at)}
+          <div className='writing-item__title'>
+            <Link to={`/${writing.id}`}>{writing.title}</Link>
           </div>
-        )}
 
-        {!singleLine && (
-          <div className='writing-item__buttons-container'>
-            <Link to={`/writings/${writing.id}/edit`} className='button-container__edit-button'>
-              Edit
-            </Link>
-
-            {' '}
-
-            <a className='button_container__delete-button'
-               href='#'
-               onClick={this.onClickDeleteButton.bind(this)}>
-              Delete
-            </a>
+          {/* 시간을 표시하는 엘리먼트를 getFormattedDate 메서드와 묶어서 하나의 컴포넌트로 만들자 */}
+          <div className='writing-item__created-at'>
+            {this.getFormattedDate(writing.created_at)}
           </div>
-        )}
+
+          {!singleLine && (
+            <div className='writing-item__updated-at'>
+              ({this.getFormattedDate(writing.updated_at)})
+            </div>
+          )}
+
+          {!singleLine && loggedInNow && (
+            <div className='writing-item__buttons-container'>
+              <Link to={`/writings/${writing.id}/edit`} className='button-container__edit-button'>
+                Edit
+              </Link>
+
+              {' '}
+
+              <a className='button_container__delete-button'
+                 href='#'
+                 onClick={this.onClickDeleteButton.bind(this)}>
+                Delete
+              </a>
+            </div>
+          )}
+        </div>
 
         {!singleLine && (
           <div className='writing-item__content'>

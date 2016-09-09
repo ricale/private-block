@@ -42,7 +42,8 @@ export default class WritingList extends Component {
         </div>
 
         {totalPage && totalPage > 1 && (
-          <Pagination current={page}
+          <Pagination classModName='writing'
+                      current={page}
                       total={totalPage}
                       pathname={pathname}
                       query={query} />

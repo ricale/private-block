@@ -114,8 +114,13 @@ export default class Pagination extends Component {
   }
 
   render () {
+    const { classModName } = this.props
+
+    var classModifier = classModName ? `_${classModName}` : ''
+    var className = `pagination${classModifier}`
+
     return (
-      <nav className='pagination'>
+      <nav className={className}>
         {this.renderFirstPage()}
 
         {this.renderFrontGap()}

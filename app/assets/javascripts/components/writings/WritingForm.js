@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+import { browserHistory } from 'react-router';
 
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
@@ -21,9 +22,17 @@ export default class WritingForm extends Component {
     }
   }
 
+  componentWillMount () {
+    this.redirectToSignInPageIfNeeded()
+  }
+
   componentDidMount () {
     const { onLoadWriting, id } = this.props
     onLoadWriting(id, {withCategories: true})
+  }
+
+  componentWillUpdate () {
+    this.redirectToSignInPageIfNeeded()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -34,6 +43,12 @@ export default class WritingForm extends Component {
 
     } else if (writing && writing.id != nextProps.writing.id) {
       this.setState({writing: nextProps.writing})
+    }
+  }
+
+  redirectToSignInPageIfNeeded () {
+    if(!this.props.session.valid) {
+      browserHistory.push('/users/sign_in')
     }
   }
 

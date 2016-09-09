@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 
-import Navigation from '../commons/Navigation'
-import Messages from '../commons/Messages'
+import Header from '../commons/Header'
+import Footer from '../commons/Footer'
 
 import { fetchSession, signOut } from '../../actions/session'
 
@@ -22,18 +21,27 @@ class App extends Component {
   }
 
   render () {
-    const { messages, children, session } = this.props
+    const { children, messages, session } = this.props
     return (
       <div>
         <div className='container'>
           <div className='col-md-offset-1 col-md-10'>
-            <Navigation loggedInNow={session.valid}
-                        onClickSignOut={this.onClickSignOut.bind(this)}/>
-            <Messages messages={messages}/>
-            <h1><Link to='/'>weblog ricale st.</Link></h1>
+            <Header className='weblog-header'
+                    messages={messages}
+                    session={session}
+                    onClickSignOut={this.onClickSignOut.bind(this)} /> 
           </div>
         </div>
-        {children}
+
+        <div className='weblog-body'>
+          {children}
+        </div>
+
+        <div className='container'>
+          <div className='col-md-offset-1 col-md-10'>
+            <Footer className='weblog-footer' />
+          </div>
+        </div>
       </div>
     )
   }

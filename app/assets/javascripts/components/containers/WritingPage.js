@@ -28,10 +28,10 @@ class WritingPage extends Component {
   }
 
   saveWriting (writing) {
-    const { dispatch, authenticityToken } = this.props
+    const { dispatch, session } = this.props
     const data = {
       writing,
-      authenticity_token: authenticityToken
+      authenticity_token: session.authenticityToken
     }
 
     if(writing.id) {
@@ -42,12 +42,12 @@ class WritingPage extends Component {
   }
 
   requestDeleteWriting (id) {
-    const { dispatch, authenticityToken } = this.props
-    dispatch(deleteWriting(id, authenticityToken))
+    const { dispatch, session } = this.props
+    dispatch(deleteWriting(id, session.authenticityToken))
   }
 
   childrenProps (type) {
-    const { writings, categories, params, query, pathname } = this.props
+    const { writings, categories, params, query, pathname, session } = this.props
 
     switch (type) {
     case WritingList:
@@ -68,6 +68,7 @@ class WritingPage extends Component {
         writing: writings.selected,
         id: params.id,
         categories,
+        session
       }
 
     case WritingItem:
@@ -75,7 +76,8 @@ class WritingPage extends Component {
         onLoadWriting: this.loadWriting.bind(this),
         onDeleteWriting: this.requestDeleteWriting.bind(this),
         writing: writings.selected,
-        id: params.id
+        id: params.id,
+        loggedInNow: session.valid
       }
     }
   }
@@ -109,7 +111,7 @@ function mapStateToProps (state, ownProps) {
     writings: writings,
     categories: categories.list,
 
-    authenticityToken: session.authenticityToken,
+    session: session,
 
     params: params,
     query: query,

@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 
 import App from './components/containers/App'
-import Introduction from './components/Introduction'
+import Introduction from './components/commons/Introduction'
 
 import SessionPage from './components/containers/SessionPage'
 import SignInForm from './components/users/SignInForm'
