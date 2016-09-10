@@ -11,6 +11,7 @@ export default class WritingForm extends Component {
     id: undefined,
     writing: {
       title: '',
+      category_id: 1,
       content: ''
     }
   }
@@ -18,6 +19,7 @@ export default class WritingForm extends Component {
   state = {
     writing: this.props.writing || {
       title: '',
+      category_id: 1,
       content: ''
     }
   }
@@ -58,7 +60,7 @@ export default class WritingForm extends Component {
   }
 
   onCategoryChanged (event) {
-    this.state.writing.category_id = event.target.category_id
+    this.state.writing.category_id = event.target.value
     this.forceUpdate()
   }
 

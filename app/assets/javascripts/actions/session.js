@@ -64,7 +64,8 @@ function succeedRequestingSignIn (data) {
     type: CREATE_SESSION_SUCCESS,
     session: {
       valid: true,
-      user:  data
+      user:  data.user,
+      authenticityToken: data.authenticity_token
     }
   }
 }
@@ -97,7 +98,8 @@ function succeedRequestingSignOut (data) {
     type: DELETE_SESSION_SUCCESS,
     session: {
       valid: false,
-      user:  {}
+      user:  {},
+      authenticityToken: data.authenticity_token
     }
   }
 }

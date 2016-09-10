@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//  require turbolinks
 //= require react_ujs
 //= require hmd
 //= require components
