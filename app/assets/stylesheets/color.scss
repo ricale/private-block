@@ -9,14 +9,14 @@ body {
 
 .header   { color: #666; }
 .header a { color: #666; }
-.header { border-bottom: 1px solid #666; }
+.header { border-bottom-color: #666; }
 
 .navigation            a { color: #666; }
 .navigation__item_hide a { color: #FFF; }
 
 .footer   { color: #666; }
 .footer a { color: #666; }
-.footer { border-top: 1px solid #666; }
+.footer { border-top-color: #666; }
 
 
 .writing-item {
@@ -27,10 +27,11 @@ body {
   .writing-item__updated-at           { color: #666; }
   .writing-item__buttons-container a  { color: #666; }
 
-  .writing-item__header { border-bottom: 1px solid #F3F3F3; }
+  .writing-item__header     { border-bottom-color: #F3F3F3; }
+  .writing-item__sns-plugin { border-top-color: #AAA; }
 }
 
-.writing-item_single-line { border-bottom: 1px solid #F3F3F3; }
+.writing-item_single-line { border-bottom-color: #F3F3F3; }
 .writing-item_single-line a { color: #666; }
 
 .pagination_writing   { color: #666; }

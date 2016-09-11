@@ -5,7 +5,7 @@ export default class FacebookComments extends Component {
     const { href } = this.props
 
     return (
-      <div className='fb-comments' data-width='100%' data-href={href} data-numposts="5"></div>
+      <div className="fb-like" data-href={href} data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
     )
   }
 }

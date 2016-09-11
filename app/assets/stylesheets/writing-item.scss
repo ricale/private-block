@@ -1,4 +1,9 @@
 .writing-item {
+  .writing-item__header {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+
   .writing-item__title {
     font-size: 2.0em;
   }
@@ -32,11 +37,20 @@
   .writing-item__decoded-content {
     padding: 10px;
   }
+
+  .writing-item__sns-plugin {
+    margin-top: 40px;
+    border-top-width: 1px;
+    border-top-style: dashed;
+    padding-top: 20px;
+  }
 }
 
 .writing-item_single-line {
   margin: 10px 10px 5px 10px;
   padding-bottom: 5px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 
   .writing-item__category {
     display: inline-block;

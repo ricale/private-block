@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 
 import DateAndTime from '../commons/DateAndTime'
+import FacebookLikeButton from '../sns/FacebookLikeButton'
 import FacebookComments from '../sns/FacebookComments'
+
+import { initFacebookPlugin } from '../../initFacebookPlugin'
 
 
 export default class WritingItem extends Component {
@@ -27,10 +30,23 @@ export default class WritingItem extends Component {
   componentWillReceiveProps (nextProps) {
     const { onLoadWriting, id } = this.props
 
-    if(id && id != nextProps.id) {
+    if(id && id !== nextProps.id) {
       onLoadWriting(id)
     } else {
       this.showDecodedContent(nextProps)
+    }
+  }
+
+  componentDidMount () {
+    this.state.willInitFbPlugin = this.props.id
+  }
+
+  componentDidUpdate (prevProps) {
+    const { id } = this.props
+
+    if(this.state.willInitFbPlugin || (id && id !== prevProps.id)) {
+      this.state.willInitFbPlugin = false
+      initFacebookPlugin(this.getPath())
     }
   }
 
@@ -44,25 +60,13 @@ export default class WritingItem extends Component {
     }
   }
 
-  getCssModifier () {
-    return this.props.singleLine ? '_single-line' : ''
+  getPath () {
+    const { id, writing } = this.props
+    return `/${id || writing.id}`
   }
 
-  getFormattedDate (dateString) {
-    var d = new Date(dateString)
-
-    var year    = d.getFullYear()
-    var month   = (d.getMonth() + 1)
-    var date    = d.getDate()
-    var hours   = d.getHours()
-    var minutes = d.getMinutes()
-
-    if (month   < 10) month   = '0' + month
-    if (date    < 10) date    = '0' + date
-    if (hours   < 10) hours   = '0' + hours
-    if (minutes < 10) minutes = '0' + minutes
-
-    return year+'.'+month+'.'+date+' '+hours+':'+minutes
+  getCssModifier () {
+    return this.props.singleLine ? '_single-line' : ''
   }
 
   getCategoryLink (id) {
@@ -120,7 +124,7 @@ export default class WritingItem extends Component {
           {this.renderCategoryName()}
 
           <div className='writing-item__title'>
-            <Link to={`/${writing.id}`}>{writing.title}</Link>
+            <Link to={this.getPath()}>{writing.title}</Link>
           </div>
 
           <DateAndTime className='writing-item__created-at' datetimeString={writing.created_at} />
@@ -154,7 +158,10 @@ export default class WritingItem extends Component {
         )}
 
         {!singleLine &&
-          <FacebookComments href={`http://weblog.ricaest.net/${writing.id}`} />
+          <div className='writing-item__sns-plugin'>
+            <FacebookLikeButton href={`http://weblog.ricaest.net/${writing.id}`} />
+            <FacebookComments href={`http://weblog.ricaest.net/${writing.id}`} />
+          </div>
         }
       </div>
     )
