@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 
 import DateAndTime from '../commons/DateAndTime'
+import FacebookComments from '../sns/FacebookComments'
 
 
 export default class WritingItem extends Component {
@@ -151,6 +152,10 @@ export default class WritingItem extends Component {
             {/*<textarea className='writing-item__original-content' defaultValue={writing.content} />*/}
           </div>
         )}
+
+        {!singleLine &&
+          <FacebookComments href={`http://weblog.ricaest.net/${writing.id}`} />
+        }
       </div>
     )
   }
