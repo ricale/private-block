@@ -5,6 +5,8 @@ import { signIn } from '../../actions/session'
 
 import SignInForm from '../users/SignInForm'
 
+import { CONTAINER_CLASS } from '../../constants/commons'
+
 class SessionPage extends Component {
   static defaultProps = {
     session: {
@@ -44,7 +46,7 @@ class SessionPage extends Component {
 
     return (
       <div className='container'>
-        <div className='col-md-offset-1 col-md-10'>
+        <div className={CONTAINER_CLASS}>
           <div className='writing-page'>
             {childrenWithProps}
           </div>

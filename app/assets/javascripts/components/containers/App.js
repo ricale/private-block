@@ -6,6 +6,8 @@ import Footer from '../commons/Footer'
 
 import { fetchSession, signOut } from '../../actions/session'
 
+import { CONTAINER_CLASS } from '../../constants/commons'
+
 class App extends Component {
   componentDidMount () {
     const { dispatch } = this.props
@@ -25,7 +27,7 @@ class App extends Component {
     return (
       <div>
         <div className='container'>
-          <div className='col-md-offset-1 col-md-10'>
+          <div className={CONTAINER_CLASS}>
             <Header className='weblog-header'
                     messages={messages}
                     session={session}
@@ -38,7 +40,7 @@ class App extends Component {
         </div>
 
         <div className='container'>
-          <div className='col-md-offset-1 col-md-10'>
+          <div className={CONTAINER_CLASS}>
             <Footer className='weblog-footer' />
           </div>
         </div>

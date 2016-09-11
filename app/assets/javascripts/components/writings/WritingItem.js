@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 
+import DateAndTime from '../commons/DateAndTime'
+
 
 export default class WritingItem extends Component {
   static defaultProps = {
@@ -73,19 +75,23 @@ export default class WritingItem extends Component {
 
     return (
       <div className='writing-item__category'>
-        {(writing.parent_category_id && writing.parent_category_id != rootCategoryId) && (
-          <Link to={this.getCategoryLink(writing.parent_category_id)}>
-            {writing.parent_category_name}
+        <span className='writing-item__parent-category'>
+          {(writing.parent_category_id && writing.parent_category_id != rootCategoryId) && (
+            <Link to={this.getCategoryLink(writing.parent_category_id)}>
+              {writing.parent_category_name}
+            </Link>
+          )}
+
+          {(writing.parent_category_id && writing.parent_category_id != rootCategoryId) && (
+            '/'
+          )}
+        </span>
+
+        <span className='writing-item__current-category'>
+          <Link to={this.getCategoryLink(writing.category_id)}>
+            {writing.category_name}
           </Link>
-        )}
-
-        {(writing.parent_category_id && writing.parent_category_id != rootCategoryId) && (
-          '/'
-        )}
-
-        <Link to={this.getCategoryLink(writing.category_id)}>
-          {writing.category_name}
-        </Link>
+        </span>
       </div>
     )
   }
@@ -116,16 +122,11 @@ export default class WritingItem extends Component {
             <Link to={`/${writing.id}`}>{writing.title}</Link>
           </div>
 
-          {/* 시간을 표시하는 엘리먼트를 getFormattedDate 메서드와 묶어서 하나의 컴포넌트로 만들자 */}
-          <div className='writing-item__created-at'>
-            {this.getFormattedDate(writing.created_at)}
-          </div>
+          <DateAndTime className='writing-item__created-at' datetimeString={writing.created_at} />
 
-          {!singleLine && (
-            <div className='writing-item__updated-at'>
-              ({this.getFormattedDate(writing.updated_at)})
-            </div>
-          )}
+          {!singleLine && 
+            <DateAndTime className='writing-item__updated-at' datetimeString={writing.updated_at} withParentheses={true} />
+          }
 
           {!singleLine && loggedInNow && (
             <div className='writing-item__buttons-container'>

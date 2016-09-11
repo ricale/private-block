@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 
+import { CONTAINER_CLASS } from '../../constants/commons'
+
 export default class Introduction extends Component {
   render () {
     const githubUrl = 'https://github.com/ricale/private-block'
     const trackerUrl = 'https://www.pivotaltracker.com/n/projects/1777827'
     return (
       <div className='container'>
-        <div className='col-md-offset-1 col-md-10'>
+        <div className={CONTAINER_CLASS}>
           <h3>Introduction</h3>
           <ul>
             <li>개인 블로그. 직접 구현 및 관리 중.</li>

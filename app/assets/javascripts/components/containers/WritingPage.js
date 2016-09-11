@@ -7,6 +7,8 @@ import WritingList from '../writings/WritingList'
 import WritingForm from '../writings/WritingForm'
 import WritingItem from '../writings/WritingItem'
 
+import { CONTAINER_CLASS } from '../../constants/commons'
+
 class WritingPage extends Component {
   static defaultProps = {
     writings: {},
@@ -91,7 +93,7 @@ class WritingPage extends Component {
 
     return (
       <div className='container'>
-        <div className='col-md-offset-1 col-md-10'>
+        <div className={CONTAINER_CLASS}>
           <div className='writing-page'>
             {childrenWithProps}
           </div>
