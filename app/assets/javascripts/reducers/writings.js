@@ -17,6 +17,7 @@ export function writings (state = initWritingState, action) {
     const { list, page, totalPage } = action.writings
     return Object.assign({}, state, {
       list: action.writings.list,
+      selected: undefined,
       page,
       totalPage
     })

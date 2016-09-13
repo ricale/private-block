@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-
 import { connect } from 'react-redux'
+import Helmet from 'react-helmet'
+
 import { fetchWritings, fetchWriting, createWriting, updateWriting, deleteWriting } from '../../actions/writings'
 
 import WritingList from '../writings/WritingList'
@@ -84,6 +85,31 @@ class WritingPage extends Component {
     }
   }
 
+  renderHelmet () {
+    const { writings, pathname } = this.props
+
+    let title;
+    if(writings.selected) {
+      title = writings.selected.title
+    } else {
+      title = undefined
+    }
+
+    const type = 'article'
+    const url = window.location.href
+
+    return (
+       <Helmet title={title}
+                titleTemplate='%s :: weblog ricale st.'
+                defaultTitle='weblog ricale st.'
+                meta={[
+                  {"name": "og:title", "content": title},
+                  {"name": "og:type",  "content": type},
+                  {"name": "og:url",   "content": url}
+                ]} />
+    )
+  }
+
   render () {
     const { children } = this.props
 
@@ -93,6 +119,7 @@ class WritingPage extends Component {
 
     return (
       <div className='container'>
+        {this.renderHelmet()}
         <div className={CONTAINER_CLASS}>
           <div className='writing-page'>
             {childrenWithProps}
