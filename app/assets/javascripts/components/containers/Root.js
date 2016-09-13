@@ -8,11 +8,12 @@ import routes from '../../routes'
 
 export default class Root extends Component {
   render() {
-    const { authenticityToken, valid } = this.props
+    const { authenticityToken, valid, ogImageUrl } = this.props
     const store = configureStore({
       session: {
         authenticityToken,
-        valid
+        valid,
+        ogImageUrl
       }
     })
     const history = syncHistoryWithStore(browserHistory, store)

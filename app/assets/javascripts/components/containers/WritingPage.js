@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Helmet from 'react-helmet'
 
 import { fetchWritings, fetchWriting, createWriting, updateWriting, deleteWriting } from '../../actions/writings'
 
+import MyHelmet from '../commons/MyHelmet'
 import WritingList from '../writings/WritingList'
 import WritingForm from '../writings/WritingForm'
 import WritingItem from '../writings/WritingItem'
@@ -85,33 +85,8 @@ class WritingPage extends Component {
     }
   }
 
-  renderHelmet () {
-    const { writings, pathname } = this.props
-
-    let title;
-    if(writings.selected) {
-      title = writings.selected.title
-    } else {
-      title = undefined
-    }
-
-    const type = 'article'
-    const url = window.location.href
-
-    return (
-       <Helmet title={title}
-                titleTemplate='%s :: weblog ricale st.'
-                defaultTitle='weblog ricale st.'
-                meta={[
-                  {"name": "og:title", "content": title},
-                  {"name": "og:type",  "content": type},
-                  {"name": "og:url",   "content": url}
-                ]} />
-    )
-  }
-
   render () {
-    const { children } = this.props
+    const { writings, children, session } = this.props
 
     const childrenWithProps = React.Children.map(children, (child) =>
       React.cloneElement(child, this.childrenProps(child.type))
@@ -119,7 +94,7 @@ class WritingPage extends Component {
 
     return (
       <div className='container'>
-        {this.renderHelmet()}
+        <MyHelmet writing={writings.selected} imageUrl={session.ogImageUrl} />
         <div className={CONTAINER_CLASS}>
           <div className='writing-page'>
             {childrenWithProps}
