@@ -9,11 +9,13 @@ export default class WritingList extends Component {
   }
 
   componentDidMount () {
-    const { onLoadWritings, params, location } = this.props
+    const { onLoadWritings, writings, params, location } = this.props
 
-    onLoadWritings(params.categoryId, {
-      page: location.query.page
-    })
+    if(!writings || writings.length == 0) {
+      onLoadWritings(params.categoryId, {
+        page: location.query.page
+      })
+    }
   }
 
   componentWillReceiveProps (nextProps) {

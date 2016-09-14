@@ -8,9 +8,12 @@ import routes from '../../routes'
 
 export default class Root extends Component {
   render() {
-    const { session } = this.props
+    const { session, writings, categories } = this.props
+
     const store = configureStore({
-      session
+      session,
+      writings,
+      categories
     })
     const history = syncHistoryWithStore(browserHistory, store)
 

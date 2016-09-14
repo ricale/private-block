@@ -9,6 +9,7 @@ export default class Pagination extends Component {
 
   componentWillMount () {
     this.setUrlWithQuery(this.props)
+    this.setCurrentPage(this.props)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -42,7 +43,7 @@ export default class Pagination extends Component {
     const { query } = props
 
     this.setState({
-      current: (query.page ? parseInt(query.page, 10) : 1)
+      current: (parseInt(query.page, 10) || 1)
     })
   }
 

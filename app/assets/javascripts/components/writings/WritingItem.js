@@ -19,8 +19,8 @@ export default class WritingItem extends Component {
   }
 
   componentWillMount () {
-    const { onLoadWriting, id } = this.props
-    if(id) {
+    const { onLoadWriting, writing, id } = this.props
+    if((!writing || !writing.id) && id) {
       onLoadWriting(id)
     } else {
       this.showDecodedContent(this.props)

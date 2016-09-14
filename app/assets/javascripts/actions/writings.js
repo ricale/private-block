@@ -33,15 +33,11 @@ function generateFailureCallback (type) {
 
 
 function succeedRequestingWritings (data) {
-  const { writings, page, total_page } = data
+  const { writings } = data
 
   return {
     type: FETCH_WRITING_LIST_SUCCESS,
-    writings: {
-      list: writings,
-      page: page,
-      totalPage: total_page
-    }
+    writings
   }
 }
 
@@ -65,13 +61,11 @@ export function fetchWritings (categoryId = undefined, data = {}) {
 }
 
 function succeedRequestingWriting (data) {
-  const { writing, categories } = data
+  const { writings, categories } = data
 
   var result = {
     type: FETCH_WRITING_SUCCESS,
-    writings: {
-      selected: writing
-    }
+    writings
   }
 
   if(categories) {
@@ -101,15 +95,13 @@ export function fetchWriting (id, options = {}) {
 }
 
 function succeedRequestingCreatingWriting (data) {
-  const { writing } = data
+  const { writings } = data
 
-  browserHistory.push(`/writings/${writing.id}`)
+  browserHistory.push(`/writings/${writings.selected.id}`)
 
   return {
     type: CREATE_WRITING_SUCCESS,
-    writings: {
-      selected: writing
-    }
+    writings
   }
 }
 
@@ -127,15 +119,13 @@ export function createWriting (data) {
 }
 
 function succeedRequestingUpdatingWriting (data) {
-  const { writing } = data
+  const { writings } = data
 
-  browserHistory.push(`/writings/${writing.id}`)
+  browserHistory.push(`/writings/${writings.selected.id}`)
 
   return {
     type: UPDATE_WRITING_SUCCESS,
-    writings: {
-      selected: writing
-    }
+    writings
   }
 }
 
@@ -155,15 +145,13 @@ export function updateWriting (data) {
 }
 
 function succeedRequestingDeletingWriting (data) {
-  const { writing } = data
+  const { writings } = data
 
   browserHistory.push('/writings')
 
   return {
     type: DELETE_WRITING_SUCCESS,
-    writings: {
-      selected: undefined
-    }
+    writings
   }
 }
 

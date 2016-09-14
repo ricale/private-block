@@ -27,82 +27,132 @@ class WritingsController < ApplicationController
     current_page = 1 if current_page == 0
     writings = writings.limit(PER_PAGE).offset((current_page - 1) * PER_PAGE)
 
-    @writings = writings
+
+    result = {
+      writings: {
+        list: writings,
+        page: current_page,
+        totalPage: total_page_count
+      }
+    }
 
     if is_json_request
-      render json: {
-        writings:    @writings,
-        page:        current_page,
-        total_page:  total_page_count
-      }
+      render json: result
 
     else
-      render 'commons/root'
+      render 'commons/root', locals: {props: result}
     end
   end
 
   def show
-    @writing = Writing.where(id: params[:id]).with_category.first
+    writing = Writing.where(id: params[:id]).with_category.first
 
+
+    result = {
+      writings: {
+        selected: writing
+      }
+    }
     
     if is_json_request
-      render json: {writing: @writing}
+      render json: result
     else
-      render 'commons/root'
+      render 'commons/root', locals: {props: result}
     end
   end
 
   def new
-    @writing = Writing.new(category_id: Category::ROOT_ID)
-    @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
+    writing = Writing.new(category_id: Category::ROOT_ID)
+    categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
+
+
+    result = {
+      writings: {
+        selected: writing
+      },
+      categories: {
+        list: categories
+      }
+    }
 
     if is_json_request
-      render json: {writing: @writing, categories: @categories}
+      render json: result
     else
-      render 'commons/root'
+      render 'commons/root', locals: {props: result}
     end
   end
 
   def edit
-    @writing = Writing.find(params[:id])
-    @categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
+    writing = Writing.find(params[:id])
+    categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
+
+
+    result = {
+      writings: {
+        selected: writing
+      },
+      categories: {
+        list: categories
+      }
+    }
 
     if is_json_request
-      render json: {writing: @writing, categories: @categories}
+      render json: result
     else
-      render 'commons/root'
+      render 'commons/root', locals: {props: result}
     end
   end
 
   def create
-    @writing = Writing.create!(writing_params)
+    writing = Writing.create!(writing_params)
+
+
+    result = {
+      writings: {
+        selected: writing
+      }
+    }
 
     if is_json_request
-      render json: {writing: @writing}
+      render json: result
     else
-      render 'commons/root'
+      render 'commons/root', locals: {props: result}
     end
   end
 
   def update
-    @writing = Writing.find(params[:id])
-    @writing.update_attributes!(writing_params)
+    writing = Writing.find(params[:id])
+    writing.update_attributes!(writing_params)
+
+
+    result = {
+      writings: {
+        selected: writing
+      }
+    }
 
     if is_json_request
-      render json: {writing: @writing}
+      render json: result
     else
-      render 'commons/root'
+      render 'commons/root', locals: {props: result}
     end
   end
 
   def destroy
-    @writing = Writing.find(params[:id])
-    @writing.destroy
+    writing = Writing.find(params[:id])
+    writing.destroy
+
+
+    result = {
+      writings: {
+        selected: nil
+      }
+    }
 
     if is_json_request
-      render json: {success: true}
+      render json: result
     else
-      render 'commons/root'
+      render 'commons/root', locals: {props: result}
     end
   end
 

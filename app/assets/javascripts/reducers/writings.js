@@ -16,10 +16,10 @@ export function writings (state = initWritingState, action) {
   case FETCH_WRITING_LIST_SUCCESS:
     const { list, page, totalPage } = action.writings
     return Object.assign({}, state, {
-      list: action.writings.list,
-      selected: undefined,
+      list,
       page,
-      totalPage
+      totalPage,
+      selected: undefined
     })
 
   case FETCH_WRITING_SUCCESS:

@@ -56,7 +56,7 @@ class WritingPage extends Component {
     case WritingList:
       return {
         onLoadWritings: this.loadWritings.bind(this),
-        writings:       writings.list,
+        writings:       writings.list || [],
         totalPage:      writings.totalPage
       }
 

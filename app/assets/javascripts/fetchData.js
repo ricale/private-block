@@ -62,6 +62,7 @@ export function fetchData (url, beforeCallback, successCallback, failureCallback
       then(parseJSON).
       then(json => dispatch(successCallback(json))).
       catch(error => {
+        // console.log('error', error)
         return error.response.json().
                               then(json => dispatch(failureCallback(json.message)))
       })

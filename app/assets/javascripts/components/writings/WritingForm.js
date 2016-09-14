@@ -9,19 +9,11 @@ export default class WritingForm extends Component {
   static defaultProps = {
     method: 'post',
     id: undefined,
-    writing: {
-      title: '',
-      category_id: 1,
-      content: ''
-    }
+    writing: undefined
   }
 
   state = {
-    writing: this.props.writing || {
-      title: '',
-      category_id: 1,
-      content: ''
-    }
+    writing: this.props.writing || {}
   }
 
   componentWillMount () {
@@ -29,8 +21,11 @@ export default class WritingForm extends Component {
   }
 
   componentDidMount () {
-    const { onLoadWriting, id } = this.props
-    onLoadWriting(id, {withCategories: true})
+    const { onLoadWriting, writing, id } = this.props
+
+    if(!writing) {
+      onLoadWriting(id, {withCategories: true})
+    }
   }
 
   componentWillUpdate () {
