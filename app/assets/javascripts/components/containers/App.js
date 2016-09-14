@@ -12,7 +12,6 @@ import { CONTAINER_CLASS } from '../../constants/commons'
 class App extends Component {
   componentDidMount () {
     const { dispatch } = this.props
-    dispatch(fetchSession())
   }
 
   onClickSignOut (event) {

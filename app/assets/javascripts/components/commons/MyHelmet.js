@@ -14,7 +14,7 @@ export default class MyHelmet extends Component {
               titleTemplate='%s :: weblog ricale st.'
               defaultTitle='weblog ricale st.'
               meta={[
-                {"name": "og:title", "content": title},
+                {"name": "og:title", "content": helmetTitle},
                 {"name": "og:type",  "content": type},
                 {"name": "og:url",   "content": url},
                 {"name": "og:image", "content": imageUrl}
