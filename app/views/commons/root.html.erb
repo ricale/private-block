@@ -1,6 +1,8 @@
 <%= react_component('Root', {
-  authenticityToken: form_authenticity_token,
-  valid: !current_user.nil?,
-  user: current_user,
-  ogImageUrl: image_url('ricalest.png')
+  session: {
+    authenticityToken: form_authenticity_token,
+    valid: !current_user.nil?,
+    user: current_user,
+    ogImageUrl: image_url('ricalest.png')
+  }
 }) %>

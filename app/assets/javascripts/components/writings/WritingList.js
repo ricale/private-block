@@ -9,26 +9,27 @@ export default class WritingList extends Component {
   }
 
   componentDidMount () {
-    const { onLoadWritings, categoryId, page } = this.props
-    onLoadWritings(categoryId, {
-      page
+    const { onLoadWritings, params, location } = this.props
+
+    onLoadWritings(params.categoryId, {
+      page: location.query.page
     })
   }
 
   componentWillReceiveProps (nextProps) {
-    const { onLoadWritings, categoryId, page } = this.props
+    const { onLoadWritings, params, location } = this.props
 
-    if(categoryId != nextProps.categoryId ||
-       page != nextProps.page) {
+    if(params.categoryId != nextProps.params.categoryId ||
+       location.query.page != nextProps.location.query.page) {
 
-      onLoadWritings(nextProps.categoryId, {
-        page: nextProps.page
+      onLoadWritings(nextProps.params.categoryId, {
+        page: nextProps.location.query.page
       })
     }
   }
 
   render () {
-    const { writings, page, totalPage, query, pathname } = this.props;
+    const { writings, totalPage, location } = this.props;
 
     return (
       <div className='writing-list-container'>
@@ -43,10 +44,10 @@ export default class WritingList extends Component {
 
         {totalPage && totalPage > 1 && (
           <Pagination classModName='writing'
-                      current={page}
+                      current={location.query.page}
                       total={totalPage}
-                      pathname={pathname}
-                      query={query} />
+                      pathname={location.pathname}
+                      query={location.query} />
         )}
       </div>
     )

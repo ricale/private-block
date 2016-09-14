@@ -3,9 +3,7 @@ import { Link } from 'react-router'
 
 export default class Pagination extends Component {
   static defaultProps = {
-    current: 1,
-    total:   1,
-
+    total: 1,
     windowCount: 4
   }
 
@@ -15,6 +13,7 @@ export default class Pagination extends Component {
 
   componentWillReceiveProps (nextProps) {
     this.setUrlWithQuery(nextProps)
+    this.setCurrentPage(nextProps)
   }
 
   setUrlWithQuery (props) {
@@ -39,14 +38,22 @@ export default class Pagination extends Component {
     })
   }
 
+  setCurrentPage (props) {
+    const { query } = props
+
+    this.setState({
+      current: (query.page ? parseInt(query.page, 10) : 1)
+    })
+  }
+
   getUrl (page) {
     return `${this.state.uriWithQuery}page=${page}`
   }
 
 
   renderFirstPage () {
-    const { current, windowCount } = this.props
-    const { uriWithQuery } = this.state
+    const { windowCount } = this.props
+    const { uriWithQuery, current } = this.state
 
     if(current - windowCount > 1) {
       return (
@@ -58,8 +65,8 @@ export default class Pagination extends Component {
   }
 
   renderCurrentAndWindow () {
-    const { current, total, windowCount } = this.props
-    const { uriWithQuery } = this.state
+    const { total, windowCount } = this.props
+    const { uriWithQuery, current } = this.state
 
     var first = current - windowCount
     if(first < 1) {
@@ -87,8 +94,8 @@ export default class Pagination extends Component {
   }
 
   renderLastPage () {
-    const { current, windowCount, total } = this.props
-    const { uriWithQuery } = this.state
+    const { windowCount, total } = this.props
+    const { uriWithQuery, current } = this.state
 
     if(current + windowCount < total) {
       return (
@@ -100,15 +107,15 @@ export default class Pagination extends Component {
   }
 
   renderFrontGap () {
-    const { current, windowCount } = this.props
-    if(current - windowCount > 2) {
+    const { windowCount } = this.props
+    if(this.state.current - windowCount > 2) {
       return <span className='pagination__gap'>...</span>
     }
   }
 
   renderBehindGap () {
-    const { current, windowCount, total } = this.props
-    if(current + windowCount < total - 1) {
+    const { windowCount, total } = this.props
+    if(this.state.current + windowCount < total - 1) {
       return <span className='pagination__gap'>...</span>
     }
   }

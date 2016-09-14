@@ -50,18 +50,14 @@ class WritingPage extends Component {
   }
 
   childrenProps (type) {
-    const { writings, categories, params, query, pathname, session } = this.props
+    const { writings, categories, params, location, session } = this.props
 
     switch (type) {
     case WritingList:
       return {
         onLoadWritings: this.loadWritings.bind(this),
         writings:       writings.list,
-        categoryId:     params.categoryId,
-        page:           parseInt(query.page, 10) || undefined,
-        totalPage:      writings.totalPage,
-        query:          query,
-        pathname:       pathname
+        totalPage:      writings.totalPage
       }
 
     case WritingForm:
@@ -108,18 +104,11 @@ class WritingPage extends Component {
 
 function mapStateToProps (state, ownProps) {
   const { writings, categories, session } = state
-  const { params } = ownProps
-  const { query, pathname } = ownProps.location
 
   return {
     writings: writings,
     categories: categories.list,
-
-    session: session,
-
-    params: params,
-    query: query,
-    pathname: pathname
+    session: session
   }
 }
 
