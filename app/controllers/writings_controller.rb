@@ -28,7 +28,7 @@ class WritingsController < ApplicationController
     writings = writings.limit(PER_PAGE).offset((current_page - 1) * PER_PAGE)
 
 
-    result = {
+    @result = {
       writings: {
         list: writings,
         page: current_page,
@@ -37,10 +37,10 @@ class WritingsController < ApplicationController
     }
 
     if is_json_request
-      render json: result
+      render json: @result
 
     else
-      render 'commons/root', locals: {props: result}
+      render 'commons/root', locals: {props: @result}
     end
   end
 
@@ -48,16 +48,16 @@ class WritingsController < ApplicationController
     writing = Writing.where(id: params[:id]).with_category.first
 
 
-    result = {
+    @result = {
       writings: {
         selected: writing
       }
     }
     
     if is_json_request
-      render json: result
+      render json: @result
     else
-      render 'commons/root', locals: {props: result}
+      render 'commons/root', locals: {props: @result}
     end
   end
 
@@ -66,7 +66,7 @@ class WritingsController < ApplicationController
     categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
 
 
-    result = {
+    @result = {
       writings: {
         selected: writing
       },
@@ -76,9 +76,9 @@ class WritingsController < ApplicationController
     }
 
     if is_json_request
-      render json: result
+      render json: @result
     else
-      render 'commons/root', locals: {props: result}
+      render 'commons/root', locals: {props: @result}
     end
   end
 
@@ -87,7 +87,7 @@ class WritingsController < ApplicationController
     categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
 
 
-    result = {
+    @result = {
       writings: {
         selected: writing
       },
@@ -97,9 +97,9 @@ class WritingsController < ApplicationController
     }
 
     if is_json_request
-      render json: result
+      render json: @result
     else
-      render 'commons/root', locals: {props: result}
+      render 'commons/root', locals: {props: @result}
     end
   end
 
@@ -107,16 +107,16 @@ class WritingsController < ApplicationController
     writing = Writing.create!(writing_params)
 
 
-    result = {
+    @result = {
       writings: {
         selected: writing
       }
     }
 
     if is_json_request
-      render json: result
+      render json: @result
     else
-      render 'commons/root', locals: {props: result}
+      render 'commons/root', locals: {props: @result}
     end
   end
 
@@ -125,16 +125,16 @@ class WritingsController < ApplicationController
     writing.update_attributes!(writing_params)
 
 
-    result = {
+    @result = {
       writings: {
         selected: writing
       }
     }
 
     if is_json_request
-      render json: result
+      render json: @result
     else
-      render 'commons/root', locals: {props: result}
+      render 'commons/root', locals: {props: @result}
     end
   end
 
@@ -143,16 +143,16 @@ class WritingsController < ApplicationController
     writing.destroy
 
 
-    result = {
+    @result = {
       writings: {
         selected: nil
       }
     }
 
     if is_json_request
-      render json: result
+      render json: @result
     else
-      render 'commons/root', locals: {props: result}
+      render 'commons/root', locals: {props: @result}
     end
   end
 

@@ -26,7 +26,7 @@ class App extends Component {
     const { children, messages, session } = this.props
     return (
       <div>
-        <MyHelmet imageUrl={session.ogImageUrl} />
+        <MyHelmet />
         <div className='container'>
           <div className={CONTAINER_CLASS}>
             <Header className='weblog-header'

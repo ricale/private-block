@@ -90,7 +90,7 @@ class WritingPage extends Component {
 
     return (
       <div className='container'>
-        <MyHelmet writing={writings.selected} imageUrl={session.ogImageUrl} />
+        <MyHelmet writing={writings.selected} />
         <div className={CONTAINER_CLASS}>
           <div className='writing-page'>
             {childrenWithProps}

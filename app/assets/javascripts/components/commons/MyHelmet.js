@@ -3,10 +3,9 @@ import Helmet from 'react-helmet'
 
 export default class MyHelmet extends Component {
   render () {
-    const { writing, title, imageUrl } = this.props
+    const { writing, title } = this.props
 
     const helmetTitle = writing ? writing.title : title
-    const type = 'article'
     const url = window.location.href
 
     return (
@@ -15,9 +14,7 @@ export default class MyHelmet extends Component {
               defaultTitle='weblog ricale st.'
               meta={[
                 {"name": "og:title", "content": helmetTitle},
-                {"name": "og:type",  "content": type},
                 {"name": "og:url",   "content": url},
-                {"name": "og:image", "content": imageUrl}
               ]} />
     )
   }
