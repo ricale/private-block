@@ -1,7 +1,13 @@
+<%
+  if !defined?(props)
+    props = {}
+  end
+%>
+
 <%= react_component('Root', {
   session: {
     authenticityToken: form_authenticity_token,
     valid: !current_user.nil?,
     user: current_user
-  },
+  }
 }.merge(props)) %>
