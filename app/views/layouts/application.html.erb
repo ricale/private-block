@@ -33,7 +33,7 @@
   <meta property="og:title" content="<%= og_title || title %>" data-react-helmet="true">
   <meta property="og:type"  content="website" data-react-helmet="true">
   <meta property="og:image" content="<%= image_url('ricalest.png') %>">
-  <meta property="og:url"   content="test" data-react-helmet="true">
+  <meta property="og:url"   content="<%= "http://#{request.host+request.fullpath}" %>" data-react-helmet="true">
 </head>
 <body>
   <script>(function(d, s, id) {

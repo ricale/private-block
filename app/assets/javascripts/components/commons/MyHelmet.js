@@ -9,27 +9,27 @@ export default class MyHelmet extends Component {
     let type = 'website'
     let description = 'Written by ricale'
 
-    // if(writing) {
-    //   title = writing.title
-    //   type = 'article'
+    if(writing) {
+      title = writing.title
+      type = 'article'
 
-    //   const DESCRIPTION_MAX_LENGTH = 66
-    //   const firstLineBreakIndex  = writing.content.indexOf("\n")
-    //   const firstWhiteSpaceIndex = writing.content.indexOf(" ", DESCRIPTION_MAX_LENGTH)
+      const DESCRIPTION_MAX_LENGTH = 66
+      const firstLineBreakIndex  = writing.content.indexOf("\n")
+      const firstWhiteSpaceIndex = writing.content.indexOf(" ", DESCRIPTION_MAX_LENGTH)
 
-    //   let descriptionLength = DESCRIPTION_MAX_LENGTH
+      // let descriptionLength = DESCRIPTION_MAX_LENGTH
 
-    //   if(firstLineBreakIndex !== -1) {
-    //     if(firstLineBreakIndex < DESCRIPTION_MAX_LENGTH) {
-    //       descriptionLength = firstLineBreakIndex
+      // if(firstLineBreakIndex !== -1) {
+      //   if(firstLineBreakIndex < DESCRIPTION_MAX_LENGTH) {
+      //     descriptionLength = firstLineBreakIndex
 
-    //     } else if(firstWhiteSpaceIndex !== -1) {
-    //       descriptionLength = firstWhiteSpaceIndex < firstLineBreakIndex ? firstWhiteSpaceIndex : firstLineBreakIndex
-    //     }
-    //   }
+      //   } else if(firstWhiteSpaceIndex !== -1) {
+      //     descriptionLength = firstWhiteSpaceIndex < firstLineBreakIndex ? firstWhiteSpaceIndex : firstLineBreakIndex
+      //   }
+      // }
 
-    //   description = writing.content.slice(0, descriptionLength)
-    // }
+      // description = writing.content.slice(0, descriptionLength)
+    }
 
     const url = window.location.href
 
