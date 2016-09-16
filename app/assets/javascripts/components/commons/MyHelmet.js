@@ -34,8 +34,7 @@ export default class MyHelmet extends Component {
     const url = window.location.href
 
     return (
-      <Helmet htmlAttributes={{"prefix": "og: http://ogp.me/ns# article: http://ogp.me/ns/article#"}}
-              title={title}
+      <Helmet title={title}
               titleTemplate='%s :: weblog ricale st.'
               defaultTitle='weblog ricale st.'
               meta={[
