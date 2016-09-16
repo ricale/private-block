@@ -13,8 +13,8 @@ export default class MyHelmet extends Component {
               titleTemplate='%s :: weblog ricale st.'
               defaultTitle='weblog ricale st.'
               meta={[
-                {"name": "og:title", "content": helmetTitle},
-                {"name": "og:url",   "content": url},
+                {"property": "og:title", "content": helmetTitle},
+                {"property": "og:url",   "content": url},
               ]} />
     )
   }

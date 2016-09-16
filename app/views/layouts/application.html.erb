@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%
+  <%#
     title = "weblog riclae st."
     if @result && @result[:writings] && @result[:writings][:selected]
       og_title = @result[:writings][:selected].title
       title = "#{og_title} :: #{title}"
     end
   %>
-  <title><%= title %></title>
+  <!-- <title><%#= title %></title> -->
+  <title>weblog riclae st.</title>
 
   <% if Rails.env.production? %>
     <!-- Google Analytics -->
@@ -30,10 +31,10 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 
-  <meta name="og:title" content="<%= og_title || title %>" data-react-helmet="true">
-  <meta name="og:type"  content="article">
-  <meta name="og:image" content="<%= image_url('ricalest.png') %>">
-  <meta name="og:url"   content="test" data-react-helmet="true">
+  <!-- <meta name="og:title" content="<%#= og_title || title %>" data-react-helmet="true"> -->
+  <meta property="og:type"  content="article">
+  <meta property="og:image" content="<%= image_url('ricalest.png') %>">
+  <!-- <meta name="og:url"   content="test" data-react-helmet="true"> -->
 </head>
 <body>
   <script>(function(d, s, id) {
