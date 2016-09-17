@@ -26,6 +26,8 @@ export default class WritingForm extends Component {
     if(!categories || categories.length === 0 ||
        !writing || writing.id !== id) {
       onLoadWriting(id, {withCategories: true})
+    } else {
+      this.setState({writing: writing})
     }
   }
 
