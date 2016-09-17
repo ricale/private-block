@@ -3,9 +3,9 @@ var initializedPageUrl = ''
 
 function initfb () {
   FB.init({
-    appId      : '576280705890096',
-    xfbml      : true,
-    version    : 'v2.7'
+    appId:   '576280705890096',
+    xfbml:   true,
+    version: 'v2.7'
   });
 }
 

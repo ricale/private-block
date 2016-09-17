@@ -52,6 +52,8 @@ class WritingPage extends Component {
   childrenProps (type) {
     const { writings, categories, params, location, session } = this.props
 
+    const id = parseInt(params.id, 10) || undefined
+
     switch (type) {
     case WritingList:
       return {
@@ -64,8 +66,8 @@ class WritingPage extends Component {
       return {
         onLoadWriting: this.loadWriting.bind(this),
         onSaveWriting: this.saveWriting.bind(this),
-        writing: writings.selected,
-        id: params.id,
+        writing:    writings.selected,
+        id:         id,
         categories: categories.list,
         session
       }
@@ -74,8 +76,8 @@ class WritingPage extends Component {
       return {
         onLoadWriting: this.loadWriting.bind(this),
         onDeleteWriting: this.requestDeleteWriting.bind(this),
-        writing: writings.selected,
-        id: params.id,
+        writing:     writings.selected,
+        id:          id,
         loggedInNow: session.valid
       }
     }

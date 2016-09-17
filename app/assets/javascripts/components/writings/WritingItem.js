@@ -23,7 +23,7 @@ export default class WritingItem extends Component {
     if((!writing || !writing.id) && id) {
       onLoadWriting(id)
     } else {
-      this.showDecodedContent(this.props)
+      this.setDecodedContent(this.props)
     }
   }
 
@@ -33,24 +33,27 @@ export default class WritingItem extends Component {
     if(id && id !== nextProps.id) {
       onLoadWriting(id)
     } else {
-      this.showDecodedContent(nextProps)
+      this.setDecodedContent(nextProps)
     }
   }
 
   componentDidMount () {
-    this.state.willInitFbPlugin = this.props.id
-  }
+    const { id, writing } = this.props
 
-  componentDidUpdate (prevProps) {
-    const { id } = this.props
-
-    if(this.state.willInitFbPlugin || (id && id !== prevProps.id)) {
-      this.state.willInitFbPlugin = false
-      initFacebookPlugin(this.getPath())
+    if(writing && writing.id === id) {
+      this.showFacebookPlugin()
     }
   }
 
-  showDecodedContent (props) {
+  componentDidUpdate (prevProps) {
+    const { id, writing } = this.props
+
+    if(writing && writing.id === id) {
+      this.showFacebookPlugin()
+    }
+  }
+
+  setDecodedContent (props) {
     const { singleLine, writing } = props
 
     if(!singleLine && writing && writing.content) {
@@ -58,6 +61,10 @@ export default class WritingItem extends Component {
       element.innerHTML = writing.content
       this.setState({decodedContent: hmd.decode(element.innerText)})
     }
+  }
+
+  showFacebookPlugin () {
+    initFacebookPlugin(this.getPath())
   }
 
   getPath () {

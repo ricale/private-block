@@ -28,7 +28,8 @@ export function writings (state = initWritingState, action) {
   case DELETE_WRITING_SUCCESS:
     const { selected } = action.writings
     return Object.assign({}, state, {
-      selected
+      selected,
+      list: undefined
     })
 
   default:

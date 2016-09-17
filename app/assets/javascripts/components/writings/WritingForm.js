@@ -21,9 +21,10 @@ export default class WritingForm extends Component {
   }
 
   componentDidMount () {
-    const { onLoadWriting, writing, id } = this.props
+    const { onLoadWriting, writing, categories, id } = this.props
 
-    if(!writing) {
+    if(!categories || categories.length === 0 ||
+       !writing || writing.id !== id) {
       onLoadWriting(id, {withCategories: true})
     }
   }
@@ -35,10 +36,10 @@ export default class WritingForm extends Component {
   componentWillReceiveProps (nextProps) {
     const { onLoadWriting, id, writing } = this.props
 
-    if(id != nextProps.id) {
+    if(id !== nextProps.id) {
       onLoadWriting(nextProps.id, {withCategories: true})
 
-    } else if (writing && writing.id != nextProps.writing.id) {
+    } else if (writing && writing.id !== nextProps.writing.id) {
       this.setState({writing: nextProps.writing})
     }
   }
