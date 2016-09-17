@@ -57,9 +57,9 @@ export default class WritingItem extends Component {
     const { singleLine, writing } = props
 
     if(!singleLine && writing && writing.content) {
-      const element = document.createElement("div")
-      element.innerHTML = writing.content
-      this.setState({decodedContent: hmd.decode(element.innerText)})
+      const textarea = document.createElement("textarea")
+      textarea.value = writing.content
+      this.setState({decodedContent: hmd.decode(textarea.value)})
     }
   }
 
