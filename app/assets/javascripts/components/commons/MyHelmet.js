@@ -3,7 +3,7 @@ import Helmet from 'react-helmet'
 
 export default class MyHelmet extends Component {
   render () {
-    const { writing } = this.props
+    const { writing, initialPath } = this.props
 
     let title = this.props.title
     let type = 'website'
@@ -13,9 +13,9 @@ export default class MyHelmet extends Component {
       title = writing.title
       type = 'article'
 
-      const DESCRIPTION_MAX_LENGTH = 66
-      const firstLineBreakIndex  = writing.content.indexOf("\n")
-      const firstWhiteSpaceIndex = writing.content.indexOf(" ", DESCRIPTION_MAX_LENGTH)
+      // const DESCRIPTION_MAX_LENGTH = 66
+      // const firstLineBreakIndex  = writingContent.indexOf("\n")
+      // const firstWhiteSpaceIndex = writingContent.indexOf(" ", DESCRIPTION_MAX_LENGTH)
 
       // let descriptionLength = DESCRIPTION_MAX_LENGTH
 
@@ -31,7 +31,13 @@ export default class MyHelmet extends Component {
       // description = writing.content.slice(0, descriptionLength)
     }
 
-    const url = window.location.href
+    let url
+
+    if(window && window.location) {
+      url = window.location.href
+    } else {
+      url = initialPath
+    }
 
     return (
       <Helmet title={title}

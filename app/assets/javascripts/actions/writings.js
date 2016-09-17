@@ -69,9 +69,7 @@ function succeedRequestingWriting (data) {
   }
 
   if(categories) {
-    result.categories = {
-      list: categories
-    }
+    result.categories = categories
   }
 
   return result

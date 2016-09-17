@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Router, browserHistory } from 'react-router'
+// import { createMemoryHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import configureStore from '../../store/configureStore'
 
@@ -16,6 +17,7 @@ export default class Root extends Component {
       categories
     })
     const history = syncHistoryWithStore(browserHistory, store)
+    // const history = syncHistoryWithStore(createMemoryHistory(session.initialPath), store)
 
     return (
       <Provider store={store}>

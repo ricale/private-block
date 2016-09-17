@@ -13,7 +13,7 @@ import { CONTAINER_CLASS } from '../../constants/commons'
 class WritingPage extends Component {
   static defaultProps = {
     writings: {},
-    categories: []
+    categories: {}
   }
 
   componentDidMount () {
@@ -66,7 +66,7 @@ class WritingPage extends Component {
         onSaveWriting: this.saveWriting.bind(this),
         writing: writings.selected,
         id: params.id,
-        categories,
+        categories: categories.list,
         session
       }
 
@@ -90,7 +90,7 @@ class WritingPage extends Component {
 
     return (
       <div className='container'>
-        <MyHelmet writing={writings.selected} />
+        <MyHelmet writing={writings.selected} initialPath={session.initialPath} />
         <div className={CONTAINER_CLASS}>
           <div className='writing-page'>
             {childrenWithProps}
@@ -103,13 +103,7 @@ class WritingPage extends Component {
 
 
 function mapStateToProps (state, ownProps) {
-  const { writings, categories, session } = state
-
-  return {
-    writings: writings,
-    categories: categories.list,
-    session: session
-  }
+  return state
 }
 
 export default connect(mapStateToProps)(WritingPage)

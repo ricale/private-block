@@ -6,8 +6,9 @@
 
 <%= react_component('Root', {
   session: {
+    initialPath: request.path,
     authenticityToken: form_authenticity_token,
     valid: !current_user.nil?,
     user: current_user
   }
-}.merge(props)) %>
+}.merge(props), {prerender: false}) %>
