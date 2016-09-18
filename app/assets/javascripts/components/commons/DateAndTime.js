@@ -8,13 +8,13 @@ export default class DateAndTime extends Component {
   }
 
   getFormattedDateAndTime (dateString) {
-    var d = new Date(dateString)
+    let d = new Date(dateString)
 
-    var year    = d.getFullYear()
-    var month   = (d.getMonth() + 1)
-    var date    = d.getDate()
-    var hours   = d.getHours()
-    var minutes = d.getMinutes()
+    let year    = d.getFullYear()
+    let month   = (d.getMonth() + 1)
+    let date    = d.getDate()
+    let hours   = d.getHours()
+    let minutes = d.getMinutes()
 
     if (month   < 10) month   = '0' + month
     if (date    < 10) date    = '0' + date

@@ -1,5 +1,5 @@
-var initialized = false
-var initializedPageUrl = ''
+let initialized = false
+let initializedPageUrl = ''
 
 function initfb () {
   FB.init({

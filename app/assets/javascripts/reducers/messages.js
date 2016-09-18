@@ -19,7 +19,7 @@ export function messages (state = [], action) {
   case DELETE_WRITING_FAILURE:
   case CREATE_SESSION_FAILURE:
   case DELETE_SESSION_FAILURE:
-    var newState = Object.assign([], state)
+    let newState = Object.assign([], state)
     newState.push(message)
     return newState
   default:

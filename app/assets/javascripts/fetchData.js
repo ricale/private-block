@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-fetch'
 
 function serialize (object, prefix) {
-  var strings = [];
+  let strings = [];
 
-  for(var key in object) {
+  for(let key in object) {
     if(object.hasOwnProperty(key) && object[key]) {
       strings.push(`${encodeURIComponent(key)}=${encodeURIComponent(object[key])}`)
     }
@@ -17,7 +17,7 @@ function checkStatus(response) {
     return response
 
   } else {
-    var error = new Error(response.statusText)
+    let error = new Error(response.statusText)
     error.response = response
     throw error
   }
@@ -30,7 +30,7 @@ function parseJSON (response) {
 export function fetchData (url, beforeCallback, successCallback, failureCallback, options = {}) {
   const { params, method } = options
 
-  var requestOptions = {
+  let requestOptions = {
     credentials: 'same-origin',
     headers: {
       'Accept': 'application/json',
@@ -46,7 +46,7 @@ export function fetchData (url, beforeCallback, successCallback, failureCallback
     if(requestOptions.method && requestOptions.method != 'GET') {
       requestOptions.body = JSON.stringify(params)
     } else {
-      var serializedParams = serialize(params)
+      let serializedParams = serialize(params)
       if(serializedParams.length > 0) {
         url += `?${serializedParams}`
       }

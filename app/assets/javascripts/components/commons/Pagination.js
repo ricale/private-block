@@ -20,15 +20,15 @@ export default class Pagination extends Component {
   setUrlWithQuery (props) {
     const { pathname, query } = props
 
-    var queryStrings = []
+    let queryStrings = []
 
-    for(var key in query) {
+    for(let key in query) {
       if(query.hasOwnProperty(key) && key != 'page') {
         queryStrings.push(`${key}=${query[key]}`)
       }
     }
 
-    var uriWithQuery = `${props.pathname}?`
+    let uriWithQuery = `${props.pathname}?`
 
     if(queryStrings.length > 0) {
       uriWithQuery = `${uriWithQuery}${queryStrings.join("&")}`
@@ -69,19 +69,19 @@ export default class Pagination extends Component {
     const { total, windowCount } = this.props
     const { uriWithQuery, current } = this.state
 
-    var first = current - windowCount
+    let first = current - windowCount
     if(first < 1) {
       first = 1
     }
 
-    var last = current + windowCount
+    let last = current + windowCount
     if(last > total) {
       last = total
     }
 
-    var links = []
-    for(var i = first; i <= last; i += 1) {
-      var className = i === current ? 'current' : 'page'
+    let links = []
+    for(let i = first; i <= last; i += 1) {
+      let className = i === current ? 'current' : 'page'
       links.push(
         <span className={`pagination__${className}`} key={`page-${i}`}>
           <Link to={this.getUrl(i)} className={`pagination__${className}-link`}>
@@ -124,8 +124,8 @@ export default class Pagination extends Component {
   render () {
     const { classModName } = this.props
 
-    var classModifier = classModName ? `_${classModName}` : ''
-    var className = `pagination${classModifier}`
+    let classModifier = classModName ? `_${classModName}` : ''
+    let className = `pagination${classModifier}`
 
     return (
       <nav className={className}>

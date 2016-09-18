@@ -42,7 +42,7 @@ function succeedRequestingWritings (data) {
 }
 
 export function fetchWritings (categoryId = undefined, data = {}) {
-  var url;
+  let url;
   if(categoryId) {
     url = `/categories/${categoryId}/writings.json`
   } else {
@@ -63,7 +63,7 @@ export function fetchWritings (categoryId = undefined, data = {}) {
 function succeedRequestingWriting (data) {
   const { writings, categories } = data
 
-  var result = {
+  let result = {
     type: FETCH_WRITING_SUCCESS,
     writings
   }
@@ -76,7 +76,7 @@ function succeedRequestingWriting (data) {
 }
 
 export function fetchWriting (id, options = {}) {
-  var url
+  let url
   if(id) {
     url = options.withCategories ? `/writings/${id}/edit.json` : `/writings/${id}.json`
 

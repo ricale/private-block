@@ -6,7 +6,7 @@ export default class Footer extends Component {
 
     return (
       <div className={`footer ${className || ''}`}>
-        <div className='footer__writer'>Copyrigh by ricale.</div>
+        <div className='footer__writer'>Copyright by ricale.</div>
         {' '}
         <div className='footer__ccl'>
           <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA.</a>

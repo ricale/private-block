@@ -8,7 +8,7 @@ export default class Introduction extends Component {
     const githubUrl = 'https://github.com/ricale/private-block'
     const trackerUrl = 'https://www.pivotaltracker.com/n/projects/1777827'
     return (
-      <div className='container'>
+      <div className='container introduction'>
         <div className={CONTAINER_CLASS}>
           <h3>Introduction</h3>
           <ul>
