@@ -1,30 +1,41 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+import Measure from 'react-measure'
 
 import DateAndTime from '../commons/DateAndTime'
+import LoadingIndicator from '../commons/LoadingIndicator'
 import FacebookLikeButton from '../sns/FacebookLikeButton'
 import FacebookComments from '../sns/FacebookComments'
 
 import { initFacebookPlugin } from '../../initFacebookPlugin'
 
+import { DUMMY_PARAGRAPHS } from '../../constants/commons'
+
 
 export default class WritingItem extends Component {
   static defaultProps = {
     singleLine: false,
-    className: ''
+    className: '',
+    writing: {
+      title: 'Now loading',
+      // category_id: 
+      category_name: 'Hello'
+    }
   }
 
   state = {
-    decodedContent: ''
+    decodedContent: '',
+    dimensions: {}
   }
 
   componentWillMount () {
     const { onLoadWriting, writing, id } = this.props
+
     if((!writing || !writing.id) && id) {
       onLoadWriting(id)
-    } else {
-      this.setDecodedContent(this.props)
     }
+
+    this.setDecodedContent(this.props)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -32,9 +43,9 @@ export default class WritingItem extends Component {
 
     if(id && id !== nextProps.id) {
       onLoadWriting(id)
-    } else {
-      this.setDecodedContent(nextProps)
     }
+
+    this.setDecodedContent(nextProps)
   }
 
   componentDidMount () {
@@ -56,15 +67,25 @@ export default class WritingItem extends Component {
   setDecodedContent (props) {
     const { singleLine, writing } = props
 
-    if(!singleLine && writing && writing.content) {
+    if(!singleLine) {
       const textarea = document.createElement("textarea")
-      textarea.value = writing.content
+      textarea.value = (writing && writing.content) || DUMMY_PARAGRAPHS
       this.setState({decodedContent: hmd.decode(textarea.value)})
     }
   }
 
   showFacebookPlugin () {
     initFacebookPlugin(this.getPath())
+  }
+
+  // for render() and renderCategoryName()
+  getWriting () {
+    let writing = this.props.writing
+    if(!writing || !writing.id) {
+      writing = WritingItem.defaultProps.writing
+    }
+
+    return writing
   }
 
   getPath () {
@@ -81,7 +102,7 @@ export default class WritingItem extends Component {
   }
 
   renderCategoryName () {
-    const { writing } = this.props
+    const writing = this.getWriting()
     {/* 상수를 박아놓을 것이 아니라, parentCategoryTypeId 따위가 필요 */}
     const rootCategoryId = 1
 
@@ -115,19 +136,26 @@ export default class WritingItem extends Component {
   }
 
   render () {
-    const { writing, singleLine, className, loggedInNow } = this.props;
+    const { singleLine, className, loggedInNow } = this.props;
 
-    if(!writing || !writing.id) {
-      return (
-        <div></div>
-      )
-    }
+    const writing = this.getWriting()
 
     return (
+      <Measure whitelist={['height']}>
+      {dimensions =>
+
       <div className={`writing-item${this.getCssModifier()} ${className}`}
            id={`writing-item-${writing.id}`}>
 
+        {(!writing || !writing.id) &&
+          <LoadingIndicator height={`${dimensions.height}px`}/>
+        }
+
         <div className='writing-item__header'>
+          <div className='writing-item__title'>
+            <Link to={this.getPath()}>{writing.title}</Link>
+          </div>
+
           {this.renderCategoryName()}
 
           <DateAndTime className='writing-item__created-at' datetimeString={writing.created_at} />
@@ -151,17 +179,11 @@ export default class WritingItem extends Component {
               </a>
             </div>
           )}
-
-          <div className='writing-item__title'>
-            <Link to={this.getPath()}>{writing.title}</Link>
-          </div>
         </div>
 
-        {!singleLine && (
-          <div className='writing-item__content'>
-            <div className='writing-item__decoded-content' dangerouslySetInnerHTML={{__html: this.state.decodedContent}}></div>
-          </div>
-        )}
+        {!singleLine &&
+          <div className='writing-item__content' dangerouslySetInnerHTML={{__html: this.state.decodedContent}}></div>
+        }
 
         {!singleLine &&
           <div className='writing-item__sns-plugin'>
@@ -170,6 +192,9 @@ export default class WritingItem extends Component {
           </div>
         }
       </div>
+
+      }
+      </Measure>
     )
   }
 }

@@ -53,6 +53,7 @@ class WritingPage extends Component {
     const { writings, categories, params, location, session } = this.props
 
     const id = parseInt(params.id, 10) || undefined
+    const writingSelected = writings.selected || {}
 
     switch (type) {
     case WritingList:
@@ -66,7 +67,7 @@ class WritingPage extends Component {
       return {
         onLoadWriting: this.loadWriting.bind(this),
         onSaveWriting: this.saveWriting.bind(this),
-        writing:    writings.selected,
+        writing:    writingSelected,
         id:         id,
         categories: categories.list,
         session
@@ -76,7 +77,7 @@ class WritingPage extends Component {
       return {
         onLoadWriting: this.loadWriting.bind(this),
         onDeleteWriting: this.requestDeleteWriting.bind(this),
-        writing:     writings.selected,
+        writing:     writingSelected,
         id:          id,
         loggedInNow: session.valid
       }

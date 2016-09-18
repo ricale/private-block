@@ -38,7 +38,7 @@
     }
   }
 
-  .writing-item__decoded-content {
+  .writing-item__content {
     padding: 10px 0px;
   }
 
@@ -70,7 +70,7 @@
   }
 
   .writing-item__buttons-container { display: none; }
-  .writing-item__decoded-content { display: none; }
+  .writing-item__content { display: none; }
 }
 
 @media (max-width: 1199px) {

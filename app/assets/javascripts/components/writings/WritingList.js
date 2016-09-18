@@ -8,10 +8,10 @@ export default class WritingList extends Component {
     writings: []
   }
 
-  componentDidMount () {
+  componentWillMount () {
     const { onLoadWritings, writings, params, location } = this.props
 
-    if(!writings || writings.length == 0) {
+    if(!writings || writings.length === 0) {
       onLoadWritings(params.categoryId, {
         page: location.query.page
       })
