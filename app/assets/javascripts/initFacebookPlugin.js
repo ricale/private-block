@@ -1,5 +1,5 @@
-let initialized = false
-let initializedPageUrl = ''
+// let initialized = false
+// let initializedPageUrl = ''
 
 function initfb () {
   FB.init({
@@ -10,17 +10,17 @@ function initfb () {
 }
 
 export function initFacebookPlugin (url) {
-  if(initializedPageUrl !== url) {
-    initialized = false
-    initializedPageUrl = url
-  }
+  // if(initializedPageUrl !== url) {
+  //   initialized = false
+  //   initializedPageUrl = url
+  // }
 
-  if(!initialized) {
-    initialized = true
+  // if(!initialized) {
+  //   initialized = true
     if(typeof FB !== 'undefined') {
       initfb()
     } else {
       window.fbAsyncInit = initfb
     }
-  }
+  // }
 }
