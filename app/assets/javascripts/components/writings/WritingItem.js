@@ -130,10 +130,6 @@ export default class WritingItem extends Component {
         <div className='writing-item__header'>
           {this.renderCategoryName()}
 
-          <div className='writing-item__title'>
-            <Link to={this.getPath()}>{writing.title}</Link>
-          </div>
-
           <DateAndTime className='writing-item__created-at' datetimeString={writing.created_at} />
 
           {!singleLine && 
@@ -155,12 +151,15 @@ export default class WritingItem extends Component {
               </a>
             </div>
           )}
+
+          <div className='writing-item__title'>
+            <Link to={this.getPath()}>{writing.title}</Link>
+          </div>
         </div>
 
         {!singleLine && (
           <div className='writing-item__content'>
             <div className='writing-item__decoded-content' dangerouslySetInnerHTML={{__html: this.state.decodedContent}}></div>
-            {/*<textarea className='writing-item__original-content' defaultValue={writing.content} />*/}
           </div>
         )}
 

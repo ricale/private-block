@@ -8,14 +8,21 @@
     font-size: 2.0em;
   }
 
+  .writing-item__category {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
   .writing-item__created-at {
     display: inline-block;
     margin-right: 5px;
+    font-size: 0.85em;
   }
 
   .writing-item__updated-at {
     display: inline-block;
     margin-right: 5px;
+    font-size: 0.85em;
   }
 
   .writing-item__buttons-container {
@@ -30,12 +37,8 @@
     }
   }
 
-  .writing-item__original-content {
-    display: none;
-  }
-
   .writing-item__decoded-content {
-    padding: 10px;
+    padding: 10px 0px;
   }
 
   .writing-item__sns-plugin {
@@ -60,16 +63,16 @@
   .writing-item__title {
     display: inline-block;
     width: 410px;
+    vertical-align: top;
   }
 
   .writing-item__created-at {
     display: inline-block;
-
+    float: right;
     text-align: right;
   }
 
   .writing-item__buttons-container { display: none; }
-  .writing-item__original-content { display: none; }
   .writing-item__decoded-content { display: none; }
 }
 
@@ -107,6 +110,7 @@
 
     .writing-item__created-at {
       display: block;
+      float: none;
       font-size: 0.8em;
       text-align: left;
     }

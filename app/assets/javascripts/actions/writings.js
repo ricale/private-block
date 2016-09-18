@@ -95,7 +95,7 @@ export function fetchWriting (id, options = {}) {
 function succeedRequestingCreatingWriting (data) {
   const { writings } = data
 
-  browserHistory.push(`/writings/${writings.selected.id}`)
+  browserHistory.push(`/${writings.selected.id}`)
 
   return {
     type: CREATE_WRITING_SUCCESS,
@@ -119,7 +119,7 @@ export function createWriting (data) {
 function succeedRequestingUpdatingWriting (data) {
   const { writings } = data
 
-  browserHistory.push(`/writings/${writings.selected.id}`)
+  browserHistory.push(`/${writings.selected.id}`)
 
   return {
     type: UPDATE_WRITING_SUCCESS,
