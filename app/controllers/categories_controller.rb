@@ -2,40 +2,74 @@ class CategoriesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @categories = Category.hierarchy_categories
+    categories = Category.hierarchy_categories
+
+    render_result({
+      categories: {
+        list: categories
+      }
+    })
   end
 
   def new
-    @category = Category.new
-    @parents = Category.family_categories(Category.root.id)
+    category = Category.new
+    parents = Category.family_categories(Category.root.id)
+
+    render_result({
+      categories: {
+        selected: category,
+        parents:  parents
+      }
+    })
   end
 
   def edit
-    @category = Category.find(params[:id])
-    @parents = Category.family_categories(Category.root.id)
+    category = Category.find(params[:id])
+    parents = Category.family_categories(Category.root.id)
+
+    render_result({
+      categories: {
+        selected: category,
+        parents:  parents
+      }
+    })
   end
 
   def create
-    @category = Category.create!(category_params)
-    redirect_to categories_path
-  rescue Exception => e
-    redirect_to new_category_path, alert: e.to_s
+    category = Category.create!(category_params)
+    categories = Category.hierarchy_categories
+
+    render_result({
+      categories: {
+        list: categories,
+      }
+    })
   end
 
   def update
-    @category = Category.find(params[:id])
-    @category.update_attributes!(category_params)
-    redirect_to categories_path
-  rescue Exception => e
-    redirect_to edit_category_path(params[:id]), alert: e.to_s
+    category = Category.find(params[:id])
+    category.update_attributes!(category_params)
+
+    categories = Category.hierarchy_categories
+
+    render_result({
+      categories: {
+        list: categories,
+      }
+    })
   end
 
   def destroy
-    @category = Category.find(params[:id])
-    @category.destroy
-    redirect_to categories_path
-  rescue Exception => e
-    redirect_to categories_path, alert: e.to_s
+    category = Category.find(params[:id])
+    category.destroy
+
+    categories = Category.hierarchy_categories
+
+    render_result({
+      categories: {
+        list: categories,
+      }
+    })
   end
 
   private

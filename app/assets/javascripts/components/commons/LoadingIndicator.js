@@ -10,7 +10,7 @@ export default class LoadingIndicator extends Component {
     width: "100%",
     height: "400px",
 
-    backgroundColor: "#333",
+    backgroundColor: "#999",
     opacity: '0.5',
     textAlign: 'center',
 

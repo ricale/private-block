@@ -6,4 +6,15 @@ class ApplicationController < ActionController::Base
   def is_json_request
     request.env['CONTENT_TYPE'] == 'application/json'
   end
+
+  def render_result(result)
+    @result = result
+
+    if is_json_request
+      render json: @result
+
+    else
+      render 'commons/root', locals: {props: @result}
+    end
+  end
 end

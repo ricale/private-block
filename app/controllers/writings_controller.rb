@@ -28,37 +28,25 @@ class WritingsController < ApplicationController
     writings = writings.limit(PER_PAGE).offset((current_page - 1) * PER_PAGE)
 
 
-    @result = {
+    # @result = 
+
+    render_result({
       writings: {
         list: writings,
         page: current_page,
         totalPage: total_page_count
       }
-    }
-
-    if is_json_request
-      render json: @result
-
-    else
-      render 'commons/root', locals: {props: @result}
-    end
+    })
   end
 
   def show
     writing = Writing.where(id: params[:id]).with_category.first
-
-
-    @result = {
+    
+    render_result({
       writings: {
         selected: writing
       }
-    }
-    
-    if is_json_request
-      render json: @result
-    else
-      render 'commons/root', locals: {props: @result}
-    end
+    })
   end
 
   def new
@@ -66,20 +54,14 @@ class WritingsController < ApplicationController
     categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
 
 
-    @result = {
+    render_result({
       writings: {
         selected: writing
       },
       categories: {
         list: categories
       }
-    }
-
-    if is_json_request
-      render json: @result
-    else
-      render 'commons/root', locals: {props: @result}
-    end
+    })
   end
 
   def edit
@@ -87,20 +69,14 @@ class WritingsController < ApplicationController
     categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
 
 
-    @result = {
+    render_result({
       writings: {
         selected: writing
       },
       categories: {
         list: categories
       }
-    }
-
-    if is_json_request
-      render json: @result
-    else
-      render 'commons/root', locals: {props: @result}
-    end
+    })
   end
 
   def create
@@ -108,17 +84,11 @@ class WritingsController < ApplicationController
     writing = Writing.where(id: writing.id).with_category.first
 
 
-    @result = {
+    render_result({
       writings: {
         selected: writing
       }
-    }
-
-    if is_json_request
-      render json: @result
-    else
-      render 'commons/root', locals: {props: @result}
-    end
+    })
   end
 
   def update
@@ -127,17 +97,11 @@ class WritingsController < ApplicationController
     writing = Writing.where(id: writing.id).with_category.first
 
 
-    @result = {
+    render_result({
       writings: {
         selected: writing
       }
-    }
-
-    if is_json_request
-      render json: @result
-    else
-      render 'commons/root', locals: {props: @result}
-    end
+    })
   end
 
   def destroy
@@ -145,17 +109,11 @@ class WritingsController < ApplicationController
     writing.destroy
 
 
-    @result = {
+    render_result({
       writings: {
         selected: nil
       }
-    }
-
-    if is_json_request
-      render json: @result
-    else
-      render 'commons/root', locals: {props: @result}
-    end
+    })
   end
 
   protected

@@ -11,7 +11,9 @@ import WritingPage from './components/containers/WritingPage'
 import WritingList from './components/writings/WritingList'
 import WritingForm from './components/writings/WritingForm'
 import WritingItem from './components/writings/WritingItem'
-// import CategoryList from './components/categories/CategoryList'
+
+import CategoryPage from './components/containers/CategoryPage'
+import CategoryList from './components/categories/CategoryList'
 // import CategoryForm from './components/categories/CategoryForm'
 
 export default (
@@ -22,7 +24,13 @@ export default (
       <IndexRoute component={SignInForm} />
     </Route>
 
-    <Route path="/writings"      component={WritingPage}>
+    <Route path="/categories" component={CategoryPage}>
+      <IndexRoute component={CategoryList} />
+      {/*<Route path="/categories/new"      component={CategoryForm} />*/}
+      {/*<Route path="/categories/:id/edit" component={CategoryForm} />*/}
+    </Route>
+
+    <Route path="/writings" component={WritingPage}>
       <IndexRoute component={WritingList} />
       <Route path="/writings/new"      component={WritingForm} />
       <Route path="/writings/:id"      component={WritingItem} />
@@ -30,10 +38,7 @@ export default (
 
       <Route path="/categories/:categoryId/writings" component={WritingList} />
 
-      <Route path="/:id"               component={WritingItem} />
+      <Route path="/:id" component={WritingItem} />
     </Route>
-    {/*<Route path="/categories"         component={CategoryList} />*/}
-    {/*<Route path="/categories/new"     component={CategoryForm} />*/}
-    {/*<Route path="/categories/:id/new" component={CategoryForm} />*/}
   </Route>
 )
