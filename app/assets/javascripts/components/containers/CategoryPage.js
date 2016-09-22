@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import { fetchCategories, fetchCategory } from '../../actions/categories'
+
 import MyHelmet from '../commons/MyHelmet'
 import CategoryList from '../categories/CategoryList'
 import CategoryForm from '../categories/CategoryForm'
@@ -18,12 +20,12 @@ class CategoryPage extends Component {
 
   loadCategories () {
     const { dispatch } = this.props
-    // dispatch(fetchCatgories())
+    dispatch(fetchCategories())
   }
 
-  loadCategory (id = undefined, options = {}) {
+  loadCategory (id = undefined) {
     const { dispatch } = this.props
-    // dispatch(fetchWriting(id, options))
+    dispatch(fetchCategory(id))
   }
 
   saveCategory (category) {
@@ -46,19 +48,22 @@ class CategoryPage extends Component {
   // }
 
   childrenProps (type) {
-    const { categories, parents } = this.props
+    const { categories, parents, params } = this.props
+
+    const id = parseInt(params.id, 10) || undefined
 
     switch (type) {
     case CategoryList:
       return {
         onLoadCategories: this.loadCategories.bind(this),
-        categories:     categories.list,
+        categories:       categories.list,
       }
 
     case CategoryForm:
       return {
         onLoadCategory: this.loadCategory.bind(this),
         onSaveCategory: this.saveCategory.bind(this),
+        id: id,
         parents: categories.parents,
         category: categories.selected
       }

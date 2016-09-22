@@ -15,6 +15,28 @@ export default class CategoryForm extends Component {
     category: this.props.category || {}
   }
 
+  componentWillMount () {
+    const { onLoadCategory, category, parents, id } = this.props
+
+    if(!parents || parents.length === 0 ||
+       !category || category.id !== id) {
+      onLoadCategory(id)
+    } else {
+      this.setState({category: category})
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { onLoadCategory, id, category } = this.props
+
+    if(id !== nextProps.id) {
+      onLoadCategory(nextProps.id)
+
+    } else if (category && category.id !== nextProps.category.id) {
+      this.setState({category: nextProps.category})
+    }
+  }
+
   nameChanged (event) {
     this.setState({name: event.target.value})
   }

@@ -6,7 +6,7 @@ export default class CategoryList extends Component {
   componentWillMount () {
     const { onLoadCategories, categories } = this.props
 
-    if(!categories) {
+    if(!categories || categories.length === 0) {
       onLoadCategories()
     }
   }
@@ -20,7 +20,6 @@ export default class CategoryList extends Component {
 
     return (
       <div className='category-list'>
-        Category List
         {categories.map(category =>
           <CategoryItem key={`category-item-${category.id}`}
                         className='category-list__category_item'
