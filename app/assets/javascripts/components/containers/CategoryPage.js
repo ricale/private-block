@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import MyHelmet from '../commons/MyHelmet'
 import CategoryList from '../categories/CategoryList'
+import CategoryForm from '../categories/CategoryForm'
 
 import { CONTAINER_CLASS } from '../../constants/commons'
 
@@ -17,27 +18,27 @@ class CategoryPage extends Component {
 
   loadCategories () {
     const { dispatch } = this.props
-    dispatch(fetchCatgories())
+    // dispatch(fetchCatgories())
   }
 
-  // loadWriting (id = undefined, options = {}) {
-  //   const { dispatch } = this.props
-  //   dispatch(fetchWriting(id, options))
-  // }
+  loadCategory (id = undefined, options = {}) {
+    const { dispatch } = this.props
+    // dispatch(fetchWriting(id, options))
+  }
 
-  // saveWriting (writing) {
-  //   const { dispatch, session } = this.props
-  //   const data = {
-  //     writing,
-  //     authenticity_token: session.authenticityToken
-  //   }
+  saveCategory (category) {
+    const { dispatch, session } = this.props
+    // const data = {
+    //   category,
+    //   authenticity_token: session.authenticityToken
+    // }
 
-  //   if(writing.id) {
-  //     dispatch(updateWriting(data))
-  //   } else {
-  //     dispatch(createWriting(data))
-  //   }
-  // }
+    // if(category.id) {
+    //   dispatch(updateWriting(data))
+    // } else {
+    //   dispatch(createWriting(data))
+    // }
+  }
 
   // requestDeleteWriting (id) {
   //   const { dispatch, session } = this.props
@@ -45,13 +46,21 @@ class CategoryPage extends Component {
   // }
 
   childrenProps (type) {
-    const { categories } = this.props
+    const { categories, parents } = this.props
 
     switch (type) {
     case CategoryList:
       return {
-        onLoadWritings: this.loadCategories.bind(this),
+        onLoadCategories: this.loadCategories.bind(this),
         categories:     categories.list,
+      }
+
+    case CategoryForm:
+      return {
+        onLoadCategory: this.loadCategory.bind(this),
+        onSaveCategory: this.saveCategory.bind(this),
+        parents: categories.parents,
+        category: categories.selected
       }
     }
   }

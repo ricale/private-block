@@ -13,7 +13,7 @@ class CategoriesController < ApplicationController
 
   def new
     category = Category.new
-    parents = Category.family_categories(Category.root.id)
+    parents = Category.family_categories(Category.root.id).map {|c| [c.id, c.name]}
 
     render_result({
       categories: {
@@ -25,7 +25,7 @@ class CategoriesController < ApplicationController
 
   def edit
     category = Category.find(params[:id])
-    parents = Category.family_categories(Category.root.id)
+    parents = Category.family_categories(Category.root.id).map {|c| [c.id, c.name]}
 
     render_result({
       categories: {

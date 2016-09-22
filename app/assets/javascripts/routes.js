@@ -14,7 +14,7 @@ import WritingItem from './components/writings/WritingItem'
 
 import CategoryPage from './components/containers/CategoryPage'
 import CategoryList from './components/categories/CategoryList'
-// import CategoryForm from './components/categories/CategoryForm'
+import CategoryForm from './components/categories/CategoryForm'
 
 export default (
   <Route path="/" component={App}>
@@ -27,7 +27,7 @@ export default (
     <Route path="/categories" component={CategoryPage}>
       <IndexRoute component={CategoryList} />
       {/*<Route path="/categories/new"      component={CategoryForm} />*/}
-      {/*<Route path="/categories/:id/edit" component={CategoryForm} />*/}
+      <Route path="/categories/:id/edit" component={CategoryForm} />
     </Route>
 
     <Route path="/writings" component={WritingPage}>
