@@ -51,7 +51,7 @@ class WritingsController < ApplicationController
 
   def new
     writing = Writing.new(category_id: Category::ROOT_ID)
-    categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
+    categories = Category.hierarchy_categories
 
 
     render_result({
@@ -66,7 +66,7 @@ class WritingsController < ApplicationController
 
   def edit
     writing = Writing.find(params[:id])
-    categories = Category.hierarchy_categories.map {|c| [c.id, c.name]}
+    categories = Category.hierarchy_categories
 
 
     render_result({

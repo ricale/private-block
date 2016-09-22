@@ -28,7 +28,7 @@ export default class InputWithLabel extends Component {
       return (
         <select {...attributes}>
           {(options || []).map(option =>
-            <option value={option[0]} key={`option-${option[0]}`}>{option[1]}</option>
+            <option value={option.id} key={`option-${option.id}`}>{option.name}</option>
           )}
         </select>
       )
