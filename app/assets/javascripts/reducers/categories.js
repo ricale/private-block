@@ -1,7 +1,9 @@
 import {
   FETCH_WRITING_SUCCESS,
   FETCH_CATEGORY_LIST_SUCCESS,
-  FETCH_CATEGORY_SUCCESS
+  FETCH_CATEGORY_SUCCESS,
+  CREATE_CATEGORY_SUCCESS,
+  UPDATE_CATEGORY_SUCCESS
 } from '../constants/ActionType'
 
 const initCategoryState = {
@@ -12,6 +14,8 @@ export function categories (state = initCategoryState, action) {
   switch (action.type) {
   case FETCH_WRITING_SUCCESS:
   case FETCH_CATEGORY_LIST_SUCCESS:
+  case CREATE_CATEGORY_SUCCESS:
+  case UPDATE_CATEGORY_SUCCESS:
     const { categories } = action
     if(categories) {
       return Object.assign({}, state, {
@@ -21,6 +25,7 @@ export function categories (state = initCategoryState, action) {
     } else {
       return state
     }
+
 
   case FETCH_CATEGORY_SUCCESS:
     const { selected, parents } = action.categories

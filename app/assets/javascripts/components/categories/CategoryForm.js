@@ -16,37 +16,54 @@ export default class CategoryForm extends Component {
   }
 
   componentWillMount () {
-    const { onLoadCategory, category, parents, id } = this.props
+    const { fetchCategory, category, parents, id } = this.props
 
     if(!parents || parents.length === 0 ||
        !category || category.id !== id) {
-      onLoadCategory(id)
+      fetchCategory(id)
     } else {
       this.setState({category: category})
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    const { onLoadCategory, id, category } = this.props
+    const { fetchCategory, id } = this.props
+    const category          = this.props.category || {}
+    const nextPropsCategory = nextProps.category || {}
 
     if(id !== nextProps.id) {
-      onLoadCategory(nextProps.id)
+      fetchCategory(nextProps.id)
 
-    } else if (category && category.id !== nextProps.category.id) {
-      this.setState({category: nextProps.category})
+    } else if (category.id !== nextPropsCategory.id) {
+      this.setState({category: nextPropsCategory})
     }
   }
 
   nameChanged (event) {
-    this.setState({name: event.target.value})
+    this.state.category.name = event.target.value
+    this.forceUpdate()
   }
 
   parentChanged (event) {
-    this.setState({parent_id: event.target.value})
+    this.state.category.parent_id = event.target.value
+    this.forceUpdate()
   }
 
   onSubmit (event) {
+    event.preventDefault()
+    const { createCategory, updateCategory, authenticityToken } = this.props
+    const { category } = this.state
 
+    const data = {
+      category,
+      authenticity_token: authenticityToken
+    }
+
+    if(category.id) {
+      updateCategory(data)
+    } else {
+      createCategory(data)
+    }
   }
 
   getCancelUrl () {

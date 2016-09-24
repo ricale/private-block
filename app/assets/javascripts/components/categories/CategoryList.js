@@ -4,10 +4,10 @@ import CategoryItem from './CategoryItem'
 
 export default class CategoryList extends Component {
   componentWillMount () {
-    const { onLoadCategories, categories } = this.props
+    const { fetchCategories, categories } = this.props
 
     if(!categories || categories.length === 0) {
-      onLoadCategories()
+      fetchCategories()
     }
   }
 

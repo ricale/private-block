@@ -26,7 +26,7 @@ export default (
 
     <Route path="/categories" component={CategoryPage}>
       <IndexRoute component={CategoryList} />
-      {/*<Route path="/categories/new"      component={CategoryForm} />*/}
+      <Route path="/categories/new"      component={CategoryForm} />
       <Route path="/categories/:id/edit" component={CategoryForm} />
     </Route>
 
