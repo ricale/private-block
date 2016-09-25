@@ -9,22 +9,22 @@ export default class WritingList extends Component {
   }
 
   componentWillMount () {
-    const { onLoadWritings, writings, params, location } = this.props
+    const { fetchWritings, writings, params, location } = this.props
 
     if(!writings || writings.length === 0) {
-      onLoadWritings(params.categoryId, {
+      fetchWritings(params.categoryId, {
         page: location.query.page
       })
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    const { onLoadWritings, params, location } = this.props
+    const { fetchWritings, params, location } = this.props
 
     if(params.categoryId != nextProps.params.categoryId ||
        location.query.page != nextProps.location.query.page) {
 
-      onLoadWritings(nextProps.params.categoryId, {
+      fetchWritings(nextProps.params.categoryId, {
         page: nextProps.location.query.page
       })
     }

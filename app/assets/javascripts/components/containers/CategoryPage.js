@@ -19,55 +19,31 @@ class CategoryPage extends Component {
 
   }
 
-  // loadCategories () {
-  //   const { dispatch } = this.props
-  //   dispatch(fetchCategories())
-  // }
-
-  // loadCategory (id = undefined) {
-  //   const { dispatch } = this.props
-  //   dispatch(fetchCategory(id))
-  // }
-
-  // saveCategory (category) {
-  //   const { dispatch, session } = this.props
-  //   const data = {
-  //     category,
-  //     authenticity_token: session.authenticityToken
-  //   }
-
-  //   if(category.id) {
-  //     dispatch(updateCategory(data))
-  //   } else {
-  //     dispatch(createCategory(data))
-  //   }
-  // }
-
-  // requestDeleteWriting (id) {
-  //   const { dispatch, session } = this.props
-  //   dispatch(deleteWriting(id, session.authenticityToken))
-  // }
-
   getChildProps (type) {
-    const { categories, session, params, dispatch } = this.props
+    const {
+      categories: { list, parents, selected },
+      session: { authenticityToken },
+      params,
+      dispatch
+    } = this.props
+
     const { fetchCategory, fetchCategories, createCategory, updateCategory } = bindActionCreators(CategoryActionCreators, dispatch)
 
     const id = parseInt(params.id, 10) || undefined
-    let childProps
 
     switch (type) {
     case CategoryList:
       return {
-        categories: categories.list,
+        categories: list,
         fetchCategories
       }
 
     case CategoryForm:
       return {
         id: id,
-        parents: categories.parents,
-        category: categories.selected,
-        authenticityToken: session.authenticityToken,
+        category: selected,
+        parents,
+        authenticityToken,
 
         fetchCategory,
         submit: (id ? updateCategory : createCategory)

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { fetchWritings, fetchWriting, createWriting, updateWriting, deleteWriting } from '../../actions/writings'
+import * as WritingActionCreators from '../../actions/writings'
 
 import MyHelmet from '../commons/MyHelmet'
 import WritingList from '../writings/WritingList'
@@ -20,66 +21,49 @@ class WritingPage extends Component {
 
   }
 
-  loadWritings (categoryId = undefined, options = {}) {
-    const { dispatch } = this.props
-    dispatch(fetchWritings(categoryId, options))
-  }
+  getChildProps (type) {
+    const {
+      writings: { list, selected, totalPage },
+      categories,
+      params,
+      session,
+      dispatch
+    } = this.props
 
-  loadWriting (id = undefined, options = {}) {
-    const { dispatch } = this.props
-    dispatch(fetchWriting(id, options))
-  }
-
-  saveWriting (writing) {
-    const { dispatch, session } = this.props
-    const data = {
-      writing,
-      authenticity_token: session.authenticityToken
-    }
-
-    if(writing.id) {
-      dispatch(updateWriting(data))
-    } else {
-      dispatch(createWriting(data))
-    }
-  }
-
-  requestDeleteWriting (id) {
-    const { dispatch, session } = this.props
-    dispatch(deleteWriting(id, session.authenticityToken))
-  }
-
-  childrenProps (type) {
-    const { writings, categories, params, location, session } = this.props
+    const { fetchWriting, fetchWritings, createWriting, updateWriting, deleteWriting } = bindActionCreators(WritingActionCreators, dispatch)
 
     const id = parseInt(params.id, 10) || undefined
-    const writingSelected = writings.selected || {}
+    const writing = selected || {}
 
     switch (type) {
     case WritingList:
       return {
-        onLoadWritings: this.loadWritings.bind(this),
-        writings:       writings.list || [],
-        totalPage:      writings.totalPage
+        writings:  list || [],
+        totalPage: totalPage,
+
+        fetchWritings,
       }
 
     case WritingForm:
       return {
-        onLoadWriting: this.loadWriting.bind(this),
-        onSaveWriting: this.saveWriting.bind(this),
-        writing:    writingSelected,
-        id:         id,
+        id,
+        writing,
+        session,
         categories: categories.list,
-        session
+
+        fetchWriting,
+        submit: (id ? updateWriting : createWriting)
       }
 
     case WritingItem:
       return {
-        onLoadWriting: this.loadWriting.bind(this),
-        onDeleteWriting: this.requestDeleteWriting.bind(this),
-        writing:     writingSelected,
-        id:          id,
-        loggedInNow: session.valid
+        id,
+        writing,
+        loggedInNow: session.valid,
+        authenticityToken: session.authenticityToken,
+
+        fetchWriting,
+        deleteWriting,
       }
     }
   }
@@ -88,7 +72,7 @@ class WritingPage extends Component {
     const { writings, children, session } = this.props
 
     const childrenWithProps = React.Children.map(children, (child) =>
-      React.cloneElement(child, this.childrenProps(child.type))
+      React.cloneElement(child, this.getChildProps(child.type))
     )
 
     return (

@@ -29,20 +29,20 @@ export default class WritingItem extends Component {
   }
 
   componentWillMount () {
-    const { onLoadWriting, writing, id } = this.props
+    const { fetchWriting, writing, id } = this.props
 
     if((!writing || !writing.id) && id) {
-      onLoadWriting(id)
+      fetchWriting(id)
     }
 
     this.setDecodedContent(this.props)
   }
 
   componentWillReceiveProps (nextProps) {
-    const { onLoadWriting, id } = this.props
+    const { fetchWriting, id } = this.props
 
     if(id && id !== nextProps.id) {
-      onLoadWriting(id)
+      fetchWriting(id)
     }
 
     this.setDecodedContent(nextProps)
@@ -131,8 +131,9 @@ export default class WritingItem extends Component {
 
   onClickDeleteButton (event) {
     event.preventDefault()
-    const { onDeleteWriting, writing } = this.props
-    onDeleteWriting(writing.id)
+    const { deleteWriting, writing, authenticityToken } = this.props
+
+    deleteWriting(writing.id, authenticityToken)
   }
 
   render () {

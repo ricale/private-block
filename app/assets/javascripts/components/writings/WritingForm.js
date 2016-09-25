@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { browserHistory } from 'react-router';
 
+import connectSubmitForm from '../../connectSubmitForm'
+
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
-export default class WritingForm extends Component {
+import redirectSubmitted from '../../decorators/redirectSubmitted'
+
+@redirectSubmitted('/writings')
+class WritingForm extends Component {
   static defaultProps = {
     method: 'post',
     id: undefined,
@@ -21,11 +26,11 @@ export default class WritingForm extends Component {
   }
 
   componentDidMount () {
-    const { onLoadWriting, writing, categories, id } = this.props
+    const { fetchWriting, writing, categories, id } = this.props
 
     if(!categories || categories.length === 0 ||
        !writing || (id && id !== writing.id)) {
-      onLoadWriting(id, {withCategories: true})
+      fetchWriting(id, {withCategories: true})
     } else {
       this.setState({writing: writing})
     }
@@ -36,10 +41,10 @@ export default class WritingForm extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { onLoadWriting, id, writing } = this.props
+    const { fetchWriting, id, writing } = this.props
 
     if(id !== nextProps.id) {
-      onLoadWriting(nextProps.id, {withCategories: true})
+      fetchWriting(nextProps.id, {withCategories: true})
 
     } else if (writing && writing.id !== nextProps.writing.id) {
       this.setState({writing: nextProps.writing})
@@ -69,8 +74,15 @@ export default class WritingForm extends Component {
 
   onSubmit (event) {
     event.preventDefault()
-    const { onSaveWriting, id } = this.props
-    onSaveWriting(this.state.writing)
+    const { session, onSubmit } = this.props
+    const { writing } = this.state
+
+    const data = {
+      writing,
+      authenticity_token: session.authenticityToken
+    }
+
+    onSubmit(data)
   }
 
   getCancelUrl () {
@@ -123,3 +135,5 @@ export default class WritingForm extends Component {
 
   }
 }
+
+export default connectSubmitForm(WritingForm)

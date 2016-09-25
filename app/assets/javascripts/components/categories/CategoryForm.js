@@ -57,7 +57,7 @@ class CategoryForm extends Component {
 
   onSubmit (event) {
     event.preventDefault()
-    const { createCategory, updateCategory, authenticityToken, onSubmit } = this.props
+    const { authenticityToken, onSubmit } = this.props
     const { category } = this.state
 
     const data = {
