@@ -30,6 +30,8 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <meta property="og:title" content="<%= og_title || page_title %>" data-react-helmet="true">
   <meta property="og:type"  content="website" data-react-helmet="true">
   <meta property="og:url"   content="<%= "http://#{request.host+request.fullpath}" %>" data-react-helmet="true">
