@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-
 import { connect } from 'react-redux'
-import { signIn } from '../../actions/session'
+import { bindActionCreators } from 'redux'
+
+import * as SessionActionCreators from '../../actions/session'
 
 import SignInForm from '../users/SignInForm'
 
@@ -19,20 +20,15 @@ class SessionPage extends Component {
 
   }
 
-  onLogin (email, password) {
-    const { dispatch, session } = this.props
-
-    dispatch(signIn(email, password, session.authenticityToken))
-  }
-
-  childrenProps (type) {
-    const { session } = this.props
+  getChildProps (type) {
+    const { session, dispatch } = this.props
+    const { signIn } = bindActionCreators(SessionActionCreators, dispatch)
 
     switch (type) {
     case SignInForm:
       return {
         session,
-        onLogin: this.onLogin.bind(this)
+        submit: signIn
       }
     }
   }
@@ -41,7 +37,7 @@ class SessionPage extends Component {
     const { children } = this.props
 
     const childrenWithProps = React.Children.map(children, (child) =>
-      React.cloneElement(child, this.childrenProps(child.type))
+      React.cloneElement(child, this.getChildProps(child.type))
     )
 
     return (

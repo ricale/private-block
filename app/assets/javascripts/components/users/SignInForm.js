@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 
+import connectSubmitForm from '../../connectSubmitForm'
+
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
-export default class SignInForm extends Component {
+import redirectSubmitted from '../../decorators/redirectSubmitted'
+
+@redirectSubmitted('/')
+class SignInForm extends Component {
   state = {
     user: {
       email: '',
@@ -20,11 +25,11 @@ export default class SignInForm extends Component {
   }
 
   onSubmit (event) {
-    const { onLogin } = this.props
+    event.preventDefault()
+    const { onSubmit, session: { authenticityToken } } = this.props
     const { email, password } = this.state
 
-    event.preventDefault()
-    onLogin(email, password)
+    onSubmit(email, password, authenticityToken)
   }
 
   render () {
@@ -53,3 +58,5 @@ export default class SignInForm extends Component {
     )
   }
 }
+
+export default connectSubmitForm(SignInForm)

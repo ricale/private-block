@@ -1,7 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 
-export default function connectSubmitForm (Form, submit) {
+export default function connectSubmitForm (Form) {
   return React.createClass({
     getInitialState () {
       return {}

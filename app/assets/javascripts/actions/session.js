@@ -14,7 +14,7 @@ import {
   DELETE_SESSION_FAILURE
 } from '../constants/ActionType'
 
-function generateRequestCallback (type) {
+function generateRequestActionCreator (type) {
   return () => {
     return {
       type: type
@@ -22,7 +22,22 @@ function generateRequestCallback (type) {
   }
 }
 
-function generateFailureCallback (type) {
+function generateSuccessActionCreator (type) {
+  return data => {
+    const { user, authenticity_token } = data
+
+    return {
+      type,
+      session: {
+        valid: !!user,
+        user:  (user || {}),
+        authenticityToken: authenticity_token
+      }
+    }
+  }
+}
+
+function generateFailureActionCreator (type) {
   return (errorMessage) => {
     return {
       type: type,
@@ -34,89 +49,69 @@ function generateFailureCallback (type) {
   }
 }
 
-
-
-
-function succeedRequestingSession (data) {
-  const { signed_in, user } = data
-  return {
-    type: FETCH_SESSION_SUCCESS,
-    session: {
-      valid: signed_in,
-      user: user
-    }
-  }
-}
-
-export function fetchSession () {
+function fetchSessionData (url, states, options) {
   return fetchData(
-    '/auth/is_signed_in.json',
-    generateRequestCallback(FETCH_SESSION_REQUEST),
-    succeedRequestingSession,
-    generateFailureCallback(FETCH_SESSION_FAILURE)
+    url,
+    generateRequestActionCreator(states[0]),
+    generateSuccessActionCreator(states[1]),
+    generateFailureActionCreator(states[2]),
+    options
   )
 }
 
-function succeedRequestingSignIn (data) {
-  browserHistory.push(`/`)
 
-  return {
-    type: CREATE_SESSION_SUCCESS,
-    session: {
-      valid: true,
-      user:  data.user,
-      authenticityToken: data.authenticity_token
+
+
+export function fetchSession (successCallback = undefined, failureCallback = undefined) {
+  return fetchSessionData(
+    '/auth/is_signed_in.json',
+    [
+      FETCH_SESSION_REQUEST,
+      FETCH_SESSION_SUCCESS,
+      FETCH_SESSION_FAILURE
+    ],
+    {
+      successCallback,
+      failureCallback
     }
-  }
+  )
 }
 
-export function signIn (email, password, authenticityToken) {
-  const params = {
-    'user': {
-      email: email,
-      password: password,
-    },
-    authenticity_token: authenticityToken
-  }
-
-  return fetchData(
+export function signIn (email, password, authenticityToken, successCallback = undefined, failureCallback = undefined) {
+  return fetchSessionData(
     '/users/sign_in.json',
-    generateRequestCallback(CREATE_SESSION_REQUEST),
-    succeedRequestingSignIn,
-    generateFailureCallback(CREATE_SESSION_FAILURE),
+    [
+      CREATE_SESSION_REQUEST,
+      CREATE_SESSION_SUCCESS,
+      CREATE_SESSION_FAILURE
+    ],
     {
       method: 'POST',
-      params,
+      params: {
+        user: { email, password },
+        authenticity_token: authenticityToken
+      },
+      successCallback,
+      failureCallback
     }
   )
 }
 
-function succeedRequestingSignOut (data) {
-  browserHistory.push(`/`)
-
-  return {
-    type: DELETE_SESSION_SUCCESS,
-    session: {
-      valid: false,
-      user:  {},
-      authenticityToken: data.authenticity_token
-    }
-  }
-}
-
-export function signOut (authenticityToken) {
-  const params = {
-    authenticity_token: authenticityToken
-  }
-
-  return fetchData(
+export function signOut (authenticityToken, successCallback = undefined, failureCallback = undefined) {
+  return fetchSessionData(
     '/users/sign_out.json',
-    generateRequestCallback(DELETE_SESSION_REQUEST),
-    succeedRequestingSignOut,
-    generateFailureCallback(DELETE_SESSION_FAILURE),
+    [
+      DELETE_SESSION_REQUEST,
+      DELETE_SESSION_SUCCESS,
+      DELETE_SESSION_FAILURE
+    ],
     {
       method: 'DELETE',
-      params,
+      params: {
+        authenticity_token: authenticityToken
+      },
+      successCallback,
+      failureCallback
     }
   )
 }
