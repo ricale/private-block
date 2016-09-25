@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 
+import connectSubmitForm from '../../connectSubmitForm'
+
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
-export default class CategoryForm extends Component {
+import redirectSubmitted from '../../decorators/redirectSubmitted'
+
+@redirectSubmitted('/categories')
+class CategoryForm extends Component {
   static defaultProps = {
     method: 'post',
     id: undefined,
@@ -21,6 +26,7 @@ export default class CategoryForm extends Component {
     if(!parents || parents.length === 0 ||
        !category || category.id !== id) {
       fetchCategory(id)
+
     } else {
       this.setState({category: category})
     }
@@ -51,7 +57,7 @@ export default class CategoryForm extends Component {
 
   onSubmit (event) {
     event.preventDefault()
-    const { createCategory, updateCategory, authenticityToken } = this.props
+    const { createCategory, updateCategory, authenticityToken, onSubmit } = this.props
     const { category } = this.state
 
     const data = {
@@ -59,11 +65,7 @@ export default class CategoryForm extends Component {
       authenticity_token: authenticityToken
     }
 
-    if(category.id) {
-      updateCategory(data)
-    } else {
-      createCategory(data)
-    }
+    onSubmit(data)
   }
 
   getCancelUrl () {
@@ -116,3 +118,5 @@ export default class CategoryForm extends Component {
     )
   }
 }
+
+export default connectSubmitForm(CategoryForm)

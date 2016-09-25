@@ -49,30 +49,30 @@ class CategoryPage extends Component {
   // }
 
   getChildProps (type) {
-    const { categories, parents, session, params, dispatch } = this.props
-    const boundActionCreators = bindActionCreators(CategoryActionCreators, dispatch)
+    const { categories, session, params, dispatch } = this.props
+    const { fetchCategory, fetchCategories, createCategory, updateCategory } = bindActionCreators(CategoryActionCreators, dispatch)
 
     const id = parseInt(params.id, 10) || undefined
     let childProps
 
     switch (type) {
     case CategoryList:
-      childProps = {
-        categories:       categories.list,
+      return {
+        categories: categories.list,
+        fetchCategories
       }
-      break
 
     case CategoryForm:
-      childProps = {
+      return {
         id: id,
         parents: categories.parents,
         category: categories.selected,
-        authenticityToken: session.authenticityToken
-      }
-      break
-    }
+        authenticityToken: session.authenticityToken,
 
-    return Object.assign(childProps, boundActionCreators)
+        fetchCategory,
+        submit: (id ? updateCategory : createCategory)
+      }
+    }
   }
 
   render () {

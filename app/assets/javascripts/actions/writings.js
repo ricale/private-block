@@ -65,12 +65,13 @@ function succeedRequestingWriting (data) {
 
   let result = {
     type: FETCH_WRITING_SUCCESS,
-    writings
+    writings,
+    categories
   }
 
-  if(categories) {
-    result.categories = categories
-  }
+  // if(categories) {
+  //   result.categories = categories
+  // }
 
   return result
 }

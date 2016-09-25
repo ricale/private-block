@@ -27,8 +27,8 @@ function parseJSON (response) {
   return response.json()
 }
 
-export function fetchData (url, beforeCallback, successCallback, failureCallback, options = {}) {
-  const { params, method } = options
+export function fetchData (url, beforeActionCreator, successActionCreator, failureActionCreator, options = {}) {
+  const { params, method, successCallback, failureCallback } = options
 
   let requestOptions = {
     credentials: 'same-origin',
@@ -54,17 +54,22 @@ export function fetchData (url, beforeCallback, successCallback, failureCallback
   }
 
   return dispatch => {
-    dispatch(beforeCallback())
+    dispatch(beforeActionCreator())
 
     return (
       fetch(url, requestOptions).
       then(checkStatus).
       then(parseJSON).
-      then(json => dispatch(successCallback(json))).
+      then(json => dispatch(successActionCreator(json))).
+      then(() => {
+        if(typeof(successCallback) === 'function') {
+           successCallback()
+        }
+      }).
       catch(error => {
         // console.log('error', error)
         return error.response.json().
-                              then(json => dispatch(failureCallback(json.message)))
+                              then(json => dispatch(failureActionCreator(json.message)))
       })
     )
   }

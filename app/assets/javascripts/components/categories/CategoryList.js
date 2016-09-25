@@ -3,6 +3,10 @@ import React, { Component } from 'react'
 import CategoryItem from './CategoryItem'
 
 export default class CategoryList extends Component {
+  state = {
+
+  }
+
   componentWillMount () {
     const { fetchCategories, categories } = this.props
 

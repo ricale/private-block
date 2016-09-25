@@ -1,5 +1,3 @@
-import { browserHistory } from 'react-router'
-
 import { fetchData } from '../fetchData'
 
 import {
@@ -9,18 +7,29 @@ import {
   UPDATE_CATEGORY_REQUEST,     UPDATE_CATEGORY_SUCCESS,     UPDATE_CATEGORY_FAILURE
 } from '../constants/ActionType'
 
-function generateRequestCallback (type) {
+function generateRequestActionCreator (type) {
   return () => {
     return {
-      type: type
+      type
     }
   }
 }
 
-function generateFailureCallback (type) {
+function generateSuccessActionCreator (type) {
+  return data => {
+    const { categories } = data
+
+    return {
+      type,
+      categories
+    }
+  }
+}
+
+function generateFailureActionCreator (type) {
   return (errorMessage) => {
     return {
-      type: type,
+      type,
       message: {
         type: 'error',
         message: errorMessage
@@ -29,88 +38,79 @@ function generateFailureCallback (type) {
   }
 }
 
-
-
-function succeedRequestingCategories (data) {
-  const { categories } = data
-
-  return {
-    type: FETCH_CATEGORY_LIST_SUCCESS,
-    categories
-  }
-}
-
-export function fetchCategories () {
-  const url = '/categories.json'
-
+function fetchCategoryData (url, states, options) {
   return fetchData(
     url,
-    generateRequestCallback(FETCH_CATEGORY_LIST_REQUEST),
-    succeedRequestingCategories,
-    generateFailureCallback(FETCH_CATEGORY_LIST_FAILURE)
+    generateRequestActionCreator(states[0]),
+    generateSuccessActionCreator(states[1]),
+    generateFailureActionCreator(states[2]),
+    options
   )
 }
 
-function succeedRequestingCategory (data) {
-  const { categories } = data
 
-  return {
-    type: FETCH_CATEGORY_SUCCESS,
-    categories
-  }
-}
-
-export function fetchCategory (id) {
-  const url = id ? `/categories/${id}/edit.json` : '/categories/new.json'
-
-  return fetchData(
-    url,
-    generateRequestCallback(FETCH_CATEGORY_REQUEST),
-    succeedRequestingCategory,
-    generateFailureCallback(FETCH_CATEGORY_FAILURE)
-  )
-}
-
-function succeedRequestingCreatingCategory (data) {
-  const { categories } = data
-
-  return {
-    type: CREATE_CATEGORY_SUCCESS,
-    categories
-  }
-}
-
-export function createCategory (data) {
-  return fetchData(
+export function fetchCategories (successCallback = undefined, failureCallback = undefined) {
+  return fetchCategoryData(
     '/categories.json',
-    generateRequestCallback(CREATE_CATEGORY_REQUEST),
-    succeedRequestingCreatingCategory,
-    generateFailureCallback(CREATE_CATEGORY_FAILURE),
+    [
+      FETCH_CATEGORY_LIST_REQUEST,
+      FETCH_CATEGORY_LIST_SUCCESS,
+      FETCH_CATEGORY_LIST_FAILURE
+    ],
     {
-      params: data,
-      method: 'POST'
+      successCallback,
+      failureCallback
     }
   )
 }
 
-function succeedRequestingUpdatingCategory (data) {
-  const { categories } = data
+export function fetchCategory (id, successCallback = undefined, failureCallback = undefined) {
+  const url = id ? `/categories/${id}/edit.json` : '/categories/new.json'
 
-  return {
-    type: UPDATE_CATEGORY_SUCCESS,
-    categories
-  }
+  return fetchCategoryData(
+    url,
+    [
+      FETCH_CATEGORY_REQUEST,
+      FETCH_CATEGORY_SUCCESS,
+      FETCH_CATEGORY_FAILURE
+    ],
+    {
+      successCallback,
+      failureCallback
+    }
+  )
 }
 
-export function updateCategory (data) {
-  return fetchData(
-    `/categories/${data.category.id}.json`,
-    generateRequestCallback(UPDATE_CATEGORY_REQUEST),
-    succeedRequestingUpdatingCategory,
-    generateFailureCallback(UPDATE_CATEGORY_FAILURE),
+export function createCategory (params, successCallback = undefined, failureCallback = undefined) {
+  return fetchCategoryData(
+    '/categories.json',
+    [
+      CREATE_CATEGORY_REQUEST,
+      CREATE_CATEGORY_SUCCESS,
+      CREATE_CATEGORY_FAILURE
+    ],
     {
-      params: data,
-      method: 'PUT'
+      method: 'POST',
+      params,
+      successCallback,
+      failureCallback
+    }
+  )
+}
+
+export function updateCategory (params, successCallback = undefined, failureCallback = undefined) {
+  return fetchCategoryData(
+    `/categories/${params.category.id}.json`,
+    [
+      UPDATE_CATEGORY_REQUEST,
+      UPDATE_CATEGORY_SUCCESS,
+      UPDATE_CATEGORY_FAILURE
+    ],
+    {
+      method: 'PUT',
+      params,
+      successCallback,
+      failureCallback
     }
   )
 }
