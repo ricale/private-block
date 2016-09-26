@@ -9,7 +9,7 @@ import ElementsWithLabel from '../commons/ElementsWithLabel'
 
 import redirectSubmitted from '../../decorators/redirectSubmitted'
 
-@redirectSubmitted('/writings')
+@redirectSubmitted(props => props.writing && props.writing.id ? `/writings/${props.writing.id}` : '/writings')
 class WritingForm extends Component {
   static defaultProps = {
     method: 'post',
@@ -29,7 +29,7 @@ class WritingForm extends Component {
     const { fetchWriting, writing, categories, id } = this.props
 
     if(!categories || categories.length === 0 ||
-       !writing || (id && id !== writing.id)) {
+       !writing || (!id && !writing.id) || id !== writing.id) {
       fetchWriting(id, {withCategories: true})
     } else {
       this.setState({writing: writing})

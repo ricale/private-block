@@ -1,16 +1,18 @@
 import { browserHistory } from 'react-router'
 
-function redirect (path, predicate) {
+function redirect (pathCreator, predicate) {
   return Component =>
     class Composed extends React.Component {
       componentWillMount () {
         if(predicate(this.props)) {
+          const path = pathCreator(this.props)
           browserHistory.push(path)
         }
       }
 
       componentWillReceiveProps (nextProps) {
         if(predicate(nextProps)) {
+          const path = pathCreator(this.props)
           browserHistory.push(path)
         }
       }
@@ -21,6 +23,6 @@ function redirect (path, predicate) {
     }
 }
 
-export default function redirectSubmitted (path) {
-  return redirect(path, ({ submitted }) => submitted)
+export default function redirectSubmitted (pathCreator) {
+  return redirect(pathCreator, ({ submitted }) => submitted)
 }
