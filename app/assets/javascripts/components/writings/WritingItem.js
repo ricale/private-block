@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import Measure from 'react-measure'
 
 import DateAndTime from '../commons/DateAndTime'
@@ -39,10 +39,14 @@ export default class WritingItem extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { fetchWriting, id } = this.props
+    const { fetchWriting, writing, id } = this.props
 
-    if(id && id !== nextProps.id) {
-      fetchWriting(id)
+    if(nextProps.id === id && !nextProps.writing && writing) {
+      browserHistory.push('/writings')
+    }
+
+    if(nextProps.id !== id) {
+      fetchWriting(nextProps.id)
     }
 
     this.setDecodedContent(nextProps)

@@ -23,7 +23,7 @@ class WritingPage extends Component {
 
   getChildProps (type) {
     const {
-      writings: { list, selected, totalPage },
+      writings: { list, selected: writing, totalPage },
       categories,
       params,
       session,
@@ -33,7 +33,6 @@ class WritingPage extends Component {
     const { fetchWriting, fetchWritings, createWriting, updateWriting, deleteWriting } = bindActionCreators(WritingActionCreators, dispatch)
 
     const id = parseInt(params.id, 10) || undefined
-    const writing = selected || {}
 
     switch (type) {
     case WritingList:
