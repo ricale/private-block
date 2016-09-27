@@ -7,11 +7,11 @@ class ApplicationController < ActionController::Base
     request.env['CONTENT_TYPE'] == 'application/json'
   end
 
-  def render_result(result)
+  def render_result(result, status = nil)
     @result = result
 
     if is_json_request
-      render json: @result
+      render json: @result, status: status
 
     else
       render 'commons/root', locals: {props: @result}

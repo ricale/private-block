@@ -1,5 +1,15 @@
 class CategoriesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate!
+
+  def authenticate!
+    if current_user.blank?
+      return render_result({
+        categories: {
+        },
+        message: I18n.t('devise.failure.unauthenticated')
+      }, 401)
+    end
+  end
 
   def index
     categories = Category.hierarchy_categories

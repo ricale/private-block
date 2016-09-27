@@ -67,9 +67,14 @@ export function fetchData (url, beforeActionCreator, successActionCreator, failu
         }
       }).
       catch(error => {
-        // console.log('error', error)
-        return error.response.json().
-                              then(json => dispatch(failureActionCreator(json.message)))
+        let promise = error.response.json().
+                                     then(json => dispatch(failureActionCreator(json.message)))
+
+        if(typeof(failureCallback) === 'function') {
+          failureCallback(error)
+        }
+
+        return promise
       })
     )
   }

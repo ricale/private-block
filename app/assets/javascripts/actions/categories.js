@@ -1,5 +1,7 @@
 import { fetchData } from '../fetchData'
 
+import { browserHistory } from 'react-router'
+
 import {
   FETCH_CATEGORY_LIST_REQUEST, FETCH_CATEGORY_LIST_SUCCESS, FETCH_CATEGORY_LIST_FAILURE,
   FETCH_CATEGORY_REQUEST,      FETCH_CATEGORY_SUCCESS,      FETCH_CATEGORY_FAILURE,
@@ -38,7 +40,26 @@ function generateFailureActionCreator (type) {
   }
 }
 
-function fetchCategoryData (url, states, options) {
+function failureCallbackForUnauthorized (error) {
+  switch(error.response.status) {
+  case 401:
+    browserHistory.push('/users/sign_in')
+    break;
+  }
+}
+
+function fetchCategoryData (url, states, options = {}) {
+  if(typeof(options.failureCallback) === 'function') {
+    const originalFailureCallback = options.failureCallback
+    options.failureCallback = function (error) {
+      originalFailureCallback(error)
+      failureCallbackForUnauthorized(error)
+    }
+
+  } else {
+    options.failureCallback = failureCallbackForUnauthorized
+  }
+
   return fetchData(
     url,
     generateRequestActionCreator(states[0]),
