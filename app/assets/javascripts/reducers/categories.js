@@ -3,7 +3,8 @@ import {
   FETCH_CATEGORY_LIST_SUCCESS,
   FETCH_CATEGORY_SUCCESS,
   CREATE_CATEGORY_SUCCESS,
-  UPDATE_CATEGORY_SUCCESS
+  UPDATE_CATEGORY_SUCCESS,
+  DELETE_CATEGORY_REQUEST, DELETE_CATEGORY_SUCCESS, DELETE_CATEGORY_FAILURE
 } from '../constants/ActionType'
 
 const initCategoryState = {
@@ -16,6 +17,7 @@ export function categories (state = initCategoryState, action) {
   case FETCH_CATEGORY_LIST_SUCCESS:
   case CREATE_CATEGORY_SUCCESS:
   case UPDATE_CATEGORY_SUCCESS:
+  case DELETE_CATEGORY_SUCCESS:
     const { categories } = action
     if(categories) {
       return Object.assign({}, state, {

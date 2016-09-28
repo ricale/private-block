@@ -8,7 +8,7 @@ import ElementsWithLabel from '../commons/ElementsWithLabel'
 
 import redirectSubmitted from '../../decorators/redirectSubmitted'
 
-@redirectSubmitted('/categories')
+@redirectSubmitted(() => '/categories')
 class CategoryForm extends Component {
   static defaultProps = {
     method: 'post',

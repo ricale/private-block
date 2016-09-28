@@ -7,7 +7,7 @@ import ElementsWithLabel from '../commons/ElementsWithLabel'
 
 import redirectSubmitted from '../../decorators/redirectSubmitted'
 
-@redirectSubmitted('/')
+@redirectSubmitted(() => '/')
 class SignInForm extends Component {
   state = {
     user: {

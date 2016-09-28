@@ -27,7 +27,7 @@ class CategoryPage extends Component {
       dispatch
     } = this.props
 
-    const { fetchCategory, fetchCategories, createCategory, updateCategory } = bindActionCreators(CategoryActionCreators, dispatch)
+    const { fetchCategory, fetchCategories, createCategory, updateCategory, deleteCategory } = bindActionCreators(CategoryActionCreators, dispatch)
 
     const id = parseInt(params.id, 10) || undefined
 
@@ -35,7 +35,10 @@ class CategoryPage extends Component {
     case CategoryList:
       return {
         categories: list,
-        fetchCategories
+        authenticityToken,
+
+        fetchCategories,
+        deleteCategory,
       }
 
     case CategoryForm:

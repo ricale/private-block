@@ -20,6 +20,7 @@ export default class CategoryList extends Component {
   // }
 
   render () {
+    const { deleteCategory, authenticityToken } = this.props
     const categories = this.props.categories || []
 
     return (
@@ -27,7 +28,9 @@ export default class CategoryList extends Component {
         {categories.map(category =>
           <CategoryItem key={`category-item-${category.id}`}
                         className='category-list__category_item'
-                        category={category}/>
+                        category={category}
+                        deleteCategory={deleteCategory}
+                        authenticityToken={authenticityToken} />
         )}
       </div>
     )

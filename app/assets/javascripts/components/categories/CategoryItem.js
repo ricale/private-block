@@ -22,7 +22,9 @@ export default class CategoryItem extends Component {
   }
 
   onClickDeleteButton (event) {
+    const { category, authenticityToken, deleteCategory } = this.props
     event.preventDefault()
+    deleteCategory(category.id, authenticityToken)
   }
 
   render () {

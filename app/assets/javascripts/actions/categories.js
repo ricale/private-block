@@ -6,7 +6,8 @@ import {
   FETCH_CATEGORY_LIST_REQUEST, FETCH_CATEGORY_LIST_SUCCESS, FETCH_CATEGORY_LIST_FAILURE,
   FETCH_CATEGORY_REQUEST,      FETCH_CATEGORY_SUCCESS,      FETCH_CATEGORY_FAILURE,
   CREATE_CATEGORY_REQUEST,     CREATE_CATEGORY_SUCCESS,     CREATE_CATEGORY_FAILURE,
-  UPDATE_CATEGORY_REQUEST,     UPDATE_CATEGORY_SUCCESS,     UPDATE_CATEGORY_FAILURE
+  UPDATE_CATEGORY_REQUEST,     UPDATE_CATEGORY_SUCCESS,     UPDATE_CATEGORY_FAILURE,
+  DELETE_CATEGORY_REQUEST,     DELETE_CATEGORY_SUCCESS,     DELETE_CATEGORY_FAILURE
 } from '../constants/ActionType'
 
 function generateRequestActionCreator (type) {
@@ -130,6 +131,25 @@ export function updateCategory (params, successCallback = undefined, failureCall
     {
       method: 'PUT',
       params,
+      successCallback,
+      failureCallback
+    }
+  )
+}
+
+export function deleteCategory (id, authenticityToken, successCallback = undefined, failureCallback = undefined) {
+  return fetchCategoryData(
+    `/categories/${id}`,
+    [
+      DELETE_CATEGORY_REQUEST,
+      DELETE_CATEGORY_SUCCESS,
+      DELETE_CATEGORY_FAILURE
+    ],
+    {
+      method: 'DELETE',
+      params: {
+        authenticity_token: authenticityToken
+      },
       successCallback,
       failureCallback
     }

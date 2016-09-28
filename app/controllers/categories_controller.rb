@@ -1,6 +1,8 @@
 class CategoriesController < ApplicationController
   before_action :authenticate!
 
+  around_action :wrap_default_result_and_resque
+
   def authenticate!
     if current_user.blank?
       return render_result({

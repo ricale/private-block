@@ -116,17 +116,6 @@ class WritingsController < ApplicationController
     })
   end
 
-  protected
-
-  def wrap_default_result_and_resque
-    yield
-
-  rescue Exception => e
-    if is_json_request
-      render status: 400, json: {message: e.to_s}
-    end
-  end
-
   private
 
   def writing_params

@@ -7,6 +7,15 @@ class ApplicationController < ActionController::Base
     request.env['CONTENT_TYPE'] == 'application/json'
   end
 
+  def wrap_default_result_and_resque
+    yield
+
+  rescue Exception => e
+    if is_json_request
+      render status: 400, json: {message: e.to_s}
+    end
+  end
+
   def render_result(result, status = nil)
     @result = result
 
