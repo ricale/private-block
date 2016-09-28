@@ -23,7 +23,7 @@ module PrivateBlock
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    config.browserify_rails.commandline_options = '-t babelify'
+    config.browserify_rails.commandline_options = '-t babelify -t envify'
 
     config.to_prepare do
       DeviseController.respond_to :json
