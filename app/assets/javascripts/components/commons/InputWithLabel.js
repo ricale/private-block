@@ -6,10 +6,10 @@ export default class InputWithLabel extends Component {
   }
 
   renderInput () {
-    const { id, elementType, typeAttribute, placeholder, name, value, onChange, options } = this.props
+    const { id, elementType, typeAttribute, inputClassName, placeholder, name, value, onChange, options } = this.props
 
     const attributes = {
-      className: `input-with-label__${elementType}`,
+      className: `input-with-label__${elementType} ${inputClassName || ''}`,
       placeholder,
       id,
       name,

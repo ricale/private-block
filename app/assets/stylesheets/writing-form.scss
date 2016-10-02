@@ -1,9 +1,13 @@
 .writing-form {
-  input[type='text'] {
+  .writing-form__title-input {
     width: 100%;
   }
 
-  select {
+  .writing-form__category-select {
     width: 100%;
+  }
+
+  .input-with-label {
+    margin-bottom: 20px;
   }
 }

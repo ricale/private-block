@@ -104,6 +104,7 @@ class WritingForm extends Component {
             onSubmit={this.onSubmit.bind(this)}>
 
         <InputWithLabel id='writing_title'
+                        inputClassName='writing-form__title-input'
                         name='writing[title]'
                         placeholder='Title'
                         labelText='Title'
@@ -111,6 +112,7 @@ class WritingForm extends Component {
                         onChange={this.onTitleChanged.bind(this)} />
 
         <InputWithLabel id='writing_category_id'
+                        inputClassName='writing-form__category-select'
                         name='writing[category_id]'
                         placeholder='Category'
                         labelText='Category'
@@ -119,7 +121,10 @@ class WritingForm extends Component {
                         options={categories}
                         onChange={this.onCategoryChanged.bind(this)} />
 
-        <Hme name='writing[content]' value={writing.content || ''} onChange={this.onContentChanged.bind(this)} />
+        <div>
+          <label for='writing_content'>Content</label>
+          <Hme name='writing[content]' value={writing.content || ''} onChange={this.onContentChanged.bind(this)} />
+        </div>
 
         <ElementsWithLabel>
           <input id='submit' type='submit' value='submit' />
