@@ -10,7 +10,7 @@ import Hme from '../commons/Hme'
 
 import redirectSubmitted from '../../decorators/redirectSubmitted'
 
-@redirectSubmitted(props => props.writing && props.writing.id ? `/writings/${props.writing.id}` : '/writings')
+@redirectSubmitted(props => props.writing && props.writing.id ? `/${props.writing.id}` : '/writings')
 class WritingForm extends Component {
   static defaultProps = {
     method: 'post',

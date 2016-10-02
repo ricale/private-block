@@ -19,9 +19,12 @@ export default class Hme extends Component {
     }
   }
 
+  getPreviewHTML () {
+    return {__html: this.state.decodedContent}
+  }
+
   render () {
     const { name, value, onChange, hideTextarea, hidePreview } = this.props
-    const { decodedContent } = this.state
 
     let className = 'hme'
     if(hideTextarea) {
@@ -40,7 +43,7 @@ export default class Hme extends Component {
           <textarea className={textareaClassName} name={name} value={value} onChange={onChange} />
         }
         {!hidePreview &&
-          <div className='hme__preview' dangerouslySetInnerHTML={{__html: this.state.decodedContent}}></div>
+          <div className='hme__preview' dangerouslySetInnerHTML={this.getPreviewHTML()}></div>
         }
       </div>
     )
