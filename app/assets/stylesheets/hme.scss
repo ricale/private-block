@@ -1,0 +1,39 @@
+.hme,
+.hme_only-preview,
+.hme_only-textarea {
+  .hme__textarea {
+    display: inline-block;
+    height: 500px;
+    vertical-align: top;
+  }
+}
+
+.hme {
+  .hme__textarea {
+    width: 49%;
+  }
+
+  .hme__preview {
+    display: inline-block;
+    width: 49%;
+    height: 500px;
+    padding: 10px;
+    border: 1px solid #000;
+
+    overflow-y: auto;
+
+    vertical-align: top;
+  }
+}
+
+.hme_only-preview {
+  .hme__preview {
+    width: 100%;
+  }
+}
+
+.hme_only-textarea {
+  .hme__textarea {
+    width: 100%;
+  }
+}

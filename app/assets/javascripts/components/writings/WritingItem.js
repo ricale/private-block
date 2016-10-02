@@ -3,6 +3,7 @@ import { Link, browserHistory } from 'react-router'
 import Measure from 'react-measure'
 
 import DateAndTime from '../commons/DateAndTime'
+import Hme from '../commons/Hme'
 import LoadingIndicator from '../commons/LoadingIndicator'
 import FacebookLikeButton from '../sns/FacebookLikeButton'
 import FacebookComments from '../sns/FacebookComments'
@@ -34,8 +35,6 @@ export default class WritingItem extends Component {
     if((!writing || !writing.id) && id) {
       fetchWriting(id)
     }
-
-    this.setDecodedContent(this.props)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -48,8 +47,6 @@ export default class WritingItem extends Component {
     if(nextProps.id !== id) {
       fetchWriting(nextProps.id)
     }
-
-    this.setDecodedContent(nextProps)
   }
 
   componentDidMount () {
@@ -65,16 +62,6 @@ export default class WritingItem extends Component {
 
     if(writing && writing.id === id) {
       this.showFacebookPlugin()
-    }
-  }
-
-  setDecodedContent (props) {
-    const { singleLine, writing } = props
-
-    if(!singleLine) {
-      const textarea = document.createElement("textarea")
-      textarea.value = (writing && writing.content) || DUMMY_PARAGRAPHS
-      this.setState({decodedContent: hmd.decode(textarea.value)})
     }
   }
 
@@ -187,7 +174,7 @@ export default class WritingItem extends Component {
         </div>
 
         {!singleLine &&
-          <div className='writing-item__content' dangerouslySetInnerHTML={{__html: this.state.decodedContent}}></div>
+          <Hme previewClassName='writing-item__content' value={(writing && writing.content) || DUMMY_PARAGRAPHS} hideTextarea={true} />
         }
 
         {!singleLine &&

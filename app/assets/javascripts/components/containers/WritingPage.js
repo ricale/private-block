@@ -9,7 +9,7 @@ import WritingList from '../writings/WritingList'
 import WritingForm from '../writings/WritingForm'
 import WritingItem from '../writings/WritingItem'
 
-import { CONTAINER_CLASS } from '../../constants/commons'
+import { CONTAINER_CLASS, FULL_WIDE_CONTAINER_CLASS } from '../../constants/commons'
 
 class WritingPage extends Component {
   static defaultProps = {
@@ -67,17 +67,28 @@ class WritingPage extends Component {
     }
   }
 
+  getContainerClass (type) {
+    switch (type) {
+    case WritingForm:
+      return FULL_WIDE_CONTAINER_CLASS
+    default:
+      return CONTAINER_CLASS
+    }
+  }
+
   render () {
-    const { writings, children, session } = this.props
+    const { children, writings, session } = this.props
 
     const childrenWithProps = React.Children.map(children, (child) =>
       React.cloneElement(child, this.getChildProps(child.type))
     )
 
+    const containerClass = this.getContainerClass(React.Children.toArray(this.props.children)[0].type)
+
     return (
       <div className='container'>
         <MyHelmet writing={writings.selected} initialPath={session.initialPath} />
-        <div className={CONTAINER_CLASS}>
+        <div className={containerClass}>
           <div className='writing-page'>
             {childrenWithProps}
           </div>

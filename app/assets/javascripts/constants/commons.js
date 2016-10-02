@@ -1,5 +1,8 @@
 export const CONTAINER_CLASS = 'col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10'
+export const FULL_WIDE_CONTAINER_CLASS = 'col-md-12 col-sm-12'
+
 export const LOADING_INDICATOR_IMAGE_PATH = "/images/loading-indicator.gif"
+
 export const DUMMY_PARAGRAPHS = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Mauris venenatis varius nunc.
 Donec molestie nunc ut dui lobortis, quis vulputate augue finibus.

@@ -6,6 +6,7 @@ import connectSubmitForm from '../../connectSubmitForm'
 
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
+import Hme from '../commons/Hme'
 
 import redirectSubmitted from '../../decorators/redirectSubmitted'
 
@@ -99,7 +100,7 @@ class WritingForm extends Component {
     const { writing } = this.state
 
     return (
-      <form className='writing-form form-horizontal'
+      <form className='writing-form'
             onSubmit={this.onSubmit.bind(this)}>
 
         <InputWithLabel id='writing_title'
@@ -118,12 +119,7 @@ class WritingForm extends Component {
                         options={categories}
                         onChange={this.onCategoryChanged.bind(this)} />
 
-        <InputWithLabel id='writing_content'
-                        name='writing[content]'
-                        labelText='Content'
-                        elementType='textarea'
-                        value={writing.content || ''}
-                        onChange={this.onContentChanged.bind(this)} />
+        <Hme name='writing[content]' value={writing.content || ''} onChange={this.onContentChanged.bind(this)} />
 
         <ElementsWithLabel>
           <input id='submit' type='submit' value='submit' />

@@ -1,5 +1,9 @@
 .writing-form {
-  textarea { // FIXME: use class
-    height: 500px;
+  input[type='text'] {
+    width: 100%;
+  }
+
+  select {
+    width: 100%;
   }
 }

@@ -5,11 +5,11 @@ export default class ElementsWithLabel extends Component {
     const { id, labelText, children } = this.props
 
     return (
-      <div className='elements-with-label form-group'>
-        <label htmlFor={id} className='elements-with-label__label col-lg-2 control-label'>
+      <div className='elements-with-label'>
+        <label htmlFor={id} className='elements-with-label__label'>
           {labelText}
         </label>
-        <div className='elements-with-label__elements-container col-lg-10'>
+        <div className='elements-with-label__elements-container'>
           {children}
         </div>
       </div>
