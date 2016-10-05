@@ -17,16 +17,27 @@ export default class LoadingIndicator extends Component {
 
     imgStyle: {
       width: '100px',
-      height: '100px',
-      marginTop: '50px'
+      height: '100px'
     }
   }
   render () {
     const { imgStyle } = this.props
 
+    const height      = parseInt(this.props.height.slice(0, -2), 10)
+    const imageHeight = parseInt(imgStyle.height.slice(0, -2),   10)
+
+    let imageMarginTop = height / 2 - imageHeight / 2
+    if(imageMarginTop < 0) {
+      imageMarginTop = 0
+    }
+
+    imgStyle.marginTop = `${imageMarginTop}px`
+
+    const imgStyleClone = Object.assign({}, imgStyle)
+
     return (
       <div className='loading-indicator-container' style={this.props}>
-        <img src={LOADING_INDICATOR_IMAGE_PATH} style={imgStyle}/>
+        <img src={LOADING_INDICATOR_IMAGE_PATH} style={imgStyleClone}/>
       </div>
     )
   }

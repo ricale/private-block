@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Measure from 'react-measure'
 
 import WritingItem from './WritingItem'
 import Pagination from '../commons/Pagination'
@@ -59,9 +60,12 @@ export default class WritingList extends Component {
     const { writings, totalPage, page, categoryId, params, location } = this.props
 
     return (
+      <Measure whitelist={['height']}>
+      {dimensions =>
+
       <div className='writing-list-container'>
         {this.isLoadingNow() &&
-          <LoadingIndicator height='300px'/>
+          <LoadingIndicator height={`${dimensions.height || 0}px`}/>
         }
 
         <div className='writing-list'>
@@ -81,6 +85,9 @@ export default class WritingList extends Component {
                       query={location.query} />
         )}
       </div>
+
+      }
+      </Measure>
     )
   }
 }

@@ -21,15 +21,19 @@ function isValidActionType (lastActionType, actionType) {
   validTypes[UPDATE_WRITING_REQUEST]     = [UPDATE_WRITING_SUCCESS];
   validTypes[DELETE_WRITING_REQUEST]     = [DELETE_WRITING_SUCCESS];
 
-  return validTypes[lastActionType] && 
+  return !validTypes[lastActionType] ||
          validTypes[lastActionType].indexOf(actionType) !== -1
 }
 
 export function writings (state = initWritingState, action) {
   if(!isValidActionType(state.lastActionType, action.type)) {
-    return Object.assign({}, state, {
-      lastActionType: action.type
-    })
+    if(state.lastActionType) {
+      return state
+    } else {
+      return Object.assign({}, state, {
+        lastActionType: action.type
+      })
+    }
   }
 
   switch (action.type) {

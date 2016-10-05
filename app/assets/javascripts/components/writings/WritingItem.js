@@ -92,6 +92,13 @@ export default class WritingItem extends Component {
     return `/categories/${id}/writings`
   }
 
+  isLoadingNow () {
+    const writing = this.getWriting()
+    const { id } = this.props
+
+    return writing.id && id && writing.id !== id
+  }
+
   renderCategoryName () {
     const writing = this.getWriting()
     {/* 상수를 박아놓을 것이 아니라, parentCategoryTypeId 따위가 필요 */}
@@ -128,7 +135,7 @@ export default class WritingItem extends Component {
   }
 
   render () {
-    const { singleLine, className, loggedInNow } = this.props;
+    const { singleLine, className, loggedInNow } = this.props
 
     const writing = this.getWriting()
 
@@ -139,8 +146,8 @@ export default class WritingItem extends Component {
       <div className={`writing-item${this.getCssModifier()} ${className}`}
            id={`writing-item-${writing.id}`}>
 
-        {(!writing || !writing.id) &&
-          <LoadingIndicator height={`${dimensions.height}px`}/>
+        {this.isLoadingNow() &&
+          <LoadingIndicator height={`${dimensions.height || 0}px`}/>
         }
 
         <div className='writing-item__header'>

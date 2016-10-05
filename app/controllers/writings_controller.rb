@@ -29,6 +29,7 @@ class WritingsController < ApplicationController
     current_page = 1 if current_page == 0
     writings = writings.limit(PER_PAGE).offset((current_page - 1) * PER_PAGE)
 
+
     render_result({
       writings: {
         list: writings,
@@ -41,6 +42,7 @@ class WritingsController < ApplicationController
 
   def show
     writing = Writing.where(id: params[:id]).with_category.first
+
 
     render_result({
       writings: {
