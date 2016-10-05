@@ -8,10 +8,12 @@ class WritingsController < ApplicationController
   def index
     writings = Writing.with_category.order('id DESC')
 
-    if !params[:category_id].blank? &&
-       !Category.is_root_id?(params[:category_id].to_i)
+    category_id = params[:category_id].blank? ? nil : params[:category_id].to_i
 
-      category = Category.find(params[:category_id])
+    if !category_id.blank? &&
+       !Category.is_root_id?(category_id.to_i)
+
+      category = Category.find(category_id)
       writings = 
         if category.depth == 2
           writings.where(category_id: category.id)
@@ -34,6 +36,7 @@ class WritingsController < ApplicationController
       writings: {
         list: writings,
         page: current_page,
+        categoryId: category_id,
         totalPage: total_page_count
       }
     })

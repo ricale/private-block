@@ -34,12 +34,12 @@ export function writings (state = initWritingState, action) {
 
   switch (action.type) {
   case FETCH_WRITING_LIST_SUCCESS:
-    const { list, page, totalPage } = action.writings
+    const { list, page, totalPage, categoryId } = action.writings
     return Object.assign({}, state, {
       list,
       page,
       totalPage,
-      selected: undefined,
+      categoryId,
       lastActionType: action.type
     })
 
@@ -50,7 +50,6 @@ export function writings (state = initWritingState, action) {
     const { selected } = action.writings
     return Object.assign({}, state, {
       selected,
-      list: undefined,
       lastActionType: action.type
     })
 
