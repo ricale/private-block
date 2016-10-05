@@ -33,6 +33,15 @@ export default class LoadingIndicator extends Component {
 
     imgStyle.marginTop = `${imageMarginTop}px`
 
+    /*
+      Warning!     
+      `img` was passed a style object that has previously been mutated.
+      Mutating `style` is deprecated.
+      Consider cloning it beforehand.
+      Check the `render` of `LoadingIndicator`."
+    */
+    // const imgStyleClone = imgStyle
+
     const imgStyleClone = Object.assign({}, imgStyle)
 
     return (
