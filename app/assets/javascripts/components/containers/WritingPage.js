@@ -23,7 +23,7 @@ class WritingPage extends Component {
 
   getChildProps (type) {
     const {
-      writings: { list, selected: writing, totalPage },
+      writings: { list, selected: writing, totalPage, page, categoryId },
       categories,
       params,
       session,
@@ -34,11 +34,14 @@ class WritingPage extends Component {
 
     const id = parseInt(params.id, 10) || undefined
 
+
     switch (type) {
     case WritingList:
       return {
         writings:  list || [],
         totalPage: totalPage,
+        page,
+        categoryId,
 
         fetchWritings,
       }

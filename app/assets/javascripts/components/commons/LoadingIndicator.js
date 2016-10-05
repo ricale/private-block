@@ -6,11 +6,12 @@ export default class LoadingIndicator extends Component {
     position: 'absolute',
     top: '0px',
     left: '0px',
+    zIndex: 2,
 
     width: "100%",
     height: "400px",
 
-    backgroundColor: "#999",
+    backgroundColor: "#FFF",
     opacity: '0.5',
     textAlign: 'center',
 

@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 
 import WritingItem from './WritingItem'
 import Pagination from '../commons/Pagination'
+import LoadingIndicator from '../commons/LoadingIndicator'
 
 export default class WritingList extends Component {
   static defaultProps = {
     writings: []
+  }
+
+  state = {
+
   }
 
   componentWillMount () {
@@ -27,27 +32,38 @@ export default class WritingList extends Component {
       }
     } = this.props
 
-    const {
+    let {
       params: { categoryId: nextPropsCategoryId },
       location: {
         query: { page: nextPropsPage }
       }
     } = nextProps
 
-    if(categoryId != nextPropsCategoryId ||
-       page != nextPropsPage) {
-
+    if(categoryId !== nextPropsCategoryId || page !== nextPropsPage) {
       fetchWritings(nextPropsCategoryId, {
         page: nextPropsPage
       })
     }
   }
 
+  isLoadingNow () {
+    const { page, categoryId, params, location } = this.props
+
+    const paramCategoryId = params.categoryId   ? parseInt(params.categoryId, 10)   : null
+    const queryPage       = location.query.page ? parseInt(location.query.page, 10) : 1
+
+    return page !== queryPage || categoryId !== paramCategoryId
+  }
+
   render () {
-    const { writings, totalPage, location } = this.props;
+    const { writings, totalPage, page, categoryId, params, location } = this.props
 
     return (
       <div className='writing-list-container'>
+        {this.isLoadingNow() &&
+          <LoadingIndicator height='300px'/>
+        }
+
         <div className='writing-list'>
           {writings.map(writing =>
             <WritingItem key={`writing-item-${writing.id}`}

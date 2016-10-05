@@ -30,9 +30,9 @@ export default class WritingItem extends Component {
   }
 
   componentWillMount () {
-    const { fetchWriting, writing, id } = this.props
+    const { fetchWriting, id } = this.props
 
-    if((!writing || !writing.id) && id) {
+    if(id) {
       fetchWriting(id)
     }
   }
