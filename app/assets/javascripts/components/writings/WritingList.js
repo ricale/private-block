@@ -9,21 +9,36 @@ export default class WritingList extends Component {
   }
 
   componentWillMount () {
-    const { fetchWritings, writings, params, location } = this.props
+    const {
+      fetchWritings,
+      params: { categoryId },
+      location: { query: { page } }
+    } = this.props
 
-    fetchWritings(params.categoryId, {
-      page: location.query.page
-    })
+    fetchWritings(categoryId, { page })
   }
 
   componentWillReceiveProps (nextProps) {
-    const { fetchWritings, params, location } = this.props
+    const {
+      fetchWritings,
+      params: { categoryId },
+      location: {
+        query: { page }
+      }
+    } = this.props
 
-    if(params.categoryId != nextProps.params.categoryId ||
-       location.query.page != nextProps.location.query.page) {
+    const {
+      params: { categoryId: nextPropsCategoryId },
+      location: {
+        query: { page: nextPropsPage }
+      }
+    } = nextProps
 
-      fetchWritings(nextProps.params.categoryId, {
-        page: nextProps.location.query.page
+    if(categoryId != nextPropsCategoryId ||
+       page != nextPropsPage) {
+
+      fetchWritings(nextPropsCategoryId, {
+        page: nextPropsPage
       })
     }
   }
