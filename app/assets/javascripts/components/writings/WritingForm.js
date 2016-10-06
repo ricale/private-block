@@ -95,9 +95,26 @@ class WritingForm extends Component {
     }
   }
 
+  getCategoryOptions () {
+    const { categories } = this.props
+    let categoryOptions = []
+
+    for(let key in categories) {
+      categoryOptions[key] = Object.assign({}, categories[key])
+
+      for(let i = 0; i < categoryOptions[key].depth; i++) {
+        categoryOptions[key].name = `. . . ${categoryOptions[key].name}`
+      }
+    }
+
+    return categoryOptions
+  }
+
   render () {
-    const { action, method, authenticityToken, categories } = this.props
+    const { action, method, authenticityToken } = this.props
     const { writing } = this.state
+
+    const categoryOptions = this.getCategoryOptions()
 
     return (
       <form className='writing-form'
@@ -118,11 +135,11 @@ class WritingForm extends Component {
                         labelText='Category'
                         elementType='select'
                         value={writing.category_id}
-                        options={categories}
+                        options={categoryOptions}
                         onChange={this.onCategoryChanged.bind(this)} />
 
         <div>
-          <label for='writing_content'>Content</label>
+          <label htmlFor='writing_content'>Content</label>
           <Hme name='writing[content]' value={writing.content || ''} onChange={this.onContentChanged.bind(this)} />
         </div>
 
