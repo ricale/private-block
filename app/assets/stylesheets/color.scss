@@ -10,8 +10,8 @@ body {
 .header   { color: #999; }
 .header a { color: #999; }
 
-.navigation            a { color: #999; }
-.navigation__item_hide a { color: #FFF; }
+.navigation__item                       a { color: #999; }
+.navigation__item.navigation__item_hide a { color: #FFF; }
 
 .introduction { background-color: #F3F3F3; }
 
@@ -31,8 +31,16 @@ body {
   .writing-item__sns-plugin { border-top: 1px dashed #AAA; }
 }
 
-.writing-item_single-line { border-bottom: 1px solid #F3F3F3; }
-.writing-item_single-line a { color: #000; }
+.writing-item_single-line {
+  border-bottom: 1px solid #F3F3F3;
+
+  .writing-item__title      { border-bottom: 0 }
+  .writing-item__sns-plugin { border-top: 0 }
+}
+
+.category-item {
+  .category-item__name a { color: #000; }
+}
 
 .pagination_writing   { color: #000; }
 .pagination_writing a { color: #000; }

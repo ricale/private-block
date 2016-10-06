@@ -8,6 +8,7 @@ import MyHelmet from '../commons/MyHelmet'
 import WritingList from '../writings/WritingList'
 import WritingForm from '../writings/WritingForm'
 import WritingItem from '../writings/WritingItem'
+import CategoryList from '../categories/CategoryList'
 
 import { CONTAINER_CLASS, FULL_WIDE_CONTAINER_CLASS } from '../../constants/commons'
 
@@ -80,7 +81,7 @@ class WritingPage extends Component {
   }
 
   render () {
-    const { children, writings, session } = this.props
+    const { children, writings, session, categories } = this.props
 
     const childrenWithProps = React.Children.map(children, (child) =>
       React.cloneElement(child, this.getChildProps(child.type))
@@ -89,8 +90,11 @@ class WritingPage extends Component {
     const containerClass = this.getContainerClass(React.Children.toArray(this.props.children)[0].type)
 
     return (
-      <div className='container'>
+      <div className='container-fluid'>
         <MyHelmet writing={writings.selected} initialPath={session.initialPath} />
+        <div className={containerClass}>
+          <CategoryList categories={categories.list} singleLine={true} />
+        </div>
         <div className={containerClass}>
           <div className='writing-page'>
             {childrenWithProps}

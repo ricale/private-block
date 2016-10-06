@@ -29,6 +29,8 @@ class WritingsController < ApplicationController
     current_page = 1 if current_page == 0
     writings = writings.limit(PER_PAGE).offset((current_page - 1) * PER_PAGE)
 
+    categories = Category.hierarchy_categories_with_writing_count
+
 
     render_result({
       writings: {
@@ -36,6 +38,9 @@ class WritingsController < ApplicationController
         page: current_page,
         categoryId: category_id,
         totalPage: total_page_count
+      },
+      categories: {
+        list: categories
       }
     })
   end

@@ -23,22 +23,29 @@ export default class Hme extends Component {
     return {__html: this.state.decodedContent}
   }
 
+  getModifiedClassName () {
+    const { hideTextarea, hidePreview } = this.props
+    const className = 'hme'
+    let classNameWithModifier = ''
+
+    if(hideTextarea) {
+      classNameWithModifier += ` ${className}_only-preview`
+
+    } else if (hidePreview) {
+      classNameWithModifier += ` ${className}_only-textarea`
+    }
+
+    return classNameWithModifier
+  }
+
   render () {
     const { name, value, onChange, hideTextarea, hidePreview } = this.props
-
-    let className = 'hme'
-    if(hideTextarea) {
-      className = `${className}_only-preview`
-    } else if (hidePreview) {
-      className = `${className}_only-textarea`
-    }
-    className = `${className} ${this.props.className || ''}`
 
     const textareaClassName = `hme__textarea ${this.props.textareaClassName || ''}`
     const previewClassName  = `hme__preview ${this.props.previewClassName || ''}`
 
     return (
-      <div className={className}>
+      <div className={`hme${this.getModifiedClassName()} ${this.props.className || ''}`}>
         {!hideTextarea &&
           <textarea className={textareaClassName} name={name} value={value} onChange={onChange} />
         }

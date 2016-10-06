@@ -1,5 +1,6 @@
 import {
   FETCH_WRITING_SUCCESS,
+  FETCH_WRITING_LIST_SUCCESS,
   FETCH_CATEGORY_LIST_SUCCESS,
   FETCH_CATEGORY_SUCCESS,
   CREATE_CATEGORY_SUCCESS,
@@ -14,6 +15,7 @@ const initCategoryState = {
 export function categories (state = initCategoryState, action) {
   switch (action.type) {
   case FETCH_WRITING_SUCCESS:
+  case FETCH_WRITING_LIST_SUCCESS:
   case FETCH_CATEGORY_LIST_SUCCESS:
   case CREATE_CATEGORY_SUCCESS:
   case UPDATE_CATEGORY_SUCCESS:

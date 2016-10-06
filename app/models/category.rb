@@ -49,6 +49,12 @@ class Category < ActiveRecord::Base
   scope :except_one,        ->(id)        { where.not(id: id) }
   scope :high_categories,   ->(depth)     { where("depth <= ?", depth).order(:order_in_parent) }
 
+  scope :with_writing_count, -> {
+    joins('LEFT OUTER JOIN writings ON writings.category_id = categories.id').
+    group('categories.id').
+    select('categories.*, COUNT(writings.id) as writing_count')
+  }
+
   def self.hierarchy_categories(root_id = nil)
     if Category.count == 0
       [Category.create_root]
@@ -60,6 +66,23 @@ class Category < ActiveRecord::Base
         Category.family_categories(root_id).order(:family, :depth, :order_in_parent)
       end
     end
+  end
+
+  def self.hierarchy_categories_with_writing_count(root_id = nil)
+    categories = Category.hierarchy_categories(root_id).with_writing_count
+
+    category_hash =
+      categories.inject({}) do |hash, category|
+        hash.merge({category.id => category})
+      end
+
+    [2, 1].each do |depth|
+      category_hash.select {|i, c| c.depth == depth}.each do |id, category|
+        category_hash[category.parent_id].writing_count += category.writing_count
+      end
+    end
+
+    category_hash.values
   end
 
   def self.root_category
@@ -74,26 +97,6 @@ class Category < ActiveRecord::Base
 
   def self.is_root_id?(id)
     id == ROOT_ID
-  end
-
-
-
-  def descendants_writings
-    Writing.in_categories(Category.hierarchy_categories(id).map { |c| c.id } << id)
-  end
-
-  def ancestors_and_me(top_ancestor = :root, except_top = false)
-    top_ancestor = Category.root if top_ancestor == :root
-
-    if self == top_ancestor || is_root?
-      except_top ? [] : [self]
-
-    elsif depth == 1
-      [self]
-
-    else
-      parent.ancestors_and_me(top_ancestor, except_top) << self
-    end
   end
 
 

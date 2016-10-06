@@ -14,7 +14,7 @@ class CategoriesController < ApplicationController
   end
 
   def index
-    categories = Category.hierarchy_categories
+    categories = Category.hierarchy_categories.with_writing_count
 
     render_result({
       categories: {

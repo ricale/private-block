@@ -52,25 +52,35 @@
   margin: 10px 0px 5px;
   padding-bottom: 5px;
 
-  .writing-item__category {
-    display: inline-block;
-    width: 180px;
-    float: left;
+  .writing-item__header {
+    margin-bottom: 0;
+    text-align: left;
   }
 
   .writing-item__title {
     display: inline-block;
     width: 430px;
     vertical-align: top;
+
+    font-size: 1em;
+  }
+
+  .writing-item__category {
+    margin-right: 0;
+    width: 180px;
+    float: left;
   }
 
   .writing-item__created-at {
     display: inline-block;
+    margin-right: 0;
+    font-size: 1em;
     text-align: right;
   }
 
   .writing-item__buttons-container { display: none; }
   .writing-item__content { display: none; }
+  .writing-item__sns-plugin { display: none; }
 }
 
 @media (max-width: 1199px) {

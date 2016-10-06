@@ -21,7 +21,7 @@ export default class Navigation extends Component {
         }
 
         {!loggedInNow &&
-          <span className='navigation__item_hide'><Link to='/users/sign_in'>Sign In</Link></span>
+          <span className='navigation__item navigation__item_hide'><Link to='/users/sign_in'>Sign In</Link></span>
         }
       </nav>
     )

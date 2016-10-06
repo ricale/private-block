@@ -84,8 +84,16 @@ export default class WritingItem extends Component {
     return `/${id || writing.id}`
   }
 
-  getCssModifier () {
-    return this.props.singleLine ? '_single-line' : ''
+  getModifiedClassName () {
+    const className = 'writing-item'
+
+    let classNameWithModifier = ''
+
+    if(this.props.singleLine) {
+      classNameWithModifier += ` ${className}_single-line`
+    }
+
+    return classNameWithModifier
   }
 
   getCategoryLink (id) {
@@ -143,7 +151,7 @@ export default class WritingItem extends Component {
       <Measure whitelist={['height']}>
       {dimensions =>
 
-      <div className={`writing-item${this.getCssModifier()} ${className}`}
+      <div className={`writing-item${this.getModifiedClassName()} ${className}`}
            id={`writing-item-${writing.id}`}>
 
         {this.isLoadingNow() &&
