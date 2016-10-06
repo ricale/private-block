@@ -62,13 +62,11 @@ class CategoryPage extends Component {
     )
 
     return (
-      <div className='container'>
+      <div>
         {/*<MyHelmet writing={writings.selected} initialPath={session.initialPath} />*/}
-        <div className={CONTAINER_CLASS}>
           <div className='category-page'>
             {childrenWithProps}
           </div>
-        </div>
       </div>
     )
   }

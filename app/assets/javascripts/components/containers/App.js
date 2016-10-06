@@ -27,24 +27,16 @@ class App extends Component {
     return (
       <div>
         <MyHelmet initialPath={session.initialPath}/>
-        <div className='container'>
-          <div className={CONTAINER_CLASS}>
-            <Header className='weblog-header'
-                    messages={messages}
-                    session={session}
-                    onClickSignOut={this.onClickSignOut.bind(this)} /> 
-          </div>
-        </div>
+        <Header className='weblog-header'
+                messages={messages}
+                session={session}
+                onClickSignOut={this.onClickSignOut.bind(this)} />
 
         <div className='weblog-body'>
           {children}
         </div>
 
-        <div className='container'>
-          <div className={CONTAINER_CLASS}>
-            <Footer className='weblog-footer' />
-          </div>
-        </div>
+        <Footer className='weblog-footer' />
       </div>
     )
   }

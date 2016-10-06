@@ -1,4 +1,4 @@
-export const CONTAINER_CLASS = 'col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10'
+export const CONTAINER_CLASS = 'col-md-10'
 export const FULL_WIDE_CONTAINER_CLASS = 'col-md-12 col-sm-12'
 
 export const LOADING_INDICATOR_IMAGE_PATH = "/images/loading-indicator.gif"

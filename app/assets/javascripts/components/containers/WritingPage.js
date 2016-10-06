@@ -90,15 +90,11 @@ class WritingPage extends Component {
     const containerClass = this.getContainerClass(React.Children.toArray(this.props.children)[0].type)
 
     return (
-      <div className='container-fluid'>
+      <div>
         <MyHelmet writing={writings.selected} initialPath={session.initialPath} />
-        <div className={containerClass}>
-          <CategoryList categories={categories.list} singleLine={true} />
-        </div>
-        <div className={containerClass}>
-          <div className='writing-page'>
-            {childrenWithProps}
-          </div>
+        <CategoryList categories={categories.list} singleLine={true} />
+        <div className='writing-page'>
+          {childrenWithProps}
         </div>
       </div>
     )
