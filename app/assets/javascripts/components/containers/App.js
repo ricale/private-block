@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import MyHelmet from '../commons/MyHelmet'
 import Header from '../commons/Header'
+import Sidebar from '../commons/Sidebar'
 import Footer from '../commons/Footer'
 
 import { fetchSession, signOut } from '../../actions/session'
@@ -23,7 +24,7 @@ class App extends Component {
   }
 
   render () {
-    const { children, messages, session } = this.props
+    const { children, messages, session, categories } = this.props
     return (
       <div>
         <MyHelmet initialPath={session.initialPath}/>
@@ -31,6 +32,9 @@ class App extends Component {
                 messages={messages}
                 session={session}
                 onClickSignOut={this.onClickSignOut.bind(this)} />
+
+        <Sidebar className='weblog-sidebar'
+                 categories={categories} />
 
         <div className='weblog-body'>
           {children}

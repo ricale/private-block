@@ -4,6 +4,8 @@
 
 .category-item {
   padding: 5px 0;
+  white-space: nowrap;
+
   .category-item__name {
     display: inline-block;
     // margin-right: 5px;

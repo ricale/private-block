@@ -8,12 +8,38 @@
 
 .weblog-header {
   margin: 0px 30px 30px;
+  max-width: 800px;
+}
+
+.weblog-sidebar {
+  position: absolute;
+  top: 0px;
+  left: 860px;
+  .category-list {
+    display: block;
+    width: 190px;
+    margin-top: 30px;
+    padding: 5px 10px;
+
+    background-color: #F3F3F3;
+  }
 }
 
 .weblog-body {
   margin: 0 30px;
+  max-width: 800px;
 }
 
 .weblog-footer {
   margin: 30px 30px 10px;
+  max-width: 800px;
+}
+
+@media (max-width: 1064px) {
+  .weblog-sidebar {
+    left: auto;
+    right: 30px;
+    z-index: 3;
+    // display: none;
+  }
 }

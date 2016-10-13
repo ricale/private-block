@@ -19,28 +19,35 @@ export default class CategoryList extends Component {
   //   const { onLoadCategories } = this.props
   // }
 
-  getCssModifier () {
-    const { singleLine } = this.props
+  getModifiedClassName () {
+    const className = 'category-list'
 
-    if(singleLine) {
-      return '_single-line'
-    } else {
-      return ''
+    let classNameWithModifier = ''
+
+    if(this.props.singleLine) {
+      classNameWithModifier += ` ${className}_single-line`
     }
+
+    if(this.props.hideMenu) {
+      classNameWithModifier += ` ${className}_hide-menu`
+    }
+
+    return classNameWithModifier
   }
 
   render () {
-    const { deleteCategory, authenticityToken, singleLine } = this.props
+    const { deleteCategory, authenticityToken, singleLine, hideMenu } = this.props
     const categories = this.props.categories || []
     const inlineItem = !!singleLine
 
     return (
-      <div className={`category-list${this.getCssModifier()}`}>
+      <div className={`category-list${this.getModifiedClassName()}`}>
         {categories.map(category =>
           <CategoryItem key={`category-item-${category.id}`}
                         className='category-list__category_item'
                         category={category}
                         inline={inlineItem}
+                        hideMenu={hideMenu}
                         deleteCategory={deleteCategory}
                         authenticityToken={authenticityToken} />
         )}

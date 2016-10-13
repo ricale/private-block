@@ -43,7 +43,7 @@ export default class CategoryItem extends Component {
   }
 
   render () {
-    const { category, className, inline } = this.props
+    const { category, className, inline, hideMenu } = this.props
 
     return (
       <div className={`category-item${this.getModifiedClassName()} ${className}`}>
@@ -52,7 +52,7 @@ export default class CategoryItem extends Component {
         </div>
         <div className='category-item__writing-count'>({category.writing_count})</div>
 
-        {!inline &&
+        {!inline && !hideMenu &&
           <div className='category-item__buttons-container'>
             <Link to={`/categories/${category.id}/edit`} className='category-item__edit-button'>
               Edit
