@@ -13,26 +13,9 @@ export default class LoadingIndicator extends Component {
 
     backgroundColor: "#FFF",
     opacity: '0.5',
-    textAlign: 'center',
-
-    imgStyle: {
-      width: '100px',
-      height: '100px'
-    }
+    textAlign: 'center'
   }
   render () {
-    const { imgStyle } = this.props
-
-    const height      = parseInt(this.props.height.slice(0, -2), 10)
-    const imageHeight = parseInt(imgStyle.height.slice(0, -2),   10)
-
-    let imageMarginTop = height / 2 - imageHeight / 2
-    if(imageMarginTop < 0) {
-      imageMarginTop = 0
-    }
-
-    imgStyle.marginTop = `${imageMarginTop}px`
-
     /*
       Warning!     
       `img` was passed a style object that has previously been mutated.
@@ -42,11 +25,9 @@ export default class LoadingIndicator extends Component {
     */
     // const imgStyleClone = imgStyle
 
-    const imgStyleClone = Object.assign({}, imgStyle)
-
     return (
       <div className='loading-indicator-container' style={this.props}>
-        <img src={LOADING_INDICATOR_IMAGE_PATH} style={imgStyleClone}/>
+        <i className='fa fa-circle-o-notch fa-spin fa-5x fa-fw'></i>
       </div>
     )
   }

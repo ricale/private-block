@@ -104,7 +104,7 @@ export default class WritingItem extends Component {
     const writing = this.getWriting()
     const { id } = this.props
 
-    return writing.id && id && writing.id !== id
+    return id && writing.id !== id
   }
 
   renderCategoryName () {
