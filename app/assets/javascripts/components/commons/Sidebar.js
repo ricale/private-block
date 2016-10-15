@@ -18,7 +18,10 @@ export default class Sidebar extends Component {
 
     return (
       <div className={`sidebar ${className || ''}`}>
-        <span className='sidebar__toggle-button' onClick={this.onToggleButtonClick.bind(this)}>button</span>
+        <span className='sidebar__toggle-button' onClick={this.onToggleButtonClick.bind(this)}>
+          <i className="fa fa-lg fa-list"></i>
+        </span>
+
         <div className={`sidebar__contents ${visibleClassName}`}>
           <CategoryList categories={categories.list} hideMenu={true} />
         </div>

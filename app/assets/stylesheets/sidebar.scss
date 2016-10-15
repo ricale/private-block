@@ -1,8 +1,10 @@
 .sidebar {
   .sidebar__toggle-button {
     position: absolute;
-    top: 0px;
+    top: 2px;
     left: 0px;
+
+    cursor: pointer;
   }
 
   .sidebar__contents {
