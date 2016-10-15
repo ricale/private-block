@@ -1,0 +1,22 @@
+.sidebar {
+  .sidebar__toggle-button {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
+  .sidebar__contents {
+    margin-top: 30px;
+    width: 190px;
+
+    .category-list {
+      display: block;
+      padding: 5px 10px;
+      background-color: #F3F3F3;
+    }
+  }
+
+  .sidebar__contents.hide {
+    display: none;
+  }
+}
