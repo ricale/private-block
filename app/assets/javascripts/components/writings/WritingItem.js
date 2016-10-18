@@ -69,16 +69,6 @@ export default class WritingItem extends Component {
     initFacebookPlugin(this.getPath())
   }
 
-  // for render() and renderCategoryName()
-  getWriting () {
-    let writing = this.props.writing
-    if(!writing || !writing.id) {
-      writing = WritingItem.defaultProps.writing
-    }
-
-    return writing
-  }
-
   getPath () {
     const { id, writing } = this.props
     return `/${id || writing.id}`
@@ -101,14 +91,13 @@ export default class WritingItem extends Component {
   }
 
   isLoadingNow () {
-    const writing = this.getWriting()
-    const { id } = this.props
+    const { id, writing } = this.props
 
     return id && writing.id !== id
   }
 
   renderCategoryName () {
-    const writing = this.getWriting()
+    const { writing } = this.props
     {/* 상수를 박아놓을 것이 아니라, parentCategoryTypeId 따위가 필요 */}
     const rootCategoryId = 1
 
@@ -143,9 +132,7 @@ export default class WritingItem extends Component {
   }
 
   render () {
-    const { singleLine, className, loggedInNow } = this.props
-
-    const writing = this.getWriting()
+    const { writing, singleLine, className, loggedInNow } = this.props
 
     return (
       <Measure whitelist={['height']}>

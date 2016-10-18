@@ -21,9 +21,34 @@ class WritingPage extends Component {
 
   }
 
+  getId () {
+    return parseInt(this.props.params.id, 10) || undefined
+  }
+
+  getWriting () {
+    const { list, selected } = this.props.writings
+    const id = this.getId()
+
+    if(selected && (parseInt(selected.id, 10) || undefined) === id) {
+      return selected
+    }
+
+    if(list) {
+      for(const writing of list) {
+        if(writing.id === id) {
+          let result = Object.assign({}, writing)
+          delete result.id
+          return result
+        }
+      }
+    }
+
+    return {}
+  }
+
   getChildProps (type) {
     const {
-      writings: { list, selected: writing, totalPage, page, categoryId },
+      writings: { list, totalPage, page, categoryId },
       categories,
       params,
       session,
@@ -32,7 +57,8 @@ class WritingPage extends Component {
 
     const { fetchWriting, fetchWritings, createWriting, updateWriting, deleteWriting } = bindActionCreators(WritingActionCreators, dispatch)
 
-    const id = parseInt(params.id, 10) || undefined
+    const writing = this.getWriting()
+    const id = this.getId()
 
 
     switch (type) {
