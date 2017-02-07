@@ -44,10 +44,10 @@ ActiveRecord::Schema.define(version: 20160815121609) do
   create_table "writings", force: :cascade do |t|
     t.string   "title",       limit: 255
     t.text     "content",     limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "category_id", limit: 4,     null: false
-    t.integer  "user_id",     limit: 4,     null: false
+    t.integer  "user_id",     limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "category_id", limit: 4
   end
 
   add_index "writings", ["user_id", "category_id"], name: "index_writings_on_user_id_and_category_id", using: :btree

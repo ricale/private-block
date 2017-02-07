@@ -57,14 +57,13 @@ class Category < ActiveRecord::Base
 
   def self.hierarchy_categories(root_id = nil)
     if Category.count == 0
-      [Category.create_root]
+      Category.create_root
+    end
 
+    if root_id == :all || root_id == nil || root_id.to_i == Category::ROOT_ID
+      Category.all.order(:family, :depth, :order_in_parent)
     else
-      if root_id == :all || root_id == nil || root_id.to_i == Category::ROOT_ID
-        Category.all.order(:family, :depth, :order_in_parent)
-      else
-        Category.family_categories(root_id).order(:family, :depth, :order_in_parent)
-      end
+      Category.family_categories(root_id).order(:family, :depth, :order_in_parent)
     end
   end
 
