@@ -1,12 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { CONTAINER_CLASS } from '../../constants/commons'
+import App from '../containers/App';
 
 export default class Introduction extends Component {
   render () {
     const githubUrl = 'https://github.com/ricale/private-block'
     const trackerUrl = 'https://www.pivotaltracker.com/n/projects/1777827'
+
     return (
+      <App {...this.props}>
       <div className='introduction'>
         <h3>Introduction</h3>
         <ul>
@@ -15,6 +17,7 @@ export default class Introduction extends Component {
           <li>이 블로그 구현의 Pivotal Tracker: <a href={trackerUrl} target='_blank'>{trackerUrl}</a></li>
         </ul>
       </div>
+      </App>
     )
   }
 }

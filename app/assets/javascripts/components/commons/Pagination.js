@@ -39,10 +39,11 @@ export default class Pagination extends Component {
   }
 
   setCurrentPage (props) {
-    const { query } = props
+    const { current } = props
 
+    // FIXME: why use state
     this.setState({
-      current: (parseInt(query.page, 10) || 1)
+      current: (parseInt(current, 10) || 1)
     })
   }
 

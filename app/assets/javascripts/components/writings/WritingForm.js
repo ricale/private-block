@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router';
 
+import App from '../containers/App';
 import connectSubmitForm from '../../connectSubmitForm'
 
 import InputWithLabel from '../commons/InputWithLabel'
@@ -116,6 +117,7 @@ class WritingForm extends Component {
     const categoryOptions = this.getCategoryOptions()
 
     return (
+      <App {...this.props}>
       <form className='writing-form'
             onSubmit={this.onSubmit.bind(this)}>
 
@@ -148,6 +150,7 @@ class WritingForm extends Component {
           <a href={this.getCancelUrl()} id='cancel'>cancel</a>
         </ElementsWithLabel>
       </form>
+      </App>
     )
 
   }

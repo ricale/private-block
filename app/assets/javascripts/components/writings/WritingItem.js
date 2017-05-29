@@ -135,15 +135,8 @@ export default class WritingItem extends Component {
     const { writing, singleLine, className, loggedInNow } = this.props
 
     return (
-      <Measure whitelist={['height']}>
-      {dimensions =>
-
       <div className={`writing-item${this.getModifiedClassName()} ${className}`}
            id={`writing-item-${writing.id}`}>
-
-        {this.isLoadingNow() &&
-          <LoadingIndicator height={`${dimensions.height || 0}px`}/>
-        }
 
         <div className='writing-item__header'>
           <div className='writing-item__title'>
@@ -186,9 +179,6 @@ export default class WritingItem extends Component {
           </div>
         }
       </div>
-
-      }
-      </Measure>
     )
   }
 }

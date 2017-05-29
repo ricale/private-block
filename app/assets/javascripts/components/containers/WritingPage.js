@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 
 import * as WritingActionCreators from '../../actions/writings'
 
-import MyHelmet from '../commons/MyHelmet'
 import WritingList from '../writings/WritingList'
 import WritingForm from '../writings/WritingForm'
 import WritingItem from '../writings/WritingItem'
@@ -116,7 +115,6 @@ class WritingPage extends Component {
 
     return (
       <div>
-        <MyHelmet writing={writings.selected} initialPath={session.initialPath} />
         <div className='writing-page'>
           {childrenWithProps}
         </div>

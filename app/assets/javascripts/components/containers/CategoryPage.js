@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 
 import * as CategoryActionCreators from '../../actions/categories'
 
-import MyHelmet from '../commons/MyHelmet'
 import CategoryList from '../categories/CategoryList'
 import CategoryForm from '../categories/CategoryForm'
 
@@ -63,10 +62,9 @@ class CategoryPage extends Component {
 
     return (
       <div>
-        {/*<MyHelmet writing={writings.selected} initialPath={session.initialPath} />*/}
-          <div className='category-page'>
-            {childrenWithProps}
-          </div>
+        <div className='category-page'>
+          {childrenWithProps}
+        </div>
       </div>
     )
   }

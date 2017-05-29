@@ -4,6 +4,10 @@ import Navigation from '../commons/Navigation'
 import Messages from '../commons/Messages'
 
 export default class Header extends Component {
+  static defaultProps = {
+    session: {}
+  };
+
   render () {
     const { className, messages, session, onClickSignOut } = this.props
 

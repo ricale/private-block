@@ -1,8 +1,9 @@
-<%= react_component('Introduction', {
+<%= react_component('WritingList', {
   session: {
     initialPath: request.path,
     authenticityToken: form_authenticity_token,
     valid: !current_user.nil?,
     user: current_user
-  }
+  },
+  loggedInNow: !current_user.nil?
 }.merge(@props), {prerender: false}) %>
