@@ -7,7 +7,7 @@ gem 'mysql2'
 
 gem 'therubyracer', platforms: :ruby # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'uglifier', '>= 1.3.0'
-gem 'turbolinks'
+# gem 'turbolinks'
 gem 'jquery-rails'
 gem 'react-rails', '~> 1.5.0'
 gem 'browserify-rails'

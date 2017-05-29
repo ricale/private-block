@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 
 import connectSubmitForm from '../../connectSubmitForm'
 
@@ -112,7 +111,7 @@ class CategoryForm extends Component {
         <ElementsWithLabel>
           <input id='submit' type='submit' value='submit' />
           {' '}
-          <Link to='/categories' id='cancel'>cancel</Link>
+          <a href='/categories' id='cancel'>cancel</a>
         </ElementsWithLabel>
       </form>
     )

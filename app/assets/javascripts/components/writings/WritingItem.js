@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, browserHistory } from 'react-router'
+import { a, browserHistory } from 'react-router'
 import Measure from 'react-measure'
 
 import DateAndTime from '../commons/DateAndTime'
@@ -105,9 +105,9 @@ export default class WritingItem extends Component {
       <div className='writing-item__category'>
         <span className='writing-item__parent-category'>
           {(writing.parent_category_id && writing.parent_category_id != rootCategoryId) && (
-            <Link to={this.getCategoryLink(writing.parent_category_id)}>
+            <a href={this.getCategoryLink(writing.parent_category_id)}>
               {writing.parent_category_name}
-            </Link>
+            </a>
           )}
 
           {(writing.parent_category_id && writing.parent_category_id != rootCategoryId) && (
@@ -116,9 +116,9 @@ export default class WritingItem extends Component {
         </span>
 
         <span className='writing-item__current-category'>
-          <Link to={this.getCategoryLink(writing.category_id)}>
+          <a href={this.getCategoryLink(writing.category_id)}>
             {writing.category_name}
-          </Link>
+          </a>
         </span>
       </div>
     )
@@ -147,7 +147,7 @@ export default class WritingItem extends Component {
 
         <div className='writing-item__header'>
           <div className='writing-item__title'>
-            <Link to={this.getPath()}>{writing.title}</Link>
+            <a href={this.getPath()}>{writing.title}</a>
           </div>
 
           {this.renderCategoryName()}
@@ -160,9 +160,9 @@ export default class WritingItem extends Component {
 
           {!singleLine && loggedInNow && (
             <div className='writing-item__buttons-container'>
-              <Link to={`/writings/${writing.id}/edit`} className='button-container__edit-button'>
+              <a href={`/writings/${writing.id}/edit`} className='button-container__edit-button'>
                 Edit
-              </Link>
+              </a>
 
               {' '}
 

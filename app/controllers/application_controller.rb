@@ -16,11 +16,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def render_result(result, status = nil)
+  def render_result(result, options = {})
     @result = result
 
     if is_json_request
-      render json: @result, status: status
+      render json: @result, status: options[:status]
 
     else
       render 'commons/root', locals: {props: @result}

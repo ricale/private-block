@@ -9,7 +9,7 @@ class CategoriesController < ApplicationController
         categories: {
         },
         message: I18n.t('devise.failure.unauthenticated')
-      }, 401)
+      }, status: 401)
     end
   end
 

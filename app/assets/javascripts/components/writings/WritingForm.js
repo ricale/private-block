@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import { browserHistory } from 'react-router';
 
 import connectSubmitForm from '../../connectSubmitForm'
@@ -146,7 +145,7 @@ class WritingForm extends Component {
         <ElementsWithLabel>
           <input id='submit' type='submit' value='submit' />
           {' '}
-          <Link to={this.getCancelUrl()} id='cancel'>cancel</Link>
+          <a href={this.getCancelUrl()} id='cancel'>cancel</a>
         </ElementsWithLabel>
       </form>
     )

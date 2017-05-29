@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
-
 import NavLink from '../commons/NavLink'
-
 
 export default class CategoryItem extends Component {
   static defaultProps = {
@@ -48,15 +45,15 @@ export default class CategoryItem extends Component {
     return (
       <div className={`category-item${this.getModifiedClassName()} ${className}`}>
         <div className='category-item__name'>
-          <NavLink to={this.getCategoryWritingListUrl(category)}>{category.name}</NavLink>
+          <NavLink href={this.getCategoryWritingListUrl(category)}>{category.name}</NavLink>
         </div>
         <div className='category-item__writing-count'>({category.writing_count})</div>
 
         {!inline && !hideMenu &&
           <div className='category-item__buttons-container'>
-            <Link to={`/categories/${category.id}/edit`} className='category-item__edit-button'>
+            <a href={`/categories/${category.id}/edit`} className='category-item__edit-button'>
               Edit
-            </Link>
+            </a>
 
             <a className='category-item__delete-button'
                href='#'
