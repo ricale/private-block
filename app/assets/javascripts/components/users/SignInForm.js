@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
 
-import connectSubmitForm from '../../connectSubmitForm'
-
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
-import redirectSubmitted from '../../decorators/redirectSubmitted'
-
-@redirectSubmitted(() => '/')
-class SignInForm extends Component {
-  state = {
-    user: {
-      email: '',
-      password: ''
-    }
+export default class SignInForm extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      user: {
+        email: '',
+        password: ''
+      }
+    };
   }
 
   onEmailChange (event) {
@@ -24,28 +22,24 @@ class SignInForm extends Component {
     this.setState({password: event.target.value})
   }
 
-  onSubmit (event) {
-    event.preventDefault()
-    const { onSubmit, session: { authenticityToken } } = this.props
-    const { email, password } = this.state
-
-    onSubmit(email, password, authenticityToken)
-  }
-
   render () {
+    const {session} = this.props;
+    const {email, password} = this.state;
+
     return (
-      <form className='form-horizontal' onSubmit={this.onSubmit.bind(this)}>
+      <form className='form-horizontal' action="/users/sign_in" method="POST">
+        <input type="hidden" name="authenticity_token" value={session.authenticityToken}/>
         <InputWithLabel id='email'
-                        name='email'
-                        value={this.state.email}
+                        name='user[email]'
+                        value={email}
                         placeholder='email'
                         labelText='email'
                         typeAttribute='email'
                         onChange={this.onEmailChange.bind(this)} />
 
         <InputWithLabel id='password'
-                        name='password'
-                        value={this.state.password}
+                        name='user[password]'
+                        value={password}
                         placeholder='password'
                         labelText='password'
                         typeAttribute='password'
@@ -58,5 +52,3 @@ class SignInForm extends Component {
     )
   }
 }
-
-export default connectSubmitForm(SignInForm)
