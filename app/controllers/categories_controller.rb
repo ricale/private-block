@@ -16,35 +16,29 @@ class CategoriesController < ApplicationController
   def index
     categories = Category.hierarchy_categories.with_writing_count
 
-    render_result({
-      categories: {
-        list: categories
-      }
-    })
+    @props = {
+      categories:  categories
+    }
   end
 
   def new
     category = Category.new
     parents = Category.family_categories(Category.root.id)
 
-    render_result({
-      categories: {
-        selected: category,
-        parents:  parents
-      }
-    })
+    @props = {
+      category: category,
+      parents:  parents
+    }
   end
 
   def edit
     category = Category.find(params[:id])
     parents = Category.family_categories(Category.root.id)
 
-    render_result({
-      categories: {
-        selected: category,
-        parents:  parents
-      }
-    })
+    @props = {
+      category: category,
+      parents:  parents
+    }
   end
 
   def create

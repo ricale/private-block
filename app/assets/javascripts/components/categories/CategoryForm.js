@@ -22,25 +22,8 @@ class CategoryForm extends Component {
   componentWillMount () {
     const { fetchCategory, category, parents, id } = this.props
 
-    if(!parents || parents.length === 0 ||
-       !category || category.id !== id) {
-      fetchCategory(id)
-
-    } else {
+    if(!!category) {
       this.setState({category: category})
-    }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    const { fetchCategory, id } = this.props
-    const category          = this.props.category || {}
-    const nextPropsCategory = nextProps.category || {}
-
-    if(id !== nextProps.id) {
-      fetchCategory(nextProps.id)
-
-    } else if (category.id !== nextPropsCategory.id) {
-      this.setState({category: nextPropsCategory})
     }
   }
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router';
 
-import App from '../containers/App';
 import connectSubmitForm from '../../connectSubmitForm'
 
 import InputWithLabel from '../commons/InputWithLabel'
@@ -29,26 +28,8 @@ class WritingForm extends Component {
   componentDidMount () {
     const { fetchWriting, writing, categories, id } = this.props
 
-    if(!categories || categories.length === 0 ||
-       !writing || (!id && !writing.id) || id !== writing.id) {
-      fetchWriting(id, {withCategories: true})
-    } else {
-      this.setState({writing: writing})
-    }
-  }
-
-  componentWillUpdate () {
-    this.redirectToSignInPageIfNeeded()
-  }
-
-  componentWillReceiveProps (nextProps) {
-    const { fetchWriting, id, writing } = this.props
-
-    if(id !== nextProps.id) {
-      fetchWriting(nextProps.id, {withCategories: true})
-
-    } else if (writing && writing.id !== nextProps.writing.id) {
-      this.setState({writing: nextProps.writing})
+    if(!!writing) {
+      this.setState({writing: writing});
     }
   }
 
@@ -117,7 +98,6 @@ class WritingForm extends Component {
     const categoryOptions = this.getCategoryOptions()
 
     return (
-      <App {...this.props}>
       <form className='writing-form'
             onSubmit={this.onSubmit.bind(this)}>
 
@@ -150,7 +130,6 @@ class WritingForm extends Component {
           <a href={this.getCancelUrl()} id='cancel'>cancel</a>
         </ElementsWithLabel>
       </form>
-      </App>
     )
 
   }

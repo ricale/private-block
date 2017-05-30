@@ -3,9 +3,6 @@ import Measure from 'react-measure'
 
 import WritingItem from './WritingItem'
 import Pagination from '../commons/Pagination'
-import LoadingIndicator from '../commons/LoadingIndicator'
-
-import App from '../containers/App';
 
 export default class WritingList extends Component {
   static defaultProps = {
@@ -13,29 +10,27 @@ export default class WritingList extends Component {
   }
 
   render () {
-    const { writings, totalPage, page, location } = this.props
+    const { writings, totalPage, page, query } = this.props
 
     return (
-      <App {...this.props}>
-        <div className='writing-list-container'>
-          <div className='writing-list'>
-            {writings.map(writing =>
-              <WritingItem key={`writing-item-${writing.id}`}
-                           className='writing-list__writing-item'
-                           writing={writing}
-                           singleLine={true}/>
-            )}
-          </div>
-
-          {totalPage && totalPage > 1 && (
-            <Pagination classModName='writing'
-                        current={page}
-                        total={totalPage}
-                        pathname={'writings'/*location.pathname*/}
-                        query={{}/*location.query*/} />
+      <div className='writing-list-container'>
+        <div className='writing-list'>
+          {writings.map(writing =>
+            <WritingItem key={`writing-item-${writing.id}`}
+                         className='writing-list__writing-item'
+                         writing={writing}
+                         singleLine={true}/>
           )}
         </div>
-      </App>
+
+        {totalPage && totalPage > 1 && (
+          <Pagination classModName='writing'
+                      current={page}
+                      total={totalPage}
+                      pathname={'writings'}
+                      query={query} />
+        )}
+      </div>
     )
   }
 }

@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import { a, browserHistory } from 'react-router'
-import Measure from 'react-measure'
+import { browserHistory } from 'react-router'
 
 import DateAndTime from '../commons/DateAndTime'
 import Hme from '../commons/Hme'
-import LoadingIndicator from '../commons/LoadingIndicator'
 import FacebookLikeButton from '../sns/FacebookLikeButton'
 import FacebookComments from '../sns/FacebookComments'
 
