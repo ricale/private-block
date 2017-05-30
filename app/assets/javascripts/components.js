@@ -2,7 +2,7 @@ window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.Root = require('./components/containers/Root.js').default;
 
-window.Introduction = require('./components/commons/Introduction.js').default;
+window.Introduction = require('./views/Intro.js').default;
 
 window.WritingList = require('./views/writings/WritingListPage.js').default;
 window.Writing     = require('./views/writings/WritingPage.js').default;

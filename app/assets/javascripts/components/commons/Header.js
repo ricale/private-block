@@ -15,8 +15,7 @@ export default class Header extends Component {
       <div className={`header ${className || ''}`}>
         <Messages messages={messages}/>
         <h1><a href='/'>weblog ricale st.</a></h1>
-        <Navigation loggedInNow={session.valid}
-                    onClickSignOut={onClickSignOut}/>
+        <Navigation session={session}/>
       </div>
     )
   }
