@@ -10,7 +10,7 @@ export default class WritingList extends Component {
   }
 
   render () {
-    const { writings, totalPage, page, query } = this.props
+    const {writings, totalPage, page, query} = this.props
 
     return (
       <div className='writing-list-container'>

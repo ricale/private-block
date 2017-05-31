@@ -5,30 +5,16 @@ import Header from '../commons/Header'
 import Sidebar from '../commons/Sidebar'
 import Footer from '../commons/Footer'
 
-import { fetchSession, signOut } from '../../actions/session'
-
 export default class App extends Component {
-  componentDidMount () {
-    const { dispatch } = this.props
-  }
-
-  onClickSignOut (event) {
-    event.preventDefault()
-
-    const { dispatch, session } = this.props
-
-    dispatch(signOut(session.authenticityToken))
-  }
-
   render () {
-    const { children, messages, session, categories } = this.props
+    const {children, messages, loggedInNow, authenticityToken, categories} = this.props
     
     return (
       <div>
         <Header className='weblog-header'
                 messages={messages}
-                session={session}
-                onClickSignOut={this.onClickSignOut.bind(this)} />
+                authenticityToken={authenticityToken}
+                loggedInNow={loggedInNow} />
 
         <Sidebar className='weblog-sidebar'
                  categories={categories} />

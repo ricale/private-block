@@ -24,7 +24,7 @@ export default class CategoryList extends Component {
   }
 
   render () {
-    const {authenticityToken, session, singleLine, hideMenu} = this.props
+    const {authenticityToken, singleLine, hideMenu} = this.props
     const categories = this.props.categories || []
     const inlineItem = !!singleLine
 
@@ -36,7 +36,7 @@ export default class CategoryList extends Component {
                         category={category}
                         inline={inlineItem}
                         hideMenu={hideMenu}
-                        authenticityToken={(session && session.authenticityToken) || authenticityToken} />
+                        authenticityToken={authenticityToken} />
         )}
       </div>
     )

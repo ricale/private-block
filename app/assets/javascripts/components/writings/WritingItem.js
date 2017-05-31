@@ -101,7 +101,7 @@ export default class WritingItem extends Component {
   }
 
   render () {
-    const { writing, singleLine, className, session } = this.props
+    const {writing, singleLine, className, loggedInNow, authenticityToken} = this.props
 
     return (
       <div className={`writing-item${this.getModifiedClassName()} ${className}`}
@@ -120,7 +120,7 @@ export default class WritingItem extends Component {
             <DateAndTime className='writing-item__updated-at' datetimeString={writing.updated_at} withParentheses={true} />
           }
 
-          {!singleLine && session.valid && (
+          {!singleLine && loggedInNow && (
             <div className='writing-item__buttons-container'>
               <a href={`/writings/${writing.id}/edit`} className='button-container__edit-button'>
                 Edit
@@ -132,7 +132,7 @@ export default class WritingItem extends Component {
                 action={`/writings/${writing.id}`}
                 method="DELETE"
                 style={{display: 'inline-block'}}
-                token={session.authenticityToken}
+                token={authenticityToken}
               >
                 <input type='submit' value='Delete' style={{border: 0, background: 'none'}} />
               </Form>

@@ -55,11 +55,11 @@ export default class CategoryForm extends Component {
   }
 
   render () {
-    const {parents, session} = this.props
+    const {parents, authenticityToken} = this.props
     const {category} = this.state
 
     return (
-      <Form className='category-form form-horizontal' action={this.getUrl()} method={this.getMethod()} token={session.authenticityToken}>
+      <Form className='category-form form-horizontal' action={this.getUrl()} method={this.getMethod()} token={authenticityToken}>
         <InputWithLabel id='category_name'
                         key='category_name'
                         name='category[name]'

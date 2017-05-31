@@ -27,11 +27,11 @@ export default class SignInForm extends Component {
   }
 
   render () {
-    const {session} = this.props;
+    const {authenticityToken} = this.props;
     const {email, password} = this.state;
 
     return (
-      <Form className='form-horizontal' action="/users/sign_in" method="POST" token={session.authenticityToken}>
+      <Form className='form-horizontal' action="/users/sign_in" method="POST" token={authenticityToken}>
         <InputWithLabel id='email'
                         name='user[email]'
                         value={email}

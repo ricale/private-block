@@ -73,13 +73,13 @@ export default class WritingForm extends Component {
   }
 
   render () {
-    const {session} = this.props
+    const {authenticityToken} = this.props
     const {writing} = this.state
 
     const categoryOptions = this.getCategoryOptions()
 
     return (
-      <Form className='writing-form' action={this.getUrl()} method={this.getMethod()} token={session.authenticityToken}>
+      <Form className='writing-form' action={this.getUrl()} method={this.getMethod()} token={authenticityToken}>
         <InputWithLabel id='writing_title'
                         inputClassName='writing-form__title-input'
                         name='writing[title]'
