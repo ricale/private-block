@@ -1,26 +1,25 @@
 import React, { Component } from 'react'
 
-import connectSubmitForm from '../../connectSubmitForm'
-
+import Form from '../commons/Form';
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
-import redirectSubmitted from '../../decorators/redirectSubmitted'
-
-@redirectSubmitted(() => '/categories')
-class CategoryForm extends Component {
+export default class CategoryForm extends Component {
   static defaultProps = {
-    method: 'post',
-    id: undefined,
     category: undefined
-  }
+  };
 
-  state = {
-    category: this.props.category || {}
+  constructor (props) {
+    super(props);
+    this.state = {
+      category: props.category || {}
+    }
+    this.nameChanged = this.nameChanged.bind(this)
+    this.parentChanged = this.parentChanged.bind(this)
   }
 
   componentWillMount () {
-    const { fetchCategory, category, parents, id } = this.props
+    const { category } = this.props
 
     if(!!category) {
       this.setState({category: category})
@@ -37,25 +36,18 @@ class CategoryForm extends Component {
     this.forceUpdate()
   }
 
-  onSubmit (event) {
-    event.preventDefault()
-    const { authenticityToken, onSubmit } = this.props
-    const { category } = this.state
-
-    const data = {
-      category,
-      authenticity_token: authenticityToken
-    }
-
-    onSubmit(data)
-  }
-
-  getCancelUrl () {
-    if(category) {
+  getUrl () {
+    const { category } = this.state;
+    if(category.id) {
       return `/categories/${category.id}`
     } else {
-      return 
+      return '/categories'
     }
+  }
+
+  getMethod () {
+    const { category } = this.state;
+    return category.id ? 'put' : 'post';
   }
 
   getRootCategoryId () {
@@ -63,12 +55,11 @@ class CategoryForm extends Component {
   }
 
   render () {
-    const { category } = this.state
-    const { parents } = this.props
+    const {parents, session} = this.props
+    const {category} = this.state
 
     return (
-      <form className='category-form form-horizontal'
-            onSubmit={this.onSubmit.bind(this)}>
+      <Form className='category-form form-horizontal' action={this.getUrl()} method={this.getMethod()} token={session.authenticityToken}>
         <InputWithLabel id='category_name'
                         key='category_name'
                         name='category[name]'
@@ -76,7 +67,7 @@ class CategoryForm extends Component {
                         placeholde='Name'
                         labelText='Name'
                         value={category.name}
-                        onChange={this.nameChanged.bind(this)}/>
+                        onChange={this.nameChanged}/>
 
         {category.id !== this.getRootCategoryId() &&
           <InputWithLabel id='category_parent_id'
@@ -87,7 +78,7 @@ class CategoryForm extends Component {
                           labelText='Parent'
                           elementType='select'
                           value={category.parent_id}
-                          onChange={this.parentChanged.bind(this)}
+                          onChange={this.parentChanged}
                           options={parents}/>
         }
 
@@ -96,9 +87,7 @@ class CategoryForm extends Component {
           {' '}
           <a href='/categories' id='cancel'>cancel</a>
         </ElementsWithLabel>
-      </form>
+      </Form>
     )
   }
 }
-
-export default connectSubmitForm(CategoryForm)

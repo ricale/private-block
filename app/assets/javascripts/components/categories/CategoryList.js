@@ -7,18 +7,6 @@ export default class CategoryList extends Component {
 
   }
 
-  componentWillMount () {
-    const { fetchCategories, categories } = this.props
-
-    if(fetchCategories && (!categories || categories.length === 0)) {
-      fetchCategories()
-    }
-  }
-
-  // componentWillReceiveProps (nextProps) {
-  //   const { onLoadCategories } = this.props
-  // }
-
   getModifiedClassName () {
     const className = 'category-list'
 
@@ -36,7 +24,7 @@ export default class CategoryList extends Component {
   }
 
   render () {
-    const { deleteCategory, authenticityToken, singleLine, hideMenu } = this.props
+    const {authenticityToken, session, singleLine, hideMenu} = this.props
     const categories = this.props.categories || []
     const inlineItem = !!singleLine
 
@@ -48,8 +36,7 @@ export default class CategoryList extends Component {
                         category={category}
                         inline={inlineItem}
                         hideMenu={hideMenu}
-                        deleteCategory={deleteCategory}
-                        authenticityToken={authenticityToken} />
+                        authenticityToken={(session && session.authenticityToken) || authenticityToken} />
         )}
       </div>
     )

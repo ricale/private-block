@@ -7,8 +7,6 @@ import Hme from '../commons/Hme'
 
 export default class WritingForm extends Component {
   static defaultProps = {
-    method: 'post',
-    id: undefined,
     writing: undefined
   };
 
@@ -75,8 +73,8 @@ export default class WritingForm extends Component {
   }
 
   render () {
-    const { action, method, session } = this.props
-    const { writing } = this.state
+    const {session} = this.props
+    const {writing} = this.state
 
     const categoryOptions = this.getCategoryOptions()
 

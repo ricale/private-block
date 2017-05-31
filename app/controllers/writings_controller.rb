@@ -75,7 +75,6 @@ class WritingsController < ApplicationController
 
   def create
     writing = Writing.create!(writing_params)
-    writing = Writing.where(id: writing.id).with_category.first
 
     redirect_to writing_path(writing)
   end
@@ -83,7 +82,6 @@ class WritingsController < ApplicationController
   def update
     writing = Writing.find(params[:id])
     writing.update_attributes!(writing_params)
-    writing = Writing.where(id: writing.id).with_category.first
 
     redirect_to writing_path(writing)
   end

@@ -43,39 +43,22 @@ class CategoriesController < ApplicationController
 
   def create
     category = Category.create!(category_params)
-    categories = Category.hierarchy_categories
 
-    render_result({
-      categories: {
-        list: categories,
-      }
-    })
+    redirect_to categories_path
   end
 
   def update
     category = Category.find(params[:id])
     category.update_attributes!(category_params)
 
-    categories = Category.hierarchy_categories
-
-    render_result({
-      categories: {
-        list: categories,
-      }
-    })
+    redirect_to categories_path
   end
 
   def destroy
     category = Category.find(params[:id])
     category.destroy
 
-    categories = Category.hierarchy_categories
-
-    render_result({
-      categories: {
-        list: categories,
-      }
-    })
+    redirect_to categories_path
   end
 
   private

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Form from '../commons/Form';
 import NavLink from '../commons/NavLink'
 
 export default class CategoryItem extends Component {
@@ -33,14 +34,8 @@ export default class CategoryItem extends Component {
     // }
   }
 
-  onClickDeleteButton (event) {
-    const { category, authenticityToken, deleteCategory } = this.props
-    event.preventDefault()
-    deleteCategory(category.id, authenticityToken)
-  }
-
   render () {
-    const { category, className, inline, hideMenu } = this.props
+    const {category, className, inline, hideMenu, authenticityToken} = this.props
 
     return (
       <div className={`category-item${this.getModifiedClassName()} ${className}`}>
@@ -55,11 +50,14 @@ export default class CategoryItem extends Component {
               Edit
             </a>
 
-            <a className='category-item__delete-button'
-               href='#'
-               onClick={this.onClickDeleteButton.bind(this)}>
-              Delete
-            </a>
+            <Form
+              action={`/categories/${category.id}`}
+              method="DELETE"
+              style={{display: 'inline-block'}}
+              token={authenticityToken}
+            >
+              <input type='submit' value='Delete' style={{border: 0, background: 'none'}} />
+            </Form>
           </div>
         }
       </div>
