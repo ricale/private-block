@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 
 import Form from '../commons/Form'
 import DateAndTime from '../commons/DateAndTime'

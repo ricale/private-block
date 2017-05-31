@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Measure from 'react-measure'
 
 import WritingItem from './WritingItem'
 import Pagination from '../commons/Pagination'
