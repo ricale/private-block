@@ -9,79 +9,56 @@ class CategoriesController < ApplicationController
         categories: {
         },
         message: I18n.t('devise.failure.unauthenticated')
-      }, 401)
+      }, status: 401)
     end
   end
 
   def index
     categories = Category.hierarchy_categories.with_writing_count
 
-    render_result({
-      categories: {
-        list: categories
-      }
-    })
+    @props = {
+      categories:  categories
+    }
   end
 
   def new
     category = Category.new
     parents = Category.family_categories(Category.root.id)
 
-    render_result({
-      categories: {
-        selected: category,
-        parents:  parents
-      }
-    })
+    @props = {
+      category: category,
+      parents:  parents
+    }
   end
 
   def edit
     category = Category.find(params[:id])
     parents = Category.family_categories(Category.root.id)
 
-    render_result({
-      categories: {
-        selected: category,
-        parents:  parents
-      }
-    })
+    @props = {
+      category: category,
+      parents:  parents
+    }
   end
 
   def create
     category = Category.create!(category_params)
-    categories = Category.hierarchy_categories
 
-    render_result({
-      categories: {
-        list: categories,
-      }
-    })
+    redirect_to categories_path
   end
 
   def update
     category = Category.find(params[:id])
     category.update_attributes!(category_params)
 
-    categories = Category.hierarchy_categories
-
-    render_result({
-      categories: {
-        list: categories,
-      }
-    })
+    redirect_to categories_path
   end
 
   def destroy
     category = Category.find(params[:id])
     category.destroy
 
-    categories = Category.hierarchy_categories
-
-    render_result({
-      categories: {
-        list: categories,
-      }
-    })
+    redirect_to categories_path
   end
 
   private

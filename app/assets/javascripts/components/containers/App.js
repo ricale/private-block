@@ -1,37 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import MyHelmet from '../commons/MyHelmet'
 import Header from '../commons/Header'
 import Sidebar from '../commons/Sidebar'
 import Footer from '../commons/Footer'
 
-import { fetchSession, signOut } from '../../actions/session'
-
-import { CONTAINER_CLASS } from '../../constants/commons'
-
-class App extends Component {
-  componentDidMount () {
-    const { dispatch } = this.props
-  }
-
-  onClickSignOut (event) {
-    event.preventDefault()
-
-    const { dispatch, session } = this.props
-
-    dispatch(signOut(session.authenticityToken))
-  }
-
+export default class App extends Component {
   render () {
-    const { children, messages, session, categories } = this.props
+    const {children, messages, loggedInNow, authenticityToken, categories} = this.props
+    
     return (
       <div>
-        <MyHelmet initialPath={session.initialPath}/>
         <Header className='weblog-header'
                 messages={messages}
-                session={session}
-                onClickSignOut={this.onClickSignOut.bind(this)} />
+                authenticityToken={authenticityToken}
+                loggedInNow={loggedInNow} />
 
         <Sidebar className='weblog-sidebar'
                  categories={categories} />
@@ -45,10 +28,3 @@ class App extends Component {
     )
   }
 }
-
-function mapStateToProps (state, ownProps) {
-  return state
-}
-
-export default connect(mapStateToProps)(App)
-// export default App

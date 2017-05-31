@@ -1,60 +1,30 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
-import { browserHistory } from 'react-router';
 
-import connectSubmitForm from '../../connectSubmitForm'
-
+import Form from '../commons/Form';
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 import Hme from '../commons/Hme'
 
-import redirectSubmitted from '../../decorators/redirectSubmitted'
-
-@redirectSubmitted(props => props.writing && props.writing.id ? `/${props.writing.id}` : '/writings')
-class WritingForm extends Component {
+export default class WritingForm extends Component {
   static defaultProps = {
-    method: 'post',
-    id: undefined,
     writing: undefined
-  }
+  };
 
-  state = {
-    writing: this.props.writing || {}
-  }
-
-  componentWillMount () {
-    this.redirectToSignInPageIfNeeded()
+  constructor (props) {
+    super(props);
+    this.state = {
+      writing: props.writing || {}
+    }
+    this.onTitleChanged = this.onTitleChanged.bind(this);
+    this.onCategoryChanged = this.onCategoryChanged.bind(this);
+    this.onContentChanged = this.onContentChanged.bind(this);
   }
 
   componentDidMount () {
-    const { fetchWriting, writing, categories, id } = this.props
+    const {writing} = this.props
 
-    if(!categories || categories.length === 0 ||
-       !writing || (!id && !writing.id) || id !== writing.id) {
-      fetchWriting(id, {withCategories: true})
-    } else {
-      this.setState({writing: writing})
-    }
-  }
-
-  componentWillUpdate () {
-    this.redirectToSignInPageIfNeeded()
-  }
-
-  componentWillReceiveProps (nextProps) {
-    const { fetchWriting, id, writing } = this.props
-
-    if(id !== nextProps.id) {
-      fetchWriting(nextProps.id, {withCategories: true})
-
-    } else if (writing && writing.id !== nextProps.writing.id) {
-      this.setState({writing: nextProps.writing})
-    }
-  }
-
-  redirectToSignInPageIfNeeded () {
-    if(!this.props.session.valid) {
-      browserHistory.push('/users/sign_in')
+    if(!!writing) {
+      this.setState({writing: writing});
     }
   }
 
@@ -73,26 +43,18 @@ class WritingForm extends Component {
     this.forceUpdate()
   }
 
-  onSubmit (event) {
-    event.preventDefault()
-    const { session, onSubmit } = this.props
-    const { writing } = this.state
-
-    const data = {
-      writing,
-      authenticity_token: session.authenticityToken
-    }
-
-    onSubmit(data)
-  }
-
-  getCancelUrl () {
+  getUrl () {
     const { writing } = this.state;
     if(writing.id) {
       return `/writings/${writing.id}`
     } else {
       return '/writings'
     }
+  }
+
+  getMethod () {
+    const { writing } = this.state;
+    return writing.id ? 'put' : 'post';
   }
 
   getCategoryOptions () {
@@ -111,22 +73,20 @@ class WritingForm extends Component {
   }
 
   render () {
-    const { action, method, authenticityToken } = this.props
-    const { writing } = this.state
+    const {authenticityToken} = this.props
+    const {writing} = this.state
 
     const categoryOptions = this.getCategoryOptions()
 
     return (
-      <form className='writing-form'
-            onSubmit={this.onSubmit.bind(this)}>
-
+      <Form className='writing-form' action={this.getUrl()} method={this.getMethod()} token={authenticityToken}>
         <InputWithLabel id='writing_title'
                         inputClassName='writing-form__title-input'
                         name='writing[title]'
                         placeholder='Title'
                         labelText='Title'
                         value={writing.title}
-                        onChange={this.onTitleChanged.bind(this)} />
+                        onChange={this.onTitleChanged} />
 
         <InputWithLabel id='writing_category_id'
                         inputClassName='writing-form__category-select'
@@ -136,22 +96,20 @@ class WritingForm extends Component {
                         elementType='select'
                         value={writing.category_id}
                         options={categoryOptions}
-                        onChange={this.onCategoryChanged.bind(this)} />
+                        onChange={this.onCategoryChanged} />
 
         <div>
           <label htmlFor='writing_content'>Content</label>
-          <Hme name='writing[content]' value={writing.content || ''} onChange={this.onContentChanged.bind(this)} />
+          <Hme name='writing[content]' value={writing.content || ''} onChange={this.onContentChanged} />
         </div>
 
         <ElementsWithLabel>
           <input id='submit' type='submit' value='submit' />
           {' '}
-          <Link to={this.getCancelUrl()} id='cancel'>cancel</Link>
+          <a href={this.getUrl()} id='cancel'>cancel</a>
         </ElementsWithLabel>
-      </form>
+      </Form>
     )
 
   }
 }
-
-export default connectSubmitForm(WritingForm)

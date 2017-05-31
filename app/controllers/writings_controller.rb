@@ -32,28 +32,24 @@ class WritingsController < ApplicationController
     categories = Category.hierarchy_categories_with_writing_count
 
 
-    render_result({
-      writings: {
-        list: writings,
-        page: current_page,
-        categoryId: category_id,
-        totalPage: total_page_count
-      },
-      categories: {
-        list: categories
-      }
-    })
+    @props = {
+      writings: writings,
+      page: current_page,
+      totalPage: total_page_count,
+      categoryId: category_id,
+      categories: categories,
+      query: params
+    }
   end
 
   def show
     writing = Writing.where(id: params[:id]).with_category.first
+    categories = Category.hierarchy_categories_with_writing_count
 
-
-    render_result({
-      writings: {
-        selected: writing
-      }
-    })
+    @props = {
+      writing: writing,
+      categories: categories,
+    }
   end
 
   def new
@@ -61,66 +57,40 @@ class WritingsController < ApplicationController
     categories = Category.hierarchy_categories_with_writing_count
 
 
-    render_result({
-      writings: {
-        selected: writing
-      },
-      categories: {
-        list: categories
-      }
-    })
+    @props = {
+      writing: writing,
+      categories: categories
+    }
   end
 
   def edit
     writing = Writing.find(params[:id])
     categories = Category.hierarchy_categories_with_writing_count
 
-
-    render_result({
-      writings: {
-        selected: writing
-      },
-      categories: {
-        list: categories
-      }
-    })
+    @props = {
+      writing: writing,
+      categories: categories
+    }
   end
 
   def create
     writing = Writing.create!(writing_params)
-    writing = Writing.where(id: writing.id).with_category.first
 
-
-    render_result({
-      writings: {
-        selected: writing
-      }
-    })
+    redirect_to writing_path(writing)
   end
 
   def update
     writing = Writing.find(params[:id])
     writing.update_attributes!(writing_params)
-    writing = Writing.where(id: writing.id).with_category.first
 
-
-    render_result({
-      writings: {
-        selected: writing
-      }
-    })
+    redirect_to writing_path(writing)
   end
 
   def destroy
     writing = Writing.find(params[:id])
     writing.destroy
 
-
-    render_result({
-      writings: {
-        selected: nil
-      }
-    })
+    redirect_to writings_path
   end
 
   private

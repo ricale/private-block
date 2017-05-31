@@ -11,15 +11,17 @@ class Users::SessionsController < Devise::SessionsController
     # if flash[:error].blank?
     #   render json: {success: true}
     # else
-    if is_json_request
-      if !flash[:alert].blank?
-        render status: 401, json: {message: flash[:alert]}
-      else
-      end
+      # if is_json_request
+      #   if !flash[:alert].blank?
+      #     render status: 401, json: {message: flash[:alert]}
+      #   else
+      #   end
 
-    else
-      render 'commons/root'
-    end
+      # else
+      #   render 'commons/root'
+      # end
+
+    @props = {}
     
     # end
   end
@@ -30,14 +32,17 @@ class Users::SessionsController < Devise::SessionsController
     return invalid_login_attempt unless resource
     # set_flash_message!(:notice, :signed_in)
     sign_in(resource_name, resource)
-    render json: {user: current_user, authenticity_token: form_authenticity_token}
+
+    redirect_to '/'
+    # render json: {user: current_user, authenticity_token: form_authenticity_token}
   end
 
   # DELETE /resource/sign_out
   def destroy
     signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
     # set_flash_message! :notice, :signed_out if signed_out
-    render json: {success: true, authenticity_token: form_authenticity_token}
+
+    redirect_to '/'
   end
 
   protected

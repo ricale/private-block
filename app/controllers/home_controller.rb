@@ -1,11 +1,7 @@
 class HomeController < ApplicationController
   def index
-    categories = Category.hierarchy_categories_with_writing_count
-
-    render_result({
-      categories: {
-        list: categories
-      }
-    })
+    @props = {
+      categories: Category.hierarchy_categories_with_writing_count
+    }
   end
 end

@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 
-import connectSubmitForm from '../../connectSubmitForm'
-
+import Form from '../commons/Form'
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
-import redirectSubmitted from '../../decorators/redirectSubmitted'
+export default class SignInForm extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      user: {
+        email: '',
+        password: ''
+      }
+    };
 
-@redirectSubmitted(() => '/')
-class SignInForm extends Component {
-  state = {
-    user: {
-      email: '',
-      password: ''
-    }
+    this.onEmailChange = this.onEmailChange.bind(this)
+    this.onPasswordChange = this.onPasswordChange.bind(this)
   }
 
   onEmailChange (event) {
@@ -24,39 +26,32 @@ class SignInForm extends Component {
     this.setState({password: event.target.value})
   }
 
-  onSubmit (event) {
-    event.preventDefault()
-    const { onSubmit, session: { authenticityToken } } = this.props
-    const { email, password } = this.state
-
-    onSubmit(email, password, authenticityToken)
-  }
-
   render () {
+    const {authenticityToken} = this.props;
+    const {email, password} = this.state;
+
     return (
-      <form className='form-horizontal' onSubmit={this.onSubmit.bind(this)}>
+      <Form className='form-horizontal' action="/users/sign_in" method="POST" token={authenticityToken}>
         <InputWithLabel id='email'
-                        name='email'
-                        value={this.state.email}
+                        name='user[email]'
+                        value={email}
                         placeholder='email'
                         labelText='email'
                         typeAttribute='email'
-                        onChange={this.onEmailChange.bind(this)} />
+                        onChange={this.onEmailChange} />
 
         <InputWithLabel id='password'
-                        name='password'
-                        value={this.state.password}
+                        name='user[password]'
+                        value={password}
                         placeholder='password'
                         labelText='password'
                         typeAttribute='password'
-                        onChange={this.onPasswordChange.bind(this)} />
+                        onChange={this.onPasswordChange} />
 
         <ElementsWithLabel>
           <input id='submit' type='submit' value='submit'/>
         </ElementsWithLabel>
-      </form>
+      </Form>
     )
   }
 }
-
-export default connectSubmitForm(SignInForm)

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 
 export default class Pagination extends Component {
   static defaultProps = {
@@ -40,10 +39,11 @@ export default class Pagination extends Component {
   }
 
   setCurrentPage (props) {
-    const { query } = props
+    const { current } = props
 
+    // FIXME: why use state
     this.setState({
-      current: (parseInt(query.page, 10) || 1)
+      current: (parseInt(current, 10) || 1)
     })
   }
 
@@ -59,7 +59,7 @@ export default class Pagination extends Component {
     if(current - windowCount > 1) {
       return (
         <span className='pagination__first'>
-          <Link to={this.getUrl(1)} className='pagination__first-link'>1</Link>
+          <a link={this.getUrl(1)} className='pagination__first-link'>1</a>
         </span>
       )
     }
@@ -84,9 +84,9 @@ export default class Pagination extends Component {
       let className = i === current ? 'current' : 'page'
       links.push(
         <span className={`pagination__${className}`} key={`page-${i}`}>
-          <Link to={this.getUrl(i)} className={`pagination__${className}-link`}>
+          <a href={this.getUrl(i)} className={`pagination__${className}-link`}>
             {i}
-          </Link>
+          </a>
         </span>
       )
     }
@@ -101,7 +101,7 @@ export default class Pagination extends Component {
     if(current + windowCount < total) {
       return (
         <span className='pagination__last'>
-          <Link to={this.getUrl(total)} className='pagination__last-link'>{total}</Link>
+          <a href={this.getUrl(total)} className='pagination__last-link'>{total}</a>
         </span>
       )
     }

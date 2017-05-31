@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
-
+import Form from '../commons/Form';
 import NavLink from '../commons/NavLink'
-
 
 export default class CategoryItem extends Component {
   static defaultProps = {
@@ -36,33 +34,30 @@ export default class CategoryItem extends Component {
     // }
   }
 
-  onClickDeleteButton (event) {
-    const { category, authenticityToken, deleteCategory } = this.props
-    event.preventDefault()
-    deleteCategory(category.id, authenticityToken)
-  }
-
   render () {
-    const { category, className, inline, hideMenu } = this.props
+    const {category, className, inline, hideMenu, authenticityToken} = this.props
 
     return (
       <div className={`category-item${this.getModifiedClassName()} ${className}`}>
         <div className='category-item__name'>
-          <NavLink to={this.getCategoryWritingListUrl(category)}>{category.name}</NavLink>
+          <NavLink href={this.getCategoryWritingListUrl(category)}>{category.name}</NavLink>
         </div>
         <div className='category-item__writing-count'>({category.writing_count})</div>
 
         {!inline && !hideMenu &&
           <div className='category-item__buttons-container'>
-            <Link to={`/categories/${category.id}/edit`} className='category-item__edit-button'>
+            <a href={`/categories/${category.id}/edit`} className='category-item__edit-button'>
               Edit
-            </Link>
-
-            <a className='category-item__delete-button'
-               href='#'
-               onClick={this.onClickDeleteButton.bind(this)}>
-              Delete
             </a>
+
+            <Form
+              action={`/categories/${category.id}`}
+              method="DELETE"
+              style={{display: 'inline-block'}}
+              token={authenticityToken}
+            >
+              <input type='submit' value='Delete' style={{border: 0, background: 'none'}} />
+            </Form>
           </div>
         }
       </div>

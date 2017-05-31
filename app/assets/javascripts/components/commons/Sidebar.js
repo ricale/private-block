@@ -23,7 +23,7 @@ export default class Sidebar extends Component {
         </span>
 
         <div className={`sidebar__contents ${visibleClassName}`}>
-          <CategoryList categories={categories.list} hideMenu={true} />
+          <CategoryList categories={categories} hideMenu={true} />
         </div>
       </div>
     )
