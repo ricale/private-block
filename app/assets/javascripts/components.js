@@ -1,6 +1,5 @@
 window.React = require('react');
 window.ReactDOM = require('react-dom');
-window.Root = require('./components/containers/Root.js').default;
 
 window.Introduction = require('./views/Intro.js').default;
 window.SignIn       = require('./views/SignIn.js').default;
