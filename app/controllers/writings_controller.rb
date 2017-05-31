@@ -77,12 +77,7 @@ class WritingsController < ApplicationController
     writing = Writing.create!(writing_params)
     writing = Writing.where(id: writing.id).with_category.first
 
-
-    render_result({
-      writings: {
-        selected: writing
-      }
-    })
+    redirect_to writing_path(writing)
   end
 
   def update
@@ -90,24 +85,14 @@ class WritingsController < ApplicationController
     writing.update_attributes!(writing_params)
     writing = Writing.where(id: writing.id).with_category.first
 
-
-    render_result({
-      writings: {
-        selected: writing
-      }
-    })
+    redirect_to writing_path(writing)
   end
 
   def destroy
     writing = Writing.find(params[:id])
     writing.destroy
 
-
-    render_result({
-      writings: {
-        selected: nil
-      }
-    })
+    redirect_to writings_path
   end
 
   private

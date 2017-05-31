@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import Form from '../commons/Form'
 import InputWithLabel from '../commons/InputWithLabel'
 import ElementsWithLabel from '../commons/ElementsWithLabel'
 
@@ -12,6 +13,9 @@ export default class SignInForm extends Component {
         password: ''
       }
     };
+
+    this.onEmailChange = this.onEmailChange.bind(this)
+    this.onPasswordChange = this.onPasswordChange.bind(this)
   }
 
   onEmailChange (event) {
@@ -27,15 +31,14 @@ export default class SignInForm extends Component {
     const {email, password} = this.state;
 
     return (
-      <form className='form-horizontal' action="/users/sign_in" method="POST">
-        <input type="hidden" name="authenticity_token" value={session.authenticityToken}/>
+      <Form className='form-horizontal' action="/users/sign_in" method="POST" token={session.authenticityToken}>
         <InputWithLabel id='email'
                         name='user[email]'
                         value={email}
                         placeholder='email'
                         labelText='email'
                         typeAttribute='email'
-                        onChange={this.onEmailChange.bind(this)} />
+                        onChange={this.onEmailChange} />
 
         <InputWithLabel id='password'
                         name='user[password]'
@@ -43,12 +46,12 @@ export default class SignInForm extends Component {
                         placeholder='password'
                         labelText='password'
                         typeAttribute='password'
-                        onChange={this.onPasswordChange.bind(this)} />
+                        onChange={this.onPasswordChange} />
 
         <ElementsWithLabel>
           <input id='submit' type='submit' value='submit'/>
         </ElementsWithLabel>
-      </form>
+      </Form>
     )
   }
 }

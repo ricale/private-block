@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import Form from './Form';
+
 export default class LogoutButton extends Component {
   static defaultProps = {
     style: {
@@ -12,11 +14,9 @@ export default class LogoutButton extends Component {
     const {session, style} = this.props;
 
     return (
-      <form action="/users/sign_out" method="POST">
-        <input type="hidden" name="_method" value="delete"/>
-        <input type="hidden" name="authenticity_token" value={session.authenticityToken}/>
+      <Form action="/users/sign_out" method="DELETE" token={session.authenticityToken}>
         <input type="submit" value="Sign out" style={style}/>
-      </form>
+      </Form>
     )
   }
 }

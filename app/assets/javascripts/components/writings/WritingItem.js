@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 
+import Form from '../commons/Form'
 import DateAndTime from '../commons/DateAndTime'
 import Hme from '../commons/Hme'
 import FacebookLikeButton from '../sns/FacebookLikeButton'
@@ -20,31 +21,14 @@ export default class WritingItem extends Component {
       // category_id: 
       category_name: 'Hello'
     }
-  }
+  };
 
-  state = {
-    decodedContent: '',
-    dimensions: {}
-  }
-
-  componentWillMount () {
-    const { fetchWriting, id } = this.props
-
-    if(id) {
-      fetchWriting(id)
-    }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    const { fetchWriting, writing, id } = this.props
-
-    if(nextProps.id === id && !nextProps.writing && writing) {
-      browserHistory.push('/writings')
-    }
-
-    if(nextProps.id !== id) {
-      fetchWriting(nextProps.id)
-    }
+  constructor (props) {
+    super(props);
+    this.state = {
+      decodedContent: '',
+      dimensions: {}
+    };
   }
 
   componentDidMount () {
@@ -88,12 +72,6 @@ export default class WritingItem extends Component {
     return `/categories/${id}/writings`
   }
 
-  isLoadingNow () {
-    const { id, writing } = this.props
-
-    return id && writing.id !== id
-  }
-
   renderCategoryName () {
     const { writing } = this.props
     {/* 상수를 박아놓을 것이 아니라, parentCategoryTypeId 따위가 필요 */}
@@ -122,15 +100,8 @@ export default class WritingItem extends Component {
     )
   }
 
-  onClickDeleteButton (event) {
-    event.preventDefault()
-    const { deleteWriting, writing, authenticityToken } = this.props
-
-    deleteWriting(writing.id, authenticityToken)
-  }
-
   render () {
-    const { writing, singleLine, className, loggedInNow } = this.props
+    const { writing, singleLine, className, session } = this.props
 
     return (
       <div className={`writing-item${this.getModifiedClassName()} ${className}`}
@@ -149,7 +120,7 @@ export default class WritingItem extends Component {
             <DateAndTime className='writing-item__updated-at' datetimeString={writing.updated_at} withParentheses={true} />
           }
 
-          {!singleLine && loggedInNow && (
+          {!singleLine && session.valid && (
             <div className='writing-item__buttons-container'>
               <a href={`/writings/${writing.id}/edit`} className='button-container__edit-button'>
                 Edit
@@ -157,11 +128,14 @@ export default class WritingItem extends Component {
 
               {' '}
 
-              <a className='button_container__delete-button'
-                 href='#'
-                 onClick={this.onClickDeleteButton.bind(this)}>
-                Delete
-              </a>
+              <Form
+                action={`/writings/${writing.id}`}
+                method="DELETE"
+                style={{display: 'inline-block'}}
+                token={session.authenticityToken}
+              >
+                <input type='submit' value='Delete' style={{border: 0, background: 'none'}} />
+              </Form>
             </div>
           )}
         </div>
