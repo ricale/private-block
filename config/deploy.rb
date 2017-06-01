@@ -6,6 +6,7 @@ set :repo_url, 'https://github.com/ricale/private-block.git'
 
 set :rvm_type, :system
 # set :rvm_ruby_version, '2.3.0@rails4.2.5'
+set :passenger_rvm_ruby_version, '2.3.0'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
