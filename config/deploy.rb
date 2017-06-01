@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.6.0'
+lock '3.8.1'
 
 set :application, 'private_block'
 set :repo_url, 'https://github.com/ricale/private-block.git'
