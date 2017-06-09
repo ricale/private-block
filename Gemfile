@@ -20,7 +20,9 @@ gem 'jbuilder', '~> 2.0'
 
 gem 'devise'
 
-gem "highline"
+gem 'puma'
+
+gem 'highline'
 
 group :development do
   gem 'capistrano', '~> 3.1'
