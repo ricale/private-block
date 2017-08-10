@@ -1,4 +1,4 @@
-#!/Users/ricale/workspace/private/private-block/myvenv/bin/python3
+#!/var/www/private_block_django/myvenv/bin/python3.4
 from django.core import management
 
 if __name__ == "__main__":
