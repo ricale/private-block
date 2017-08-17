@@ -6,7 +6,9 @@ class Post(models.Model):
   title          = models.CharField(max_length=200)
   text           = models.TextField()
   created_date   = models.DateTimeField(default=timezone.now)
+  updated_date   = models.DateTimeField(default=timezone.now)
   published_date = models.DateTimeField(blank=True, null=True)
+  category       = models.ForeignKey('weblog.Category', default=1)
 
   def publish(self):
     self.published_date = timezone.now()
@@ -31,3 +33,12 @@ class Comment(models.Model):
 
   def __str__(self):
     return self.text
+
+class Category(models.Model):
+  name         = models.CharField(max_length=100)
+  created_date = models.DateTimeField(default=timezone.now)
+  updated_date = models.DateTimeField(default=timezone.now)
+  # parent_id
+  # depth
+  # order_in_parent
+  # family
