@@ -81,7 +81,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'private_block',
+        'NAME': 'private_block_django',
         'USER': 'root',
         'PASSWORD': 'asdf1234',
         'HOST': 'localhost',
