@@ -100,3 +100,6 @@ myvenv/
 .mypy_cache/
 
 node_modules/
+assets/webpack_bundles
+.gitignore
+webpack-stats.json
