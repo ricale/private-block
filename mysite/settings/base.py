@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.realpath(os.path.dirname(__file__) + "/.."))
 
 
 # Quick-start development settings - unsuitable for production
@@ -72,25 +73,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'private_block_django',
-        'USER': 'root',
-        'PASSWORD': 'asdf1234',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -137,22 +119,3 @@ STATICFILES_DIRS = (
 #
 
 LOGIN_REDIRECT_URL = '/'
-
-# webpack
-
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'CACHE': not DEBUG,
-        'BUNDLE_DIR_NAME': 'webpack_bundles/',
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
-        'POLL_INTERVAL': 0.1,
-        'TIMEOUT': None,
-        'IGNORE': ['.+\.hot-update.js', '.+\.map']
-    }
-}
-
-if not DEBUG:
-    WEBPACK_LOADER.update({
-        'BUNDLE_DIR_NAME': 'dist/',
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats-prod.json')
-    })
