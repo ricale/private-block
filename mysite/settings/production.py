@@ -1,5 +1,5 @@
 from mysite.settings.base import *
-import os
+from mysite.settings.secrets import *
 
 DEBUG = False
 

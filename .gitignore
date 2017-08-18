@@ -103,4 +103,5 @@ node_modules/
 assets/webpack_bundles
 .gitignore
 webpack-stats.json
+webpack-stats-prod.json
 mysite/settings/secrets.py
