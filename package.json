@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "webpack": "^3.5.5",
+    "webpack-bundle-tracker": "^0.2.0"
+  },
+  "dependencies": {
+    "lemon-juice": "^0.1.0"
+  }
+}
