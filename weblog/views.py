@@ -10,7 +10,8 @@ def post_list(request):
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
-  return render(request, 'weblog/post_detail.html', {'post': post})
+  auth = {'isAuthenticated': request.user.is_authenticated() and 'true' or 'false'}
+  return render(request, 'weblog/post_detail.html', {'post': {**post.attributes(), **auth}})
 
 @login_required
 def post_new(request):

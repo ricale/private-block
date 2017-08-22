@@ -17,6 +17,18 @@ class Post(models.Model):
   def approved_comments(self):
     return self.comments.filter(approved_comment=True)
 
+  def attributes(self):
+    return {
+      'pk':             self.pk,
+      'title':          self.title,
+      'text':           self.text,
+      'created_date':   self.created_date.isoformat(),
+      'updated_date':   self.updated_date.isoformat(),
+      'published_date': self.published_date.isoformat(),
+
+      'comments': list(map(lambda c: c.attributes(), self.approved_comments().all()))
+    }
+
   def __str__(self):
     return self.title
 
@@ -30,6 +42,15 @@ class Comment(models.Model):
   def approve(self):
     self.approved_comment = True
     self.save()
+
+  def attributes(self):
+    return {
+      'pk':           self.pk,
+      'author':       self.author,
+      'text':         self.text,
+      'created_date': self.created_date.isoformat(),
+      'approved':     self.approved_comment and 'true' or 'false'
+    }
 
   def __str__(self):
     return self.text
