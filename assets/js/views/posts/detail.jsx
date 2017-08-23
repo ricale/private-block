@@ -46,9 +46,9 @@ export default class PostDetail extends Component {
           }
         </div>
         
-        <div dangerouslySetInnerHTML={{__html: lemonJuice.decode(text)}}></div>
+        <div className='post-detail-content' dangerouslySetInnerHTML={{__html: lemonJuice.decode(text)}}></div>
 
-        <div>
+        <div className='post-detail-comments'>
           <a href={urls.post.addComment(pk)}>댓글 추가</a>
           <div>
             {comments.map(c =>

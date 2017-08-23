@@ -11,14 +11,16 @@
     <div class="container">
 
       <div class="weblog-header">
-        {% if user.is_authenticated %}
-          <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-          <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-          <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
-        {% else %}
-          <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-        {% endif %}
         <h1><a href="/">weblog ricale st.</a></h1>
+        <div class="weblog-header__menu">
+          {% if user.is_authenticated %}
+            <a href="{% url 'post_new' %}">새 글</a> |
+            <a href="{% url 'post_draft_list' %}">비공개글 목록</a> |
+            <a href="{% url 'logout' %}">로그아웃</a>
+          {% else %}
+            <a href="{% url 'login' %}" class="weblog-header__login">로그인</a>
+          {% endif %}
+        </div>
       </div>
 
       <div class="weblog-content">
