@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import lemonJuice from 'lemon-juice';
 
+import DateAndTime from '../../components/DateAndTime';
 import urls from '../../utils/urlHelper';
 
 export default class PostDetail extends Component {
@@ -18,20 +19,32 @@ export default class PostDetail extends Component {
 
     return (
       <div>
-        <h1>{title}</h1>
-        <p>{createdDate}</p>
-        <p>{updatedDate}</p>
-        <p>{publishedDate}</p>
+        <div className='post-detail-header'>
+          <h2>{title}</h2>
 
-        {isAuthenticated === 'true' &&
           <div>
-            <a href={urls.post.edit(pk)}>수정</a>
-            <a href={urls.post.remove(pk)}>삭제</a>
-            {!publishedDate &&
-              <a href={urls.post.publish(pk)}>공개</a>
-            }
+            <span>최초 작성: </span>
+            <DateAndTime datetimeString={createdDate} />
           </div>
-        }
+          <div>
+            <span>최종 갱신: </span>
+            <DateAndTime datetimeString={updatedDate} />
+          </div>
+          <div>
+            <span>공개: </span>
+            <DateAndTime datetimeString={publishedDate} />
+          </div>
+
+          {isAuthenticated === 'true' &&
+            <div>
+              <a href={urls.post.edit(pk)}>수정</a>
+              <a href={urls.post.remove(pk)}>삭제</a>
+              {!publishedDate &&
+                <a href={urls.post.publish(pk)}>공개</a>
+              }
+            </div>
+          }
+        </div>
         
         <div dangerouslySetInnerHTML={{__html: lemonJuice.decode(text)}}></div>
 
