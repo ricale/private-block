@@ -34,3 +34,38 @@
 .comment-author {
   font-weight: bold;
 }
+
+
+
+.post-form {
+  display: inline-block;
+  width: 49%;
+  margin-right: 10px;
+}
+
+.post-form__label {
+  display: block;
+}
+
+.post-form__item {
+  margin-bottom: 10px;
+}
+
+.post-form__input {
+  width: 100%;
+}
+
+.post-form__textarea {
+  width: 100%;
+  height: 500px;
+}
+
+.post-preview {
+  display: inline-block;
+  width: 49%;
+  height: 605px;
+  padding: 10px;
+  border: 1px solid #999;
+
+  vertical-align: top;
+}
