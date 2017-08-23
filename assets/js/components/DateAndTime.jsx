@@ -10,8 +10,8 @@ export default class DateAndTime extends Component {
   getFormattedDateAndTime (dateString) {
     if(!dateString) {
       return {
-        date: '2222.02.22',
-        time: '22:22:22'
+        date: '',
+        time: ''
       }
     }
 

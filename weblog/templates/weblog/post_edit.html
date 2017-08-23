@@ -1,9 +1,16 @@
 {% extends 'weblog/base.html' %}
+{% load render_bundle from webpack_loader %}
 
 {% block content %}
-    <h1>New post</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
-    </form>
+  <div id="react">
+  </div>
+
+  {% render_bundle 'main' %}
+
+  <script>
+  ReactDOM.render(
+    React.createElement(NewPost, {{ post|safe }}),
+    document.getElementById('react')
+  );
+  </script>
 {% endblock %}

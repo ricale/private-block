@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.middleware.csrf import get_token
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
@@ -23,8 +24,11 @@ def post_new(request):
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    form = PostForm()
-  return render(request, 'weblog/post_edit.html', {'form': form})
+    post = {
+      'csrf_token': get_token(request)
+    }
+    # form = PostForm()
+  return render(request, 'weblog/post_edit.html', {'post': post})
 
 @login_required
 def post_edit(request, pk):

@@ -53,15 +53,15 @@ export default class PostDetail extends Component {
           <div>
             {comments.map(c =>
               (isAuthenticated === 'true' || c.approved === 'true') &&
-                <div key={`comment-${c.pk}`}>
+                <div key={`comment-${c.pk}`} className='post-detail-comment'>
                   {isAuthenticated === 'true' &&
                     <div>
                       <a href={urls.comment.approve(c.pk)}>승인</a>
                       <a href={urls.comment.remove(c.pk)}>삭제</a>
                     </div>
                   }
-                  <div>{c.created_date}</div>
-                  <div>{c.author}</div>
+                  <div className="comment-author">{c.author}</div>
+                  <DateAndTime datetimeString={c.created_date} />
                   <div>{c.text}</div>
                 </div>
             )}

@@ -22,9 +22,9 @@ class Post(models.Model):
       'pk':             self.pk,
       'title':          self.title,
       'text':           self.text,
-      'created_date':   self.created_date.isoformat(),
-      'updated_date':   self.updated_date.isoformat(),
-      'published_date': self.published_date.isoformat(),
+      'created_date':   self.created_date and self.created_date.isoformat(),
+      'updated_date':   self.updated_date and self.updated_date.isoformat(),
+      'published_date': self.published_date and self.published_date.isoformat() or '',
 
       'comments': list(map(lambda c: c.attributes(), self.approved_comments().all()))
     }

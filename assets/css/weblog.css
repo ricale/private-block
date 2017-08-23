@@ -14,3 +14,23 @@
 .weblog-header__login {
   color: white;
 }
+
+.post-detail-header {
+  padding-bottom: 30px;
+  border-bottom: 2px solid #BBB;
+  margin-bottom: 30px;
+}
+
+.post-detail-comments {
+  padding: 30px;
+  border-top: 2px solid #BBB;
+  margin-top: 30px;
+}
+
+.post-detail-comment {
+  margin-top: 15px;
+}
+
+.comment-author {
+  font-weight: bold;
+}
