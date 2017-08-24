@@ -38,11 +38,16 @@ def post_edit(request, pk):
     if form.is_valid():
       post = form.save(commit=False)
       post.author = request.user
+      post.updated_date = timezone.now()
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    form = PostForm(instance=post)
-  return render(request, 'weblog/post_edit.html', {'form': form})
+    post = {
+      'title': post.title,
+      'text': post.text,
+      'csrf_token': get_token(request)
+    }
+  return render(request, 'weblog/post_edit.html', {'post': post})
 
 @login_required
 def post_draft_list(request):

@@ -68,4 +68,17 @@
   height: 572px;
   padding: 10px;
   border: 1px solid #999;
+
+  overflow-y: scroll;
+}
+
+
+
+
+.post {
+  margin-bottom: 20px;
+}
+
+.post h2 {
+  margin-bottom: 0;
 }
