@@ -38,8 +38,6 @@
 
 
 .post-form {
-  display: inline-block;
-  width: 49%;
   margin-right: 10px;
 }
 
@@ -60,12 +58,14 @@
   height: 500px;
 }
 
+.post-preview-container {
+  height: 652px;
+  margin-bottom: 16px;
+  vertical-align: top;
+}
+
 .post-preview {
-  display: inline-block;
-  width: 49%;
-  height: 605px;
+  height: 572px;
   padding: 10px;
   border: 1px solid #999;
-
-  vertical-align: top;
 }
