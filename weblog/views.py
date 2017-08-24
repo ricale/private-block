@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from django.middleware.csrf import get_token
 from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
@@ -10,7 +11,10 @@ def post_list(request):
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
-  return render(request, 'weblog/post_detail.html', {'post': post})
+  auth = {'isAuthenticated': request.user.is_authenticated() and 'true' or 'false'}
+  attributes = post.attributes().copy()
+  attributes.update(auth)
+  return render(request, 'weblog/post_detail.html', {'post': attributes})
 
 @login_required
 def post_new(request):
@@ -22,8 +26,11 @@ def post_new(request):
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    form = PostForm()
-  return render(request, 'weblog/post_edit.html', {'form': form})
+    post = {
+      'csrf_token': get_token(request)
+    }
+    # form = PostForm()
+  return render(request, 'weblog/post_edit.html', {'post': post})
 
 @login_required
 def post_edit(request, pk):
@@ -33,11 +40,16 @@ def post_edit(request, pk):
     if form.is_valid():
       post = form.save(commit=False)
       post.author = request.user
+      post.updated_date = timezone.now()
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    form = PostForm(instance=post)
-  return render(request, 'weblog/post_edit.html', {'form': form})
+    post = {
+      'title': post.title,
+      'text': post.text,
+      'csrf_token': get_token(request)
+    }
+  return render(request, 'weblog/post_edit.html', {'post': post})
 
 @login_required
 def post_draft_list(request):
