@@ -12,7 +12,9 @@ def post_list(request):
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
   auth = {'isAuthenticated': request.user.is_authenticated() and 'true' or 'false'}
-  return render(request, 'weblog/post_detail.html', {'post': {**post.attributes(), **auth}})
+  attributes = post.attributes().copy()
+  attributes.update(auth)
+  return render(request, 'weblog/post_detail.html', {'post': attributes})
 
 @login_required
 def post_new(request):
