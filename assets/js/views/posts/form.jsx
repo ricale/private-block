@@ -5,7 +5,7 @@ const PREVIEW_NONE = 0;
 const PREVIEW_HALF = 1;
 const PREVIEW_FULL = 2;
 
-export default class NewPost extends Component {
+export default class PostForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -93,7 +93,6 @@ export default class NewPost extends Component {
             <textarea
               className="post-form__textarea"
               name="text"
-              maxLength="200"
               value={text}
               onChange={this.handleChangeText}
               required>
