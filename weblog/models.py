@@ -21,6 +21,7 @@ class Post(models.Model):
     return {
       'pk':             self.pk,
       'title':          self.title,
+      'category_id':    self.category_id,
       'text':           self.text,
       'created_date':   self.created_date and self.created_date.isoformat(),
       'updated_date':   self.updated_date and self.updated_date.isoformat(),
@@ -33,6 +34,7 @@ class Post(models.Model):
     return {
       'pk':             self.pk,
       'title':          self.title,
+      'category_id':    self.category_id,
       'created_date':   self.created_date and self.created_date.isoformat(),
       'updated_date':   self.updated_date and self.updated_date.isoformat(),
       'published_date': self.published_date and self.published_date.isoformat() or '',
@@ -70,7 +72,17 @@ class Category(models.Model):
   name         = models.CharField(max_length=100)
   created_date = models.DateTimeField(default=timezone.now)
   updated_date = models.DateTimeField(default=timezone.now)
+
+  def attributes(self):
+    return {
+      'pk': self.pk,
+      'name': self.name
+    }
+
   # parent_id
   # depth
   # order_in_parent
   # family
+
+  def __str__(self):
+    return self.name

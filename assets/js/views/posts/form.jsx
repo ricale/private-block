@@ -10,14 +10,16 @@ export default class PostForm extends Component {
     super(props);
     this.state = {
       preview: PREVIEW_HALF,
-      title: props.title || '',
-      text:  props.text  || ''
+      title:      (props.post || {}).title || '',
+      categoryId: (props.post || {}).category_id || '',
+      text:       (props.post || {}).text  || ''
     };
 
     this.handlePressNoPreview = this.handlePressNoPreview.bind(this);
     this.handlePressHalfPreview = this.handlePressHalfPreview.bind(this);
     this.handlePressFullPreview = this.handlePressFullPreview.bind(this);
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
+    this.handleChangeCategory = this.handleChangeCategory.bind(this);
     this.handleChangeText = this.handleChangeText.bind(this);
   }
 
@@ -38,16 +40,25 @@ export default class PostForm extends Component {
     this.setState({title: e.target.value});
   }
 
+  handleChangeCategory(e) {
+    console.log('e.target.value', e.target.value)
+    this.setState({categoryId: parseInt(e.target.value, 10)});
+  }
+
   handleChangeText(e) {
     this.setState({text: e.target.value});
   }
 
   render() {
-    const {csrfToken} = this.props;
+    const {
+      csrfToken,
+      categories
+    } = this.props;
 
     const {
       preview,
       title,
+      categoryId,
       text
     } = this.state;
 
@@ -86,6 +97,15 @@ export default class PostForm extends Component {
               onChange={this.handleChangeTitle}
               required
               />
+          </div>
+
+          <div className="post-form__item">
+            <label className="post-form__label">분류</label>
+            <select name="category" value={categoryId} onChange={this.handleChangeCategory}>
+              {categories.map(c =>
+                <option key={c.pk} value={c.pk}>{c.name}</option>
+              )}
+            </select>
           </div>
 
           <div className="post-form__item">

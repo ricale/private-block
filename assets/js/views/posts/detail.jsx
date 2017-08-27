@@ -8,13 +8,17 @@ import urls from '../../utils/urlHelper';
 export default class PostDetail extends Component {
   render() {
     const {
-      pk,
-      title,
-      text,
-      created_date: createdDate,
-      updated_date: updatedDate,
-      published_date: publishedDate,
-      comments,
+      post: {
+        pk,
+        title,
+        category_id: categoryId,
+        text,
+        created_date: createdDate,
+        updated_date: updatedDate,
+        published_date: publishedDate,
+        comments,
+      },
+      category,
       isAuthenticated,
       csrfToken
     } = this.props;
@@ -23,6 +27,10 @@ export default class PostDetail extends Component {
       <div>
         <div className='post-detail-header'>
           <h2>{title}</h2>
+
+          <div>
+            {category.name}
+          </div>
 
           <div>
             <span>최초 작성: </span>

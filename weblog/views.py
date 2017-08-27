@@ -2,23 +2,34 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.middleware.csrf import get_token
 from django.contrib.auth.decorators import login_required
-from .models import Post, Comment
+from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
+
+def get_dictionary_from_list(targetList, key_name):
+  dictionary = {}
+  for x in targetList:
+    dictionary[x[key_name]] = x
+
+  return dictionary
 
 def post_list(request):
   posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-  attrs = {'posts': list(map(lambda c: c.attributes_without_text(), posts))}
+  categories = Category.objects.all()
+  attrs = {
+    'posts': list(map(lambda c: c.attributes_without_text(), posts)),
+    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+  }
   return render(request, 'weblog/post_list.html', {'attrs': attrs})
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
-  auth = {
+  attrs = {
     'isAuthenticated': request.user.is_authenticated() and 'true' or 'false',
-    'csrfToken': get_token(request)
+    'csrfToken': get_token(request),
+    'post': post.attributes(),
+    'category': Category.objects.get(pk=post.category_id).attributes()
   }
-  attributes = post.attributes().copy()
-  attributes.update(auth)
-  return render(request, 'weblog/post_detail.html', {'post': attributes})
+  return render(request, 'weblog/post_detail.html', {'attrs': attrs})
 
 @login_required
 def post_new(request):
@@ -30,11 +41,14 @@ def post_new(request):
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    post = {
-      'csrfToken': get_token(request)
+    categories = Category.objects.all()
+    attrs = {
+      'post': {},
+      'csrfToken': get_token(request),
+      'categories': list(map(lambda c: c.attributes(), categories))
     }
-    # form = PostForm()
-  return render(request, 'weblog/post_edit.html', {'post': post})
+
+  return render(request, 'weblog/post_edit.html', {'attrs': attrs})
 
 @login_required
 def post_edit(request, pk):
@@ -48,17 +62,22 @@ def post_edit(request, pk):
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    post = {
-      'title': post.title,
-      'text': post.text,
-      'csrfToken': get_token(request)
+    categories = Category.objects.all()
+    attrs = {
+      'post': post.attributes(),
+      'csrfToken': get_token(request),
+      'categories': list(map(lambda c: c.attributes(), categories))
     }
-  return render(request, 'weblog/post_edit.html', {'post': post})
+  return render(request, 'weblog/post_edit.html', {'attrs': attrs})
 
 @login_required
 def post_draft_list(request):
   posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
-  attrs = {'posts': list(map(lambda c: c.attributes_without_text(), posts))}
+  categories = Category.objects.all()
+  attrs = {
+    'posts': list(map(lambda c: c.attributes_without_text(), posts)),
+    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+  }
   return render(request, 'weblog/post_draft_list.html', {'attrs': attrs})
 
 @login_required
