@@ -7,11 +7,15 @@ from .forms import PostForm, CommentForm
 
 def post_list(request):
   posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-  return render(request, 'weblog/post_list.html', {'posts': posts})
+  attrs = {'posts': list(map(lambda c: c.attributes_without_text(), posts))}
+  return render(request, 'weblog/post_list.html', {'attrs': attrs})
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
-  auth = {'isAuthenticated': request.user.is_authenticated() and 'true' or 'false'}
+  auth = {
+    'isAuthenticated': request.user.is_authenticated() and 'true' or 'false',
+    'csrfToken': get_token(request)
+  }
   attributes = post.attributes().copy()
   attributes.update(auth)
   return render(request, 'weblog/post_detail.html', {'post': attributes})
@@ -27,7 +31,7 @@ def post_new(request):
       return redirect('post_detail', pk=post.pk)
   else:
     post = {
-      'csrf_token': get_token(request)
+      'csrfToken': get_token(request)
     }
     # form = PostForm()
   return render(request, 'weblog/post_edit.html', {'post': post})
@@ -47,14 +51,15 @@ def post_edit(request, pk):
     post = {
       'title': post.title,
       'text': post.text,
-      'csrf_token': get_token(request)
+      'csrfToken': get_token(request)
     }
   return render(request, 'weblog/post_edit.html', {'post': post})
 
 @login_required
 def post_draft_list(request):
   posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
-  return render(request, 'weblog/post_draft_list.html', {'posts': posts})
+  attrs = {'posts': list(map(lambda c: c.attributes_without_text(), posts))}
+  return render(request, 'weblog/post_draft_list.html', {'attrs': attrs})
 
 @login_required
 def post_publish(request, pk):
@@ -77,9 +82,6 @@ def add_comment_to_post(request, pk):
       comment.post = post
       comment.save()
       return redirect('post_detail', pk=post.pk)
-  else:
-    form = CommentForm()
-  return render(request, 'weblog/add_comment_to_post.html', {'form': form})
 
 @login_required
 def comment_approve(request, pk):
