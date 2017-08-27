@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import lemonJuice from 'lemon-juice';
 
+import CommentForm from '../comments/form';
 import DateAndTime from '../../components/DateAndTime';
 import urls from '../../utils/urlHelper';
 
@@ -14,7 +15,8 @@ export default class PostDetail extends Component {
       updated_date: updatedDate,
       published_date: publishedDate,
       comments,
-      isAuthenticated
+      isAuthenticated,
+      csrfToken
     } = this.props;
 
     return (
@@ -49,14 +51,15 @@ export default class PostDetail extends Component {
         <div className='post-detail-content' dangerouslySetInnerHTML={{__html: lemonJuice.decode(text)}}></div>
 
         <div className='post-detail-comments'>
-          <a href={urls.post.addComment(pk)}>댓글 추가</a>
           <div>
             {comments.map(c =>
               (isAuthenticated === 'true' || c.approved === 'true') &&
                 <div key={`comment-${c.pk}`} className='post-detail-comment'>
                   {isAuthenticated === 'true' &&
                     <div>
-                      <a href={urls.comment.approve(c.pk)}>승인</a>
+                      {c.approved !== 'true' &&
+                        <a href={urls.comment.approve(c.pk)}>승인</a>
+                      }
                       <a href={urls.comment.remove(c.pk)}>삭제</a>
                     </div>
                   }
@@ -66,6 +69,11 @@ export default class PostDetail extends Component {
                 </div>
             )}
           </div>
+
+          <CommentForm
+            postId={pk}
+            csrfToken={csrfToken}
+            />
         </div>
       </div>
     );

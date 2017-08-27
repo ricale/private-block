@@ -1,5 +1,6 @@
 const urls = {
   post: {
+    detail:     (id) => `/post/${id}/`,
     publish:    (id) => `/post/${id}/publish/`,
     edit:       (id) => `/post/${id}/edit/`,
     remove:     (id) => `/post/${id}/remove/`,

@@ -43,7 +43,7 @@ export default class PostForm extends Component {
   }
 
   render() {
-    const {csrf_token: csrfToken} = this.props;
+    const {csrfToken} = this.props;
 
     const {
       preview,

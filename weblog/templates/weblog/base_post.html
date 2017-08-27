@@ -1,0 +1,16 @@
+{% extends 'weblog/base.html' %}
+
+{% block content %}
+  <div id="react">
+  </div>
+
+  <script>
+  ReactDOM.render(
+    React.createElement(
+      {% block component %}
+      {% endblock %}
+    ),
+    document.getElementById('react')
+  );
+  </script>
+{% endblock %}

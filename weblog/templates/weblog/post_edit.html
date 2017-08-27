@@ -1,16 +1,4 @@
-{% extends 'weblog/base.html' %}
-{% load render_bundle from webpack_loader %}
-
-{% block content %}
-  <div id="react">
-  </div>
-
-  {% render_bundle 'main' %}
-
-  <script>
-  ReactDOM.render(
-    React.createElement(PostForm, {{ post|safe }}),
-    document.getElementById('react')
-  );
-  </script>
+{% extends 'weblog/base_post.html' %}
+{% block component %}
+  PostForm, {{ post|safe }}
 {% endblock %}
