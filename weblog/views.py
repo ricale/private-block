@@ -5,9 +5,20 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
 
+def get_dictionary_from_list(targetList, key_name):
+  dictionary = {}
+  for x in targetList:
+    dictionary[x[key_name]] = x
+
+  return dictionary
+
 def post_list(request):
   posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-  attrs = {'posts': list(map(lambda c: c.attributes_without_text(), posts))}
+  categories = Category.objects.all()
+  attrs = {
+    'posts': list(map(lambda c: c.attributes_without_text(), posts)),
+    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+  }
   return render(request, 'weblog/post_list.html', {'attrs': attrs})
 
 def post_detail(request, pk):
@@ -62,7 +73,11 @@ def post_edit(request, pk):
 @login_required
 def post_draft_list(request):
   posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
-  attrs = {'posts': list(map(lambda c: c.attributes_without_text(), posts))}
+  categories = Category.objects.all()
+  attrs = {
+    'posts': list(map(lambda c: c.attributes_without_text(), posts)),
+    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+  }
   return render(request, 'weblog/post_draft_list.html', {'attrs': attrs})
 
 @login_required

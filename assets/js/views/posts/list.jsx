@@ -9,7 +9,7 @@ export default class PostList extends Component {
   };
 
   render() {
-    const {posts, datetimeFieldName} = this.props;
+    const {posts, categories, datetimeFieldName} = this.props;
 
     return (
       <div>
@@ -19,6 +19,7 @@ export default class PostList extends Component {
               <a href={urls.post.detail(p.pk)}>{p.title}</a>
               <small> ({p.comments.filter(c => c.approved === 'true').length})</small>
             </h2>
+            <div>{categories[p.category_id].name}</div>
             <DateAndTime datetimeString={p[datetimeFieldName]}/>
           </div>
         )}
