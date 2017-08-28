@@ -14,7 +14,7 @@ export default class PostListPage extends Component {
           />
 
         <CategoryList
-          categories={Object.keys(categories).map(k => categories[k])}
+          categories={categories}
           />
       </div>
     );

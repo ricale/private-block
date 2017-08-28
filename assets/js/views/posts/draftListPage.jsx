@@ -17,7 +17,7 @@ export default class PostDraftList extends Component {
           />
 
         <CategoryList
-          categories={Object.keys(categories).map(k => categories[k])}
+          categories={categories}
           postListUrlFunc={urls.category.draft}
           />
       </div>

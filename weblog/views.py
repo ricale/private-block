@@ -6,23 +6,12 @@ from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
 
 
-# helper. (not view method)
-def get_dictionary_from_list(targetList, key_name):
-  dictionary = {}
-  for x in targetList:
-    dictionary[x[key_name]] = x
-
-  return dictionary
-
-
-
-
 def post_list(request):
   posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
   categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
   attrs = {
     'posts': list(map(lambda c: c.attributes_without_text(), posts)),
-    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+    'categories': list(map(lambda c: c.attributes(), categories))
   }
   return render(request, 'weblog/post_list.html', {'attrs': attrs})
 
@@ -81,7 +70,7 @@ def post_draft_list(request):
   categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
   attrs = {
     'posts': list(map(lambda c: c.attributes_without_text(), posts)),
-    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+    'categories': list(map(lambda c: c.attributes(), categories))
   }
   return render(request, 'weblog/post_draft_list.html', {'attrs': attrs})
 
@@ -129,10 +118,21 @@ def category_list(request):
 
 def category_post(request, pk):
   categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
-  posts = Post.objects.filter(published_date__lte=timezone.now(), category_id=pk).order_by('-published_date')
+  category = Category.objects.get(pk=pk)
+
+  if category.parent_id is None:
+    posts = Post.objects.all()
+  else:
+    children_categories = Category.objects.filter(parent_id=pk)
+    pks = list(map(lambda c: c.pk, children_categories))
+    pks.append(pk)
+    posts = Post.objects.filter(category_id__in=pks)
+
+  posts = posts.filter(published_date__lte=timezone.now()).order_by('-published_date')
+
   attrs = {
     'posts': list(map(lambda c: c.attributes_without_text(), posts)),
-    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+    'categories': list(map(lambda c: c.attributes(), categories))
   }
   return render(request, 'weblog/category_post.html', {'attrs': attrs})
 
@@ -141,6 +141,6 @@ def category_post_draft(request, pk):
   posts = Post.objects.filter(published_date__isnull=True, category_id=pk).order_by('-created_date')
   attrs = {
     'posts': list(map(lambda c: c.attributes_without_text(), posts)),
-    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+    'categories': list(map(lambda c: c.attributes(), categories))
   }
   return render(request, 'weblog/category_post_draft.html', {'attrs': attrs})
