@@ -1,0 +1,15 @@
+{% extends 'weblog/base.html' %}
+
+{% block content %}
+  <div id="react">
+  </div>
+
+  <script>
+  ReactDOM.render(
+    React.createElement(
+      PostList, {{ attrs|safe }}
+    ),
+    document.getElementById('react')
+  );
+  </script>
+{% endblock %}

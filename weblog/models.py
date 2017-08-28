@@ -46,10 +46,10 @@ class Post(models.Model):
     return self.title
 
 class Comment(models.Model):
-  post = models.ForeignKey('weblog.Post', related_name='comments')
-  author = models.CharField(max_length=200)
-  text = models.TextField()
-  created_date = models.DateTimeField(default=timezone.now)
+  post             = models.ForeignKey('weblog.Post', related_name='comments')
+  author           = models.CharField(max_length=200)
+  text             = models.TextField()
+  created_date     = models.DateTimeField(default=timezone.now)
   approved_comment = models.BooleanField(default=False)
 
   def approve(self):
@@ -69,20 +69,23 @@ class Comment(models.Model):
     return self.text
 
 class Category(models.Model):
-  name         = models.CharField(max_length=100)
-  created_date = models.DateTimeField(default=timezone.now)
-  updated_date = models.DateTimeField(default=timezone.now)
+  name            = models.CharField(max_length=100)
+  created_date    = models.DateTimeField(default=timezone.now)
+  updated_date    = models.DateTimeField(default=timezone.now)
+  parent          = models.ForeignKey('weblog.Category', related_name='children', blank=True, null=True)
+  depth           = models.IntegerField(default=1)
+  order_in_parent = models.IntegerField(default=0)
+  family          = models.IntegerField(default=1)
 
   def attributes(self):
     return {
-      'pk': self.pk,
-      'name': self.name
+      'pk':              self.pk,
+      'name':            self.name,
+      'parent_id':       self.parent_id != None and self.parent_id or 0,
+      'depth':           self.depth,
+      'order_in_parent': self.order_in_parent,
+      'family':          self.family,
     }
-
-  # parent_id
-  # depth
-  # order_in_parent
-  # family
 
   def __str__(self):
     return self.name

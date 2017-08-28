@@ -5,12 +5,17 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
 
+
+# helper. (not view method)
 def get_dictionary_from_list(targetList, key_name):
   dictionary = {}
   for x in targetList:
     dictionary[x[key_name]] = x
 
   return dictionary
+
+
+
 
 def post_list(request):
   posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
@@ -104,12 +109,29 @@ def add_comment_to_post(request, pk):
 
 @login_required
 def comment_approve(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.approve()
-    return redirect('post_detail', pk=comment.post.pk)
+  comment = get_object_or_404(Comment, pk=pk)
+  comment.approve()
+  return redirect('post_detail', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.delete()
-    return redirect('post_detail', pk=comment.post.pk)
+  comment = get_object_or_404(Comment, pk=pk)
+  comment.delete()
+  return redirect('post_detail', pk=comment.post.pk)
+
+
+def category_list(request):
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
+  attrs = {
+    'categories': list(map(lambda c: c.attributes(), categories))
+  }
+  return render(request, 'weblog/category_list.html', {'attrs': attrs})
+
+def category_post(request, pk):
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
+  posts = Post.objects.filter(published_date__lte=timezone.now(), category_id=pk).order_by('-published_date')
+  attrs = {
+    'posts': list(map(lambda c: c.attributes_without_text(), posts)),
+    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+  }
+  return render(request, 'weblog/category_post.html', {'attrs': attrs})

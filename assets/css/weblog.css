@@ -82,3 +82,14 @@
 .post h2 {
   margin-bottom: 0;
 }
+
+
+
+
+.depth-1 {
+  padding-left: 15px;
+}
+
+.depth-2 {
+  padding-left: 30px;
+}
