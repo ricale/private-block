@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import CategoryList from '../categories/list';
 import DateAndTime from '../../components/DateAndTime';
 import urls from '../../utils/urlHelper';
 
@@ -23,6 +24,10 @@ export default class PostList extends Component {
             <DateAndTime datetimeString={p[datetimeFieldName]}/>
           </div>
         )}
+
+        <CategoryList
+          categories={Object.keys(categories).map(k => categories[k])}
+          />
       </div>
     );
   }

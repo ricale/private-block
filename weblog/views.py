@@ -19,7 +19,7 @@ def get_dictionary_from_list(targetList, key_name):
 
 def post_list(request):
   posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-  categories = Category.objects.all()
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
   attrs = {
     'posts': list(map(lambda c: c.attributes_without_text(), posts)),
     'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
@@ -46,7 +46,7 @@ def post_new(request):
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    categories = Category.objects.all()
+    categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
     attrs = {
       'post': {},
       'csrfToken': get_token(request),
@@ -67,7 +67,7 @@ def post_edit(request, pk):
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    categories = Category.objects.all()
+    categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
     attrs = {
       'post': post.attributes(),
       'csrfToken': get_token(request),
@@ -78,7 +78,7 @@ def post_edit(request, pk):
 @login_required
 def post_draft_list(request):
   posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
-  categories = Category.objects.all()
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
   attrs = {
     'posts': list(map(lambda c: c.attributes_without_text(), posts)),
     'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
@@ -135,3 +135,12 @@ def category_post(request, pk):
     'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
   }
   return render(request, 'weblog/category_post.html', {'attrs': attrs})
+
+def category_post_draft(request, pk):
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
+  posts = Post.objects.filter(published_date__isnull=True, category_id=pk).order_by('-created_date')
+  attrs = {
+    'posts': list(map(lambda c: c.attributes_without_text(), posts)),
+    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+  }
+  return render(request, 'weblog/category_post_draft.html', {'attrs': attrs})

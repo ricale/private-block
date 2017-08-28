@@ -11,8 +11,9 @@ const urls = {
     approve: (id) => `/comment/${id}/approve/`,
   },
   category: {
-    list: ()   => `/category/`,
-    post: (id) => `/category/${id}/post/`
+    list:  ()   => `/category/`,
+    post:  (id) => `/category/${id}/post/`,
+    draft: (id) => `/category/${id}/draft/`,
   }
 };
 
