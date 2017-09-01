@@ -5,6 +5,11 @@ const urls = {
     edit:       (id) => `/post/${id}/edit/`,
     remove:     (id) => `/post/${id}/remove/`,
     addComment: (id) => `/post/${id}/comment/`,
+
+    list:         ()     => ``,
+    listWithPage: (page) => `/page/${page}`,
+    draft:         ()     => `/draft/`,
+    draftWithPage: (page) => `/draft/page/${page}`
   },
   comment: {
     remove:  (id) => `/comment/${id}/remove/`,
