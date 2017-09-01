@@ -9,6 +9,11 @@ const urls = {
   comment: {
     remove:  (id) => `/comment/${id}/remove/`,
     approve: (id) => `/comment/${id}/approve/`,
+  },
+  category: {
+    list:  ()   => `/category/`,
+    post:  (id) => `/category/${id}/post/`,
+    draft: (id) => `/category/${id}/draft/`,
   }
 };
 

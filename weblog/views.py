@@ -5,19 +5,13 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
 
-def get_dictionary_from_list(targetList, key_name):
-  dictionary = {}
-  for x in targetList:
-    dictionary[x[key_name]] = x
-
-  return dictionary
 
 def post_list(request):
   posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-  categories = Category.objects.all()
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
   attrs = {
     'posts': list(map(lambda c: c.attributes_without_text(), posts)),
-    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+    'categories': list(map(lambda c: c.attributes(), categories))
   }
   return render(request, 'weblog/post_list.html', {'attrs': attrs})
 
@@ -41,7 +35,7 @@ def post_new(request):
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    categories = Category.objects.all()
+    categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
     attrs = {
       'post': {},
       'csrfToken': get_token(request),
@@ -62,7 +56,7 @@ def post_edit(request, pk):
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    categories = Category.objects.all()
+    categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
     attrs = {
       'post': post.attributes(),
       'csrfToken': get_token(request),
@@ -73,10 +67,10 @@ def post_edit(request, pk):
 @login_required
 def post_draft_list(request):
   posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
-  categories = Category.objects.all()
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
   attrs = {
     'posts': list(map(lambda c: c.attributes_without_text(), posts)),
-    'categories': get_dictionary_from_list(list(map(lambda c: c.attributes(), categories)), 'pk')
+    'categories': list(map(lambda c: c.attributes(), categories))
   }
   return render(request, 'weblog/post_draft_list.html', {'attrs': attrs})
 
@@ -104,12 +98,49 @@ def add_comment_to_post(request, pk):
 
 @login_required
 def comment_approve(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.approve()
-    return redirect('post_detail', pk=comment.post.pk)
+  comment = get_object_or_404(Comment, pk=pk)
+  comment.approve()
+  return redirect('post_detail', pk=comment.post.pk)
 
 @login_required
 def comment_remove(request, pk):
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.delete()
-    return redirect('post_detail', pk=comment.post.pk)
+  comment = get_object_or_404(Comment, pk=pk)
+  comment.delete()
+  return redirect('post_detail', pk=comment.post.pk)
+
+
+def category_list(request):
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
+  attrs = {
+    'categories': list(map(lambda c: c.attributes(), categories))
+  }
+  return render(request, 'weblog/category_list.html', {'attrs': attrs})
+
+def category_post(request, pk):
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
+  category = Category.objects.get(pk=pk)
+
+  if category.parent_id is None:
+    posts = Post.objects.all()
+  else:
+    children_categories = Category.objects.filter(parent_id=pk)
+    pks = list(map(lambda c: c.pk, children_categories))
+    pks.append(pk)
+    posts = Post.objects.filter(category_id__in=pks)
+
+  posts = posts.filter(published_date__lte=timezone.now()).order_by('-published_date')
+
+  attrs = {
+    'posts': list(map(lambda c: c.attributes_without_text(), posts)),
+    'categories': list(map(lambda c: c.attributes(), categories))
+  }
+  return render(request, 'weblog/category_post.html', {'attrs': attrs})
+
+def category_post_draft(request, pk):
+  categories = Category.objects.order_by('family', 'depth', 'order_in_parent')
+  posts = Post.objects.filter(published_date__isnull=True, category_id=pk).order_by('-created_date')
+  attrs = {
+    'posts': list(map(lambda c: c.attributes_without_text(), posts)),
+    'categories': list(map(lambda c: c.attributes(), categories))
+  }
+  return render(request, 'weblog/category_post_draft.html', {'attrs': attrs})
