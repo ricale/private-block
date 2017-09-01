@@ -6,14 +6,14 @@ import urls from '../../utils/urlHelper';
 
 export default class PostDraftList extends Component {
   render() {
-    const {posts, categories} = this.props;
+    const {categories} = this.props;
     return (
       <div>
         <PostList
-          posts={posts}
-          categories={categories}
+          {...this.props}
           datetimeFieldName='created_date'
           categoryNameLinkUrlFunc={urls.category.draft}
+          paginationUrlFunc={urls.post.draftWithPage}
           />
 
         <CategoryList

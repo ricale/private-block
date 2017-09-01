@@ -2,20 +2,26 @@ import React, {Component} from 'react';
 
 import CategoryList from '../categories/list';
 import DateAndTime from '../../components/DateAndTime';
+import Pagination from '../../components/Pagination';
 import urls from '../../utils/urlHelper';
 
 export default class PostList extends Component {
   static defaultProps = {
     datetimeFieldName: 'published_date',
-    categoryNameLinkUrlFunc: urls.category.post
+    categoryNameLinkUrlFunc: urls.category.post,
+    paginationUrlFunc: urls.post.listWithPage
   };
 
   render() {
     const {
       posts,
+      postCount,
+      page,
+      perPage,
       categories,
       datetimeFieldName,
-      categoryNameLinkUrlFunc: urlFunc
+      categoryNameLinkUrlFunc: urlFunc,
+      paginationUrlFunc
     } = this.props;
 
     const categoryHash = {}
@@ -35,6 +41,13 @@ export default class PostList extends Component {
             <DateAndTime datetimeString={p[datetimeFieldName]}/>
           </div>
         )}
+
+        <Pagination
+          current={page}
+          perPage={perPage}
+          pageCount={Math.ceil(postCount / perPage)}
+          urlFunc={paginationUrlFunc}
+          />
       </div>
     );
   }
