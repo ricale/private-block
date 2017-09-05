@@ -10,7 +10,7 @@ export default class CategoryList extends Component {
   render() {
     const {categories, postListUrlFunc} = this.props;
     return (
-      <div>
+      <div className='category-list'>
         {categories.map(c =>
           <div key={`c-${c.pk}`} className={`depth-${c.depth}`}>
             <a href={postListUrlFunc(c.pk)}>{c.name}</a>

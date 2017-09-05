@@ -32,7 +32,7 @@ export default class PostList extends Component {
     );
 
     return (
-      <div>
+      <div className='post-list'>
         {posts.map(p =>
           <div key={`post-${p.pk}`} className='post'>
             <h2>

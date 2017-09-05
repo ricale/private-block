@@ -4,11 +4,13 @@ import PostList from './list';
 import CategoryList from '../categories/list';
 import urls from '../../utils/urlHelper';
 
+import 'css/weblog/posts/draftListPage.css'
+
 export default class PostDraftList extends Component {
   render() {
     const {categories} = this.props;
     return (
-      <div>
+      <div className='draft-list-page'>
         <PostList
           {...this.props}
           datetimeFieldName='created_date'

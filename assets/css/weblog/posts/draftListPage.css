@@ -1,0 +1,10 @@
+.draft-list-page > .post-list {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.draft-list-page > .category-list {
+  display: inline-block;
+  vertical-align: top;
+  // float: right;
+}
