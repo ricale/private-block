@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import urls from '../../utils/urlHelper';
 
+import 'css/weblog/comments/form.css';
+
 export default class CommentForm extends Component {
   constructor(props) {
     super(props);
@@ -31,13 +33,13 @@ export default class CommentForm extends Component {
     } = this.state;
 
     return (
-      <form className="post-form" method="POST" action={urls.post.addComment(postId)}>
+      <form className="comment-form" method="POST" action={urls.post.addComment(postId)}>
         <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
 
-        <div>
-          <label></label>
+        <div className='comment-form__row'>
+          <label className='comment-form__label'>작성자</label>
           <input
-            className=""
+            className='comment-form__author'
             type="text"
             name="author"
             maxLength="200"
@@ -47,10 +49,9 @@ export default class CommentForm extends Component {
             />
         </div>
 
-        <div>
-          <label></label>
+        <div className='comment-form__row'>
           <textarea
-            className=""
+            className='comment-form__text'
             name="text"
             value={text}
             onChange={this.handleChangeText}

@@ -5,6 +5,8 @@ import DateAndTime from '../../components/DateAndTime';
 import Pagination from '../../components/Pagination';
 import urls from '../../utils/urlHelper';
 
+import 'css/weblog/posts/list.css';
+
 export default class PostList extends Component {
   static defaultProps = {
     datetimeFieldName: 'published_date',
@@ -24,21 +26,23 @@ export default class PostList extends Component {
       paginationUrlFunc
     } = this.props;
 
-    const categoryHash = {}
+    const categoryHash = {};
     categories.forEach(c =>
       categoryHash[c.pk] = c
     );
 
     return (
-      <div>
+      <div className='post-list'>
         {posts.map(p =>
           <div key={`post-${p.pk}`} className='post'>
             <h2>
               <a href={urls.post.detail(p.pk)}>{p.title}</a>
               <small> ({p.comments.filter(c => c.approved === 'true').length})</small>
             </h2>
-            <div><a href={urlFunc(p.category_id)}>{categoryHash[p.category_id].name}</a></div>
-            <DateAndTime datetimeString={p[datetimeFieldName]}/>
+            <div className='post__category'>
+              <a href={urlFunc(p.category_id)}>{categoryHash[p.category_id].name}</a>
+            </div>
+            <DateAndTime className='post__date' datetimeString={p[datetimeFieldName]}/>
           </div>
         )}
 

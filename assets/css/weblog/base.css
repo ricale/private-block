@@ -1,0 +1,26 @@
+.weblog-header {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.weblog-header h1 {
+  display: inline-block;
+}
+
+.weblog-header__menu {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.weblog-header__menu a {
+  margin-left: 10px;
+}
+
+.weblog-header__login {
+  color: white;
+}
+
+a,
+a:hover {
+  color: #3D72A4;
+}
