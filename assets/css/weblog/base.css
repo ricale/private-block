@@ -14,3 +14,8 @@
 .weblog-header__login {
   color: white;
 }
+
+a,
+a:hover {
+  color: #3D72A4;
+}
