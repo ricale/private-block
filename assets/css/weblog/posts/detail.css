@@ -1,0 +1,36 @@
+.post-detail {
+  margin-bottom: 10px;
+}
+
+.post-detail-header {
+}
+
+.post-detail-header > h2 {
+  margin-bottom: 0;
+}
+
+.post-detail-info {
+  font-size: 0.85em;
+}
+
+.post-detail-info > * {
+  margin-right: 5px;
+}
+
+
+.post-detail-admin-menu {
+  font-size: 0.85em;
+}
+
+.post-detail-admin-menu > * {
+  margin-right: 5px;
+}
+
+.post-detail-content {
+  padding: 20px;
+}
+
+.post-detail-comments {
+  padding: 30px;
+  background-color: #EFEFEF;
+}

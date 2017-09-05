@@ -5,6 +5,8 @@ import DateAndTime from '../../components/DateAndTime';
 import Pagination from '../../components/Pagination';
 import urls from '../../utils/urlHelper';
 
+import 'css/weblog/posts/list.css';
+
 export default class PostList extends Component {
   static defaultProps = {
     datetimeFieldName: 'published_date',

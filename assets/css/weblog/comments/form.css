@@ -1,0 +1,21 @@
+.comment-form {
+  margin-bottom: 0;
+}
+
+.comment-form__row {
+  margin-bottom: 5px;
+}
+
+.comment-form__label {
+  display: block;
+  margin: 0;
+}
+
+.comment-form__author {
+  width: 200px;
+}
+
+.comment-form__text {
+  width: 500px;
+  height: 100px;
+}

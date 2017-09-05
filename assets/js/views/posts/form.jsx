@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import lemonJuice from 'lemon-juice';
 
+import 'css/weblog/posts/form.css';
+
 const PREVIEW_NONE = 0;
 const PREVIEW_HALF = 1;
 const PREVIEW_FULL = 2;
