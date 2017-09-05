@@ -7,8 +7,9 @@
   <script>
   ReactDOM.render(
     React.createElement(
-      {% block component %}
-      {% endblock %}
+      Base,
+      {isAuthenticated: {% if user.is_authenticated %}true{% else %}false{% endif %}},
+      React.createElement({% block component %}{% endblock %})
     ),
     document.getElementById('react')
   );

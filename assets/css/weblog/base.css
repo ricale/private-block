@@ -9,6 +9,11 @@
 
 .weblog-header__menu {
   display: inline-block;
+  margin-left: 10px;
+}
+
+.weblog-header__menu a {
+  margin-left: 10px;
 }
 
 .weblog-header__login {

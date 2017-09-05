@@ -1,10 +1,17 @@
 const urls = {
+  session: {
+    login:  () => `/accounts/login/`,
+    logout: () => `/accounts/logout/`
+  },
+
   post: {
     detail:     (id) => `/post/${id}/`,
     publish:    (id) => `/post/${id}/publish/`,
     edit:       (id) => `/post/${id}/edit/`,
     remove:     (id) => `/post/${id}/remove/`,
     addComment: (id) => `/post/${id}/comment/`,
+
+    new: () => `/post/new/`,
 
     list:         ()     => ``,
     listWithPage: (page) => `/page/${page}`,
