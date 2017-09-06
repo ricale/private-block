@@ -1,0 +1,19 @@
+.lemon-juice-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.lemon-juice__textarea {
+  flex: 1;
+  height: 500px;
+}
+
+.lemon-juice__preview {
+  flex: 1;
+  height: 500px;
+  padding: 10px;
+  border: 1px solid #999;
+
+  vertical-align: top;
+  overflow-y: auto;
+}

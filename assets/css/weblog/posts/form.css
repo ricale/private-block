@@ -1,5 +1,4 @@
 .post-form {
-  margin-right: 10px;
 }
 
 .post-form__label {
@@ -12,23 +11,4 @@
 
 .post-form__input {
   width: 100%;
-}
-
-.post-form__textarea {
-  width: 100%;
-  height: 500px;
-}
-
-.post-preview-container {
-  height: 716px;
-  margin-bottom: 16px;
-  vertical-align: top;
-}
-
-.post-preview {
-  height: 636px;
-  padding: 10px;
-  border: 1px solid #999;
-
-  overflow-y: scroll;
 }

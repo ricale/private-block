@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import lemonJuice from 'lemon-juice';
+
+import LemonJuiceEditor from '../../components/LemonJuiceEditor';
 
 import 'css/weblog/posts/form.css';
 
@@ -64,29 +65,9 @@ export default class PostForm extends Component {
       text
     } = this.state;
 
-    const formStyle = {};
-    const previewStyle = {};
-    switch(preview) {
-      case PREVIEW_NONE:
-        formStyle.display = 'block';
-        break;
-
-      case PREVIEW_HALF:
-        formStyle.display = 'inline-block';
-        formStyle.width   = '49%';
-        previewStyle.display = 'inline-block';
-        previewStyle.width   = '49%';
-        break;
-
-      case PREVIEW_FULL:
-        formStyle.display = 'none';
-        previewStyle.display = 'block';
-        break;
-    }
-
     return (
       <div>
-        <form className="post-form" method="POST" action="" style={formStyle}>
+        <form className="post-form" method="POST" action="">
           <input type="hidden" name="csrfmiddlewaretoken" value={csrfToken} />
           <div className="post-form__item">
             <label className="post-form__label">제목</label>
@@ -112,24 +93,18 @@ export default class PostForm extends Component {
 
           <div className="post-form__item">
             <label className="post-form__label">내용</label>
-            <textarea
-              className="post-form__textarea"
+            <LemonJuiceEditor
               name="text"
               value={text}
               onChange={this.handleChangeText}
-              required>
-            </textarea>
+              hideTextarea={preview === PREVIEW_FULL}
+              hidePreview={preview === PREVIEW_NONE}
+              required
+              />
+
           </div>
           <button type="submit" className="btn btn-primary">저장</button>
         </form>
-
-        {preview !== PREVIEW_NONE &&
-          <div className="post-preview-container" style={previewStyle}>
-            <label className="post-form__label">미리보기</label>
-            <div className="post-preview" dangerouslySetInnerHTML={{__html: lemonJuice.decode(text)}}>
-            </div>
-          </div>
-        }
 
         <div>
           <span>미리보기 상태: </span>
