@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import lemonJuice from 'lemon-juice';
 
 import CommentForm from '../comments/form';
 import CommentList from '../comments/list';
 import DateAndTime from '../../components/DateAndTime';
+import LemonJuiceEditor from '../../components/LemonJuiceEditor';
 import urls from '../../utils/urlHelper';
 
 import 'css/weblog/posts/detail.css';
@@ -47,7 +47,11 @@ export default class PostDetail extends Component {
           }
         </div>
         
-        <div className='post-detail-content' dangerouslySetInnerHTML={{__html: lemonJuice.decode(text)}}></div>
+        <LemonJuiceEditor
+          value={text}
+          hideTextarea={true}
+          previewClassName='post-detail-content'
+          />
 
         <div className='post-detail-comments'>
 
