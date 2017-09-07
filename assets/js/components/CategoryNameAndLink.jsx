@@ -33,8 +33,6 @@ export default class CategoryNameAndLink extends Component {
 
     const category = this.getCategory();
 
-    console.log(category.parent_id)
-
     if([0,1,'0','1'].indexOf(category.parent_id) !== -1) {
       return undefined;
     }

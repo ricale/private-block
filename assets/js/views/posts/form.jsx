@@ -44,7 +44,6 @@ export default class PostForm extends Component {
   }
 
   handleChangeCategory(e) {
-    console.log('e.target.value', e.target.value)
     this.setState({categoryId: parseInt(e.target.value, 10)});
   }
 
