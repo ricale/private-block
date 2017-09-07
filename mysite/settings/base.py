@@ -23,9 +23,6 @@ BASE_DIR = os.path.dirname(os.path.realpath(os.path.dirname(__file__) + "/.."))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'si80c%08%sosv#ba8ss$)3dy2nv%nyz2=&+t75@ir-5^4hpi5e'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = ['127.0.0.1', '115.71.232.132', 'weblog.ricalest.net']
 
 

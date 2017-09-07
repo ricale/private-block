@@ -87,11 +87,13 @@ def category_post_draft(request, pk, page=1):
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
+  category = Category.objects.get(pk=post.category_id)
   attrs = {
     'isAuthenticated': request.user.is_authenticated() and 'true' or 'false',
     'csrfToken': get_token(request),
     'post': post.attributes(),
-    'category': Category.objects.get(pk=post.category_id).attributes()
+    'category': category.attributes(),
+    'parentCategory': (category.parent_id is not None and category.parent_id is not 1) and category.parent.attributes() or ''
   }
   return render(request, 'weblog/post_detail.html', {'attrs': attrs})
 

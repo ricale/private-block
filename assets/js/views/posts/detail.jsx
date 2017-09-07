@@ -4,6 +4,7 @@ import CommentForm from '../comments/form';
 import CommentList from '../comments/list';
 import DateAndTime from '../../components/DateAndTime';
 import LemonJuiceEditor from '../../components/LemonJuiceEditor';
+import CategoryNameAndLink from '../../components/CategoryNameAndLink';
 import urls from '../../utils/urlHelper';
 
 import 'css/weblog/posts/detail.css';
@@ -22,6 +23,7 @@ export default class PostDetail extends Component {
         comments,
       },
       category,
+      parentCategory,
       isAuthenticated,
       csrfToken
     } = this.props;
@@ -32,7 +34,7 @@ export default class PostDetail extends Component {
           <h2>{title}</h2>
 
           <div className='post-detail-info'>
-            <a href={urls.category.post(category.pk)}>{category.name}</a>
+            <CategoryNameAndLink category={category} parent={parentCategory} />
             <DateAndTime datetimeString={createdDate} />
           </div>
 

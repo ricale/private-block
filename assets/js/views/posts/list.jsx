@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import CategoryList from '../categories/list';
 import DateAndTime from '../../components/DateAndTime';
 import Pagination from '../../components/Pagination';
+import CategoryNameAndLink from '../../components/CategoryNameAndLink';
 import urls from '../../utils/urlHelper';
 
 import 'css/weblog/posts/list.css';
@@ -40,7 +41,11 @@ export default class PostList extends Component {
               <small> ({p.comments.filter(c => c.approved === 'true').length})</small>
             </h2>
             <div className='post__category'>
-              <a href={urlFunc(p.category_id)}>{categoryHash[p.category_id].name}</a>
+              <CategoryNameAndLink
+                categoryHash={categoryHash}
+                categoryId={p.category_id}
+                urlFunc={urlFunc}
+                />
             </div>
             <DateAndTime className='post__date' datetimeString={p[datetimeFieldName]}/>
           </div>
