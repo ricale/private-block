@@ -1,5 +1,31 @@
 {% extends 'weblog/base.html' %}
 
+{% block metadata %}
+{% if attrs.post.title %}
+<meta name="description" content="{{attrs.post.text|truncatechars:100}}">
+<meta name="referrer" content="always">
+
+<!-- BEGIN OPENGRAPH -->
+<link rel="canonical" href="{{request.META.HTTP_REFERER}}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="weblog ricale st.">
+<meta property="og:title" content="{{attrs.post.title}}">
+<meta property="og:description" content="{{attrs.post.text|truncatechars:100}}">
+<meta property="og:image" content="">
+<!-- END OPENGRAPH -->
+
+<!-- BEGIN TWITTERCARD -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="weblog ricale st.">
+<meta name="twitter:title" content="{{attrs.post.title}}">
+<meta name="twitter:description" content="{{attrs.post.text|truncatechars:100}}">
+<meta property="twitter:image" content="">
+<!-- END TWITTERCARD -->
+{% endif %}
+
+<title>{{attrs.post.title}}{% if attrs.post.title %} :: {% endif %}weblog ricale st.</title>
+{% endblock %}
+
 {% block content %}
   <div id="react">
   </div>
