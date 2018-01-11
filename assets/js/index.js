@@ -9,3 +9,4 @@ window.PostList      = require('./views/posts/listPage.jsx').default;
 window.PostDraftList = require('./views/posts/draftListPage.jsx').default;
 
 window.CategoryList = require('./views/categories/list.jsx').default;
+window.CategoryPostList = require('./views/categories/postListPage.jsx').default;
