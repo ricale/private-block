@@ -21,7 +21,8 @@ def get_attrs_for_post_list(posts, page, options={}):
     'categories': list(map(lambda c: c.attributes(), categories)),
     'postCount': post_count,
     'perPage': PER_PAGE,
-    'page': page
+    'page': page,
+    'categoryId': options.get('category_id', '')
   }
 
 
@@ -53,7 +54,8 @@ def category_post(request, pk, page=1):
 
   attrs = get_attrs_for_post_list(
     posts.filter(published_date__lte=timezone.now()).order_by('-published_date'),
-    page
+    page,
+    dict(category_id=category.id)
   )
 
   return render(request, 'weblog/category_post.html', {'attrs': attrs})

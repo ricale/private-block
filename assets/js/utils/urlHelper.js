@@ -14,18 +14,19 @@ const urls = {
     new: () => `/post/new/`,
 
     list:         ()     => ``,
-    listWithPage: (page) => `/page/${page}`,
+    listWithPage: (page) => `/page/${page}/`,
     draft:         ()     => `/draft/`,
-    draftWithPage: (page) => `/draft/page/${page}`
+    draftWithPage: (page) => `/draft/page/${page}/`
   },
   comment: {
     remove:  (id) => `/comment/${id}/remove/`,
     approve: (id) => `/comment/${id}/approve/`,
   },
   category: {
-    list:  ()   => `/category/`,
-    post:  (id) => `/category/${id}/post/`,
-    draft: (id) => `/category/${id}/draft/`,
+    list:         ()        => `/category/`,
+    post:         (id)      => `/category/${id}/post/`,
+    postWithPage: (id,page) => `/category/${id}/post/page/${page}/`,
+    draft:        (id)      => `/category/${id}/draft/`,
   }
 };
 
